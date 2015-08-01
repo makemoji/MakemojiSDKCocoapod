@@ -17,11 +17,11 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/makemoji/MakemojiSDK"
   s.author           = { "Makemoji SDK" => "sdk@makemoji.com" }
   s.license      = { :type => 'Commercial' }
-  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.0.3' }
+  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.0.4' }
   s.platform     = :ios, '8.0'
   s.requires_arc = false
   s.vendored_libraries = 'Pod/Library/**/*.a'
-  s.libraries = 'libz', 'libsqlite3', 'libxml2'
+  s.libraries = 'z', 'sqlite3', 'xml2'
   
   s.resource_bundles = {
     'Makemoji-SDK' => ['Pod/Assets/*.png']
