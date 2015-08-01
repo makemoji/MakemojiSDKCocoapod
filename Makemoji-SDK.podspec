@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://github.com/makemoji/MakemojiSDK"
   s.author           = { "Makemoji SDK" => "sdk@makemoji.com" }
   s.license      = { :type => 'Commercial' }
-  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.0' }
+  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.0.1' }
   s.platform     = :ios, '8.0'
   s.requires_arc = false
   s.vendored_libraries = 'Pod/Library/*.a'
