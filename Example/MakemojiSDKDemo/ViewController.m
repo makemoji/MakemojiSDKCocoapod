@@ -6,8 +6,7 @@
 #import "ViewController.h"
 #import "MakemojiSDK.h"
 #import "MEChatTableViewCell.h"
-#import "MESimpleTableViewCell.h"
-
+#import "CustomTableViewCell.h"
 
 @interface ViewController ()
 
@@ -25,22 +24,22 @@
     
     // customization options
     /*
-        [self.meTextInputView setKeyboardAppearance:UIKeyboardAppearanceDark];
-        [self.meTextInputView setTextInputTextColor:[UIColor whiteColor]];
-        self.meTextInputView.placeholderLabel.textColor = [UIColor darkGrayColor];
-        self.meTextInputView.textSolidBackgroundView.backgroundColor = [UIColor colorWithRed:0.06 green:0.06 blue:0.08 alpha:1];
-        self.meTextInputView.textInputContainerView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
-        self.meTextInputView.barBackgroundImageView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
-    
-        [self.meTextInputView.meAccessory setNavigationBackgroundColor:[UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1]];
-        [self.meTextInputView.meAccessory setNavigationHighlightColor:[UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1]];
-        self.meTextInputView.meAccessory.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
-        self.meTextInputView.meAccessory.flashtagCollectionView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
-        self.meTextInputView.meAccessory.emojiView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
-    
-        self.meTextInputView.meAccessory.meInputView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
-        self.meTextInputView.meAccessory.meInputView.emojiView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
-        self.meTextInputView.meAccessory.meInputView.collectionView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
+     [self.meTextInputView setKeyboardAppearance:UIKeyboardAppearanceDark];
+     [self.meTextInputView setTextInputTextColor:[UIColor whiteColor]];
+     self.meTextInputView.placeholderLabel.textColor = [UIColor darkGrayColor];
+     self.meTextInputView.textSolidBackgroundView.backgroundColor = [UIColor colorWithRed:0.06 green:0.06 blue:0.08 alpha:1];
+     self.meTextInputView.textInputContainerView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
+     self.meTextInputView.barBackgroundImageView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
+     
+     [self.meTextInputView.meAccessory setNavigationBackgroundColor:[UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1]];
+     [self.meTextInputView.meAccessory setNavigationHighlightColor:[UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1]];
+     self.meTextInputView.meAccessory.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
+     self.meTextInputView.meAccessory.flashtagCollectionView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
+     self.meTextInputView.meAccessory.emojiView.backgroundColor = [UIColor colorWithRed:0.07 green:0.07 blue:0.11 alpha:1];
+     
+     self.meTextInputView.meAccessory.meInputView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
+     self.meTextInputView.meAccessory.meInputView.emojiView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
+     self.meTextInputView.meAccessory.meInputView.collectionView.backgroundColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.14 alpha:1];
      */
     
     // possible options
@@ -48,7 +47,7 @@
     //self.meTextInputView.displayCameraButton = NO;
     //self.meTextInputView.keyboardReturnKeyType = UIReturnKeySend;
     //self.meTextInputView.meAccessory.flashtagOnly = YES;
-
+    
     // disable navigation animation
     //self.meTextInputView.meAccessory.disableNavigation = YES;
     
@@ -106,19 +105,9 @@
     self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.meTextInputView.frame.size.height);
 }
 
-// send button was pressed
--(void)didTapSend:(NSDictionary *)messageDictionary {
-    NSLog(@"Your Message - %@", messageDictionary);
-    [self.messages addObject:messageDictionary];
-    [self.tableView reloadData];
-    
-    // scroll the table view to the bottom
-    [self scrollToBottom];
-}
-
 // handle tapping on linked emoji
 -(void)meTextInputView:(METextInputView *)inputView didTapHypermoji:(NSString*)urlString {
-       NSLog(@"%@", urlString); 
+    NSLog(@"%@", urlString);
 }
 
 // handle tapping on linked text
@@ -153,12 +142,29 @@
     if (self.meTextInputView == nil) {
         return 0;
     }
+    //custom cell
+    
+    CGSize profileImage = CGSizeMake(50, 50);
+    CGFloat horizontalPadding = 5;
     
     NSDictionary * message = [self.messages objectAtIndex:indexPath.row];
-    return [self.meTextInputView cellHeightForHTML:[message objectForKey:@"html"]
-                                       atIndexPath:indexPath
-                                      maxCellWidth:self.tableView.frame.size.width
-                                         cellStyle:MECellStyleChat];
+    CGFloat messageHeight =  [self.meTextInputView cellHeightForHTML:[message objectForKey:@"html"]
+                                                         atIndexPath:indexPath
+                                                        maxCellWidth:self.tableView.frame.size.width-profileImage.width-(horizontalPadding*5)
+                                                           cellStyle:MECellStyleSimple];
+    if (messageHeight < profileImage.height) {
+        return profileImage.height;
+    }
+    return messageHeight;
+    /*
+     
+     
+     NSDictionary * message = [self.messages objectAtIndex:indexPath.row];
+     return [self.meTextInputView cellHeightForHTML:[message objectForKey:@"html"]
+     atIndexPath:indexPath
+     maxCellWidth:self.tableView.frame.size.width
+     cellStyle:MECellStyleChat];
+     */
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -169,31 +175,31 @@
     static NSString *CellIdentifier = @"Cell";
     
     // Chat table cell
+    //
+    //    MEChatTableViewCell  *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //
+    //    if (cell == nil) {
+    //        cell = [[MEChatTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    //    }
+    //
+    //    // display chat cell on right side
+    //    [cell setCellDisplay:MECellDisplayRight];
+    //
+    //    // display chat cell on left side
+    //    if (indexPath.row % 2) {
+    //        [cell setCellDisplay:MECellDisplayLeft];
+    //    }
     
-    MEChatTableViewCell  *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // Custom Cell
+    
+    CustomTableViewCell  * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[MEChatTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    // display chat cell on right side
-    [cell setCellDisplay:MECellDisplayRight];
-    
-    // display chat cell on left side
-    if (indexPath.row % 2) {
-        [cell setCellDisplay:MECellDisplayLeft];
+        cell = [[CustomTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     
-    // Simple Cell
-    
-    /*
-     MESimpleTableViewCell  *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-     
-     if (cell == nil) {
-     cell = [[MESimpleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-     }
-     */
     
     NSDictionary * message = [self.messages objectAtIndex:indexPath.row];
     [cell setHTMLString:[message objectForKey:@"html"]];
