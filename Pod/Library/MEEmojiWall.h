@@ -27,8 +27,7 @@
 @property BOOL shouldDisplayUsedEmoji;
 @property BOOL shouldDisplayTrendingEmoji;
 
-// defaults to YES
-@property BOOL shouldDisplaySearch;
+
 
 // defaults to 38
 @property CGFloat navigationHeight;
