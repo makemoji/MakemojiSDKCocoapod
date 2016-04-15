@@ -11,7 +11,7 @@
 
 @protocol MEEmojiWallDelegate;
 
-@interface MEEmojiWall : UIViewController
+@interface MEEmojiWall : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property UICollectionView * emojiCollectionView;
 @property UICollectionView * navigationCollectionView;
@@ -26,8 +26,8 @@
 @property BOOL shouldDisplayUnicodeEmoji;
 @property BOOL shouldDisplayUsedEmoji;
 @property BOOL shouldDisplayTrendingEmoji;
-
-
+@property BOOL didDisplayOnce;
+@property NSString * navigationCellClass;
 
 // defaults to 38
 @property CGFloat navigationHeight;
@@ -39,6 +39,7 @@
 @property (assign) id <MEEmojiWallDelegate> delegate;
 
 -(void)setupLayoutWithSize:(CGSize)size;
+-(void)loadEmoji;
 
 @end
 
