@@ -326,6 +326,30 @@ For iOS emoji:
 `
 
 
+Reactions
+---------------------
+![](http://i.imgur.com/MCQttIW.png)
+
+Makemoji reactions allow you to add inline emoji reactions to any view. Here's how you set this up.
+
+You will first want to init the reaction view and give it a frame, typically a height of 30 is the best, but you can use anyting from 25 to 40.
+
+```
+    self.reactionView = [[MEReactionView alloc] initWithFrame:CGRectMake(0, 0, your_width, 30)];
+```
+
+You will then want to provide the reaction view with a content id, which is a NSString. THis should be unique to the content you want to associate these reactions to.
+
+```
+	self.reactionView.contentId = @"article123";
+```
+Setting this contentId will retrieve available reaction data as well as retrieve your default reaction set.
+
+If you want to listen for user reacting to this view, observe the MEReactionNotification key.
+
+The notification will include the reaction data that was selected.
+
+
 
 
 FAQ
