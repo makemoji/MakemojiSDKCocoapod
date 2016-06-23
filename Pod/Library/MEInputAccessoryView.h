@@ -43,7 +43,7 @@
 -(void)textViewDidEndEditing:(id)textView;
 -(void)textViewDidChangeSelection:(id)textView;
 -(void)textViewDidChange:(id)textView;
--(void)introBarAnimation;
+-(void)introBarAnimation:(BOOL)animate;
 -(void)setNavigationBackgroundColor:(UIColor *)color;
 -(void)setNavigationHighlightColor:(UIColor *)color;
 @end
