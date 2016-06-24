@@ -51,6 +51,7 @@ typedef enum
 
 @property NSString * defaultFontFamily;
 @property NSString *text;
+@property BOOL enablesReturnKeyAutomatically;
 
 @property BOOL displayCameraButton;
 @property BOOL displaySendButton;
