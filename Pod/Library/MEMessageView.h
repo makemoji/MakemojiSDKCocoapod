@@ -12,6 +12,7 @@
 
 @property (readonly) UIView * textContentView;
 @property (readonly) NSAttributedString * attributedString;
+@property UIEdgeInsets edgeInsets;
 
 - (void)setHTMLString:(NSString *)html;
 
