@@ -50,6 +50,7 @@ typedef enum
 @property NSString * HTMLText;
 
 @property NSString * defaultFontFamily;
+@property NSString *text;
 
 @property BOOL displayCameraButton;
 @property BOOL displaySendButton;
