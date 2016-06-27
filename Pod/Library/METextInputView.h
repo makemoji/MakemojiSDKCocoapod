@@ -71,6 +71,9 @@ typedef enum
 // current state of detached input
 @property BOOL detachedTextInput;
 
+// array of cached cell heights when using cellHeightForHTML
+@property NSMutableArray * cachedHeights;
+
 // perform detachment
 -(void)detachTextInputView:(BOOL)option;
 
