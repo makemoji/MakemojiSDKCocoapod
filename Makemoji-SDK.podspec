@@ -27,6 +27,6 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Pod/Library/*.h'
   s.frameworks = 'SystemConfiguration', 'UIKit', 'AdSupport'
   s.dependency 'AFNetworking', '>= 2.6.3'
-  s.dependency 'SDWebImage', '3.7.3'
+  s.dependency 'SDWebImage', '>= 3.7.3'
 
 end
