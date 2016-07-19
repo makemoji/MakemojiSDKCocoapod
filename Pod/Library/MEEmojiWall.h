@@ -29,6 +29,9 @@
 @property BOOL didDisplayOnce;
 @property NSString * navigationCellClass;
 
+@property UIColor * videoTextColor;
+@property UIColor * playOverlayTint;
+
 // defaults to 38
 @property CGFloat navigationHeight;
 
