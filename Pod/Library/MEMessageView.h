@@ -13,6 +13,7 @@
 @property (readonly) UIView * textContentView;
 @property (readonly) NSAttributedString * attributedString;
 @property UIEdgeInsets edgeInsets;
+@property NSInteger numberOfLines;
 
 - (void)setHTMLString:(NSString *)html;
 
