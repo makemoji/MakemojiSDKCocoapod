@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "MEInputView.h"
 
-@interface MEInputAccessoryView : UIView
+@interface MEInputAccessoryView : UIView <UIGestureRecognizerDelegate>
 
 // navigation buttons
 @property UIButton * flashtagButton;
