@@ -46,6 +46,7 @@ typedef enum
 @property UIReturnKeyType keyboardReturnKeyType;
 @property UIKeyboardType keyboardType;
 @property UIKeyboardAppearance keyboardAppearance;
+@property UITextAutocorrectionType autocorrectionType;
 @property NSAttributedString * attributedString;
 @property NSString * HTMLText;
 
