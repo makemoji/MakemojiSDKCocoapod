@@ -45,19 +45,6 @@ Library Setup
 		libxml2
 		libz
 
-* With iOS 9, you will need to include a exception for AWS S3 in your Info.plist for App Transport.
-
-```
-<dict>
-	<key>NSAllowsArbitraryLoads</key>
-	<true/>
-	<key>s3.amazonaws.com</key>
-	<dict>
-		<key>NSExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
-	</dict>
-</dict>
-```
 
 SDK Usage
 ---------------------
