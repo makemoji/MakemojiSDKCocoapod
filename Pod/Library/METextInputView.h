@@ -99,6 +99,12 @@ typedef enum
 
 -(NSArray *)textAttachments;
 
+// set the current default style using a CSS string
+-(void)setDefaultParagraphStyle:(NSString *)style;
+
+// returns current scroll view content size
+-(CGSize)contentSize;
+
 @end
 
 @protocol METextInputViewDelegate <NSObject>
@@ -112,4 +118,5 @@ typedef enum
     -(void)meTextInputViewDidChange:(METextInputView *)inputView;
     -(void)meTextInputViewDidBeginEditing:(METextInputView *)inputView;
     -(void)meTextInputViewDidEndEditing:(METextInputView *)inputView;
+    -(void)meTextInputView:(METextInputView *)inputView scrollViewDidScroll:(UIScrollView *)scrollView;
 @end
