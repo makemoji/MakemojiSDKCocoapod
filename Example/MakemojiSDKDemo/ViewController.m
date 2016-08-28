@@ -75,7 +75,6 @@
 
 -(void)openEmojiWall:(id)sender {
     MEEmojiWall * emojiWall = [[MEEmojiWall alloc] init];
-    emojiWall.shouldDisplaySearch = YES;
     emojiWall.delegate = self;
     emojiWall.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     UINavigationController *navigationController =

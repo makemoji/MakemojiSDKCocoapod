@@ -19,6 +19,7 @@
     // Override point for customization after application launch.
 
     // setup your SDK key here
+    NSAssert(NO, @"Please set your SDK key and remove this before using this demo");
     [MakemojiSDK setSDKKey:@"YOUR-KEY"];
     
     return YES;
