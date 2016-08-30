@@ -63,6 +63,8 @@ typedef enum
 
 @property CGFloat currentKeyboardPosition;
 
+-(void)setFont:(UIFont *)font;
+
 -(void)setDefaultFontSize:(CGFloat)fontSize;
 @property CGFloat fontSize;
 
