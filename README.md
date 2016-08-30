@@ -26,24 +26,9 @@ To obtain your SDK key please email: sdk@makemoji.com
 Library Setup
 ---------------------
 
-* If you are using CocoaPods for dependencies, include the following.
+* Include the following in your Podfile.
 
 		pod "Makemoji-SDK"
-
-* If your are not using CocoaPods, be sure to include the following libraries.
-		
-	* [AFNetworking](https://github.com/AFNetworking/) 2.6.3
-	* [SDWebImage](https://github.com/rs/SDWebImage) 3.7.3
-
-* Drag the MakemojiSDK folder to your project.
-
-* In Xcode, click on your App Target -> Build Phases -> Link Binary with Libraries and add the following libraries.
-
-![](http://i.imgur.com/N7HL7Iu.png)
-
-		libsqlite3
-		libxml2
-		libz
 
 
 SDK Usage
