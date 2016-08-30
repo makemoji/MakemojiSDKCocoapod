@@ -1,7 +1,7 @@
 Makemoji SDK
 ====================
 
-![](http://i.imgur.com/DqCktsY.png)
+![](http://i.imgur.com/mMZQ9b7.png)
 
 **Makemoji** is a free emoji keyboard for mobile apps. 
 
@@ -13,7 +13,7 @@ By installing our keyboard SDK every user of your app will instantly have access
 * 722 standard Unicode emoji
 * Makemoji *Flashtag* inline search system
 
-![](http://i.imgur.com/KjrJ8pW.gif)
+![](http://i.imgur.com/RHEXBbO.gif)
 
 * New emoji load dynamically and does not require a app update
 * Analytics Dashboard & CMS
@@ -76,12 +76,14 @@ Next you will need setup a view controller and add the METextInputView as a prop
 
 ```
 
-In your view controller during viewDidLoad or init, initialize the METextInputView. Use the showKeyboard method to make the text input field the first responder.
+In your view controller during viewDidLoad or init, initialize the METextInputView. Use the showKeyboard method to make the text input field the first responder. You can optionally use our channels feature to create emoji subsets throughout your app.
 
 ```objectivec
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // optionally use a channel name. this needs to be set before initilizing
+    // [MakemojiSDK setChannel:@"Chat"];
     
     self.meTextInputView = [[METextInputView alloc] initWithFrame:CGRectZero];
     self.meTextInputView.delegate = self;
