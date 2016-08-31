@@ -118,6 +118,7 @@ typedef enum
     @optional
     -(void)meTextInputView:(METextInputView *)inputView selectedLockedCategory:(NSString *)category;
     -(void)meTextInputViewDidChange:(METextInputView *)inputView;
+    -(BOOL)meTextInputView:(METextInputView *)inputView shouldChangeTextInRange:(NSRange)range replacementText:(NSAttributedString *)text;
     -(void)meTextInputViewDidBeginEditing:(METextInputView *)inputView;
     -(void)meTextInputViewDidEndEditing:(METextInputView *)inputView;
     -(void)meTextInputView:(METextInputView *)inputView scrollViewDidScroll:(UIScrollView *)scrollView;
