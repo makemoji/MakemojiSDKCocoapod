@@ -348,7 +348,7 @@ FAQ
 Service Performance
 ---------------------
 
-* Avg Service Repsonse Time: 100ms
+* Avg Service Response Time: 100ms
  
 * Hosted with AWS using Elastic Beanstalk & RDS
 
