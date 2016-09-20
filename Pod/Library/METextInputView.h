@@ -57,6 +57,7 @@ typedef enum
 @property BOOL displayCameraButton;
 @property BOOL displaySendButton;
 @property BOOL disableIntroAnimation;
+@property BOOL shouldHideNavigation;
 
 // should trigger send message when a gif is selected from the keyboard
 @property BOOL shouldAutosendGif;
