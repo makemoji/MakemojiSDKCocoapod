@@ -47,4 +47,5 @@
 -(void)introBarAnimation:(BOOL)animate;
 -(void)setNavigationBackgroundColor:(UIColor *)color;
 -(void)setNavigationHighlightColor:(UIColor *)color;
+-(void)loadData;
 @end

@@ -108,6 +108,8 @@ typedef enum
 // returns current scroll view content size
 -(CGSize)contentSize;
 
+-(void)setChannel:(NSString *)channel;
+
 @end
 
 @protocol METextInputViewDelegate <NSObject>

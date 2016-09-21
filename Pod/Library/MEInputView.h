@@ -20,4 +20,6 @@
 
     -(void)goBack;
     -(void)selectSection:(NSString *)section;
+    -(void)loadData;
+
 @end
