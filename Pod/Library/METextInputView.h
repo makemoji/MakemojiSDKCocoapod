@@ -75,6 +75,8 @@ typedef enum
 // current state of detached input
 @property (readonly) BOOL detachedTextInput;
 
+@property UIEdgeInsets edgeInsets;
+
 // array of cached cell heights when using cellHeightForHTML
 @property NSMutableArray * cachedHeights;
 
@@ -114,11 +116,11 @@ typedef enum
 
 @protocol METextInputViewDelegate <NSObject>
     -(void)meTextInputView:(METextInputView *)inputView didTapSend:(NSDictionary *)message;
+    @optional
     -(void)meTextInputView:(METextInputView *)inputView didTapHypermoji:(NSString*)urlString;
     -(void)meTextInputView:(METextInputView *)inputView didTapHyperlink:(NSString*)urlString;
     -(void)meTextInputView:(METextInputView *)inputView didTapCameraButton:(UIButton*)cameraButton;
     -(void)meTextInputView:(METextInputView *)inputView didChangeFrame:(CGRect)frame;
-    @optional
     -(void)meTextInputView:(METextInputView *)inputView selectedLockedCategory:(NSString *)category;
     -(void)meTextInputViewDidChange:(METextInputView *)inputView;
     -(BOOL)meTextInputView:(METextInputView *)inputView shouldChangeTextInRange:(NSRange)range replacementText:(NSAttributedString *)text;
