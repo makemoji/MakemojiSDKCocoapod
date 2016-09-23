@@ -75,6 +75,8 @@ typedef enum
 // current state of detached input
 @property (readonly) BOOL detachedTextInput;
 
+@property BOOL shouldClearOnSend;
+
 @property UIEdgeInsets edgeInsets;
 
 // array of cached cell heights when using cellHeightForHTML
