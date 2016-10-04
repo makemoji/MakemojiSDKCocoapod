@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MEEmojiWallCollectionViewCell : UICollectionViewCell
+@interface MEEmojiWallCollectionViewCell : UICollectionViewCell <UICollectionViewDelegate, UICollectionViewDataSource>
     @property UICollectionView * emojiCollectionView;
     @property NSArray * emoji;
     @property NSString * selectedCategory;
     -(void)setEmojiData:(NSArray *)emoji;
     @property CGSize itemSize;
+    @property BOOL isVideoCollection;
+    @property UIColor * videoTextColor;
+    @property UIColor * playOverlayTint;
 @end

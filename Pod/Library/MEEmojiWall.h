@@ -39,7 +39,7 @@
 @property CGSize emojiSize;
 
 // emoji wall delegate
-@property (assign) id <MEEmojiWallDelegate> delegate;
+@property (nonatomic, weak) id <MEEmojiWallDelegate> delegate;
 
 -(void)setupLayoutWithSize:(CGSize)size;
 -(void)loadEmoji;

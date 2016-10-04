@@ -17,28 +17,28 @@ typedef enum
 
 @protocol METextInputViewDelegate;
 
-@interface METextInputView : UIView
+@interface METextInputView : UIView <UIScrollViewDelegate>
 
 // container view for the text input view, the send button, camera button and overlay views
-@property IBOutlet UIView * textInputContainerView;
+@property UIView * textInputContainerView;
 
 // solid background that by default uses the MEMessageEntryBackground image
-@property IBOutlet UIImageView * barBackgroundImageView;
+@property UIImageView * barBackgroundImageView;
 
 // a rounded corner overlay image view that uses the MEMessageEntryInputField image
-@property IBOutlet UIImageView * textOverlayImageView;
+@property UIImageView * textOverlayImageView;
 
 //background view under text input
-@property IBOutlet UIView * textSolidBackgroundView;
+@property UIView * textSolidBackgroundView;
 
 // buttons for chat actions
-@property IBOutlet UIButton * sendButton;
-@property IBOutlet UIButton * cameraButton;
+@property UIButton * sendButton;
+@property UIButton * cameraButton;
 
-@property IBOutlet UILabel * placeholderLabel;
+@property UILabel * placeholderLabel;
 
 // the navigation / trending keyboard bar
-@property IBOutlet MEInputAccessoryView * meAccessory;
+@property MEInputAccessoryView * meAccessory;
 
 // only usable in detached input mode. adds a view on top of the Makemoji navigation bar.
 @property UIView * inputAccessoryView;
@@ -70,7 +70,7 @@ typedef enum
 @property CGFloat fontSize;
 
 // textView delegate
-@property (assign) id <METextInputViewDelegate> delegate;
+@property (nonatomic, weak) id <METextInputViewDelegate> delegate;
 
 // current state of detached input
 @property (readonly) BOOL detachedTextInput;
