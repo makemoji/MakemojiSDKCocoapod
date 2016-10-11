@@ -63,6 +63,8 @@ typedef enum
 @property BOOL shouldAutosendGif;
 
 @property CGFloat currentKeyboardPosition;
+@property CGFloat emojiRatio;
+
 
 -(void)setFont:(UIFont *)font;
 
@@ -100,6 +102,7 @@ typedef enum
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFontName:(NSString *)fontName pointSize:(CGFloat)pointSize textColor:(UIColor *)color;
++(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color emojiRatio:(CGFloat)ratio;
 
 // scan a plaintext message and detect makemoji substituted strings
 +(BOOL)detectMakemojiMessage:(NSString *)message;
@@ -111,6 +114,8 @@ typedef enum
 
 // returns current scroll view content size
 -(CGSize)contentSize;
+
+
 
 -(void)setChannel:(NSString *)channel;
 
