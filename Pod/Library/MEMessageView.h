@@ -14,7 +14,7 @@
 @property (readonly) NSAttributedString * attributedString;
 @property UIEdgeInsets edgeInsets;
 @property NSInteger numberOfLines;
-
+@property (weak) id delegate;
 - (void)setHTMLString:(NSString *)html;
 
 // estimate the width of a view with HTML constrained to width.
@@ -22,4 +22,10 @@
 - (CGSize)suggestedSizeForTextForSize:(CGSize)size;
 - (CGSize)intrinsicContentSize;
 
+@end
+
+@protocol MEMessageViewDelegate <NSObject>
+@optional
+-(void)meMessageView:(MEMessageView *)messageView didTapHypermoji:(NSString*)urlString;
+-(void)meMessageView:(MEMessageView *)messageView didTapHyperlink:(NSString*)urlString;
 @end
