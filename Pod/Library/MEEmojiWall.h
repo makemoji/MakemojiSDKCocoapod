@@ -27,6 +27,7 @@
 @property BOOL shouldDisplayUsedEmoji;
 @property BOOL shouldDisplayTrendingEmoji;
 @property BOOL didDisplayOnce;
+@property BOOL enableUpdates;
 @property NSString * navigationCellClass;
 
 @property UIColor * videoTextColor;
