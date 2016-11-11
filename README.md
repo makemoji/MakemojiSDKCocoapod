@@ -20,7 +20,7 @@ By installing our keyboard SDK every user of your app will instantly have access
 
 To obtain your SDK key please email: sdk@makemoji.com
 
-**[Learn More](http://makemoji.com/sdk)**
+**[Learn More](http://makemoji.com)**
 
 **[Documentation and Walkthroughs](http://makemoji.com/docs/)**
 
