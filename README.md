@@ -18,7 +18,7 @@ By installing our keyboard SDK every user of your app will instantly have access
 * New emoji load dynamically and does not require a app update
 * Analytics Dashboard & CMS
 
-To obtain your SDK key please email: http://makemoji.com
+To obtain your SDK key please visit: http://makemoji.com
 
 **[Learn More](http://makemoji.com)**
 
