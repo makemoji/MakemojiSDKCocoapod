@@ -44,6 +44,7 @@
 
 -(void)setupLayoutWithSize:(CGSize)size;
 -(void)loadEmoji;
+-(void)loadedCategoryData;
 
 @end
 
