@@ -100,6 +100,8 @@ typedef enum
 
 // this method converts a substitued message back to html with default settings
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute;
++(NSString *)convertSubstituedToHTMLWithParagraphBlocks:(NSString *)substitute;
++(NSString *)convertSubstituedToHTMLWithParagraphBlocks:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFontName:(NSString *)fontName pointSize:(CGFloat)pointSize textColor:(UIColor *)color;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color emojiRatio:(CGFloat)ratio;
