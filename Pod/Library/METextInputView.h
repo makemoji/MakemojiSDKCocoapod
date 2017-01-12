@@ -49,7 +49,7 @@ typedef enum
 @property UITextAutocorrectionType autocorrectionType;
 @property NSAttributedString * attributedString;
 @property NSString * HTMLText;
-
+@property UIScrollView * textInputView;
 @property NSString * defaultFontFamily;
 @property NSString *text;
 @property BOOL enablesReturnKeyAutomatically;
