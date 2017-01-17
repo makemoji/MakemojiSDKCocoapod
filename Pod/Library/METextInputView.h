@@ -118,7 +118,7 @@ typedef enum
 
 // returns current scroll view content size
 -(CGSize)contentSize;
-
+-(NSUInteger)substituteCharacterCount;
 
 
 -(void)setChannel:(NSString *)channel;
