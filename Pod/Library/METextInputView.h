@@ -15,6 +15,14 @@ typedef enum
     MECellStyleChat // Messages style table cell
 } MECellStyle;
 
+extern NSString * const MESubstituteOptionEmojiSizeRatio; // default to 1.0
+extern NSString * const MESubstituteOptionFont; // default to system
+extern NSString * const MESubstituteOptionLinkStyle; // default to empty
+extern NSString * const MESubstituteOptionTextColor; // default to black
+extern NSString * const MESubstituteOptionUseParagraphBlocks; // default to NO
+extern NSString * const MESubstituteOptionShouldScanForLinks; // default to NO
+
+
 @protocol METextInputViewDelegate;
 
 @interface METextInputView : UIView <UIScrollViewDelegate>
@@ -106,6 +114,7 @@ typedef enum
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFontName:(NSString *)fontName pointSize:(CGFloat)pointSize textColor:(UIColor *)color;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color emojiRatio:(CGFloat)ratio;
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color linkStyle:(NSString *)linkStyle;
++(NSString *)convertSubstituteToHTML:(NSString *)substitute options:(NSDictionary *)options;
 
 +(NSUInteger)numberOfCharactersInSubstitute:(NSString *)string;
 
