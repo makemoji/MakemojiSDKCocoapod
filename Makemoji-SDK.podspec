@@ -19,14 +19,14 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'Commercial' }
   s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.0.82' }
   s.platform     = :ios, '8.0'
-  s.requires_arc = false
-  s.vendored_libraries = 'Pod/Library/**/*.a'
   s.libraries = 'z', 'sqlite3', 'xml2'
   s.resources = ['Pod/Assets/*']
-  s.source_files = 'Pod/Library/*.h'
-  s.public_header_files = 'Pod/Library/*.h'
+  s.source_files = 'Pod/Classes/**/*'
   s.frameworks = 'SystemConfiguration', 'UIKit', 'AdSupport'
   s.dependency 'AFNetworking', '>= 2.6.3'
-  s.dependency 'SDWebImage', '>= 3.7.3'
-
+  s.dependency 'SDWebImage', '<= 3.8.2'
+  s.dependency 'DTCoreText'
+  s.dependency 'DTWebArchive'
+  s.requires_arc = true
+  	
 end
