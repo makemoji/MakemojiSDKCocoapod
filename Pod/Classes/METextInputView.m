@@ -1458,7 +1458,10 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
                                                      options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
                                           documentAttributes:NULL
                                                        error:NULL];
-    return decodedString.string;
+    
+    NSString * replaceSpaces  = [decodedString.string stringByReplacingOccurrencesOfString:@" " withString:@" "];
+    
+    return replaceSpaces;
 
 }
 

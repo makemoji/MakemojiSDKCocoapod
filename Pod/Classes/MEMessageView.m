@@ -97,7 +97,8 @@
 }
 
 - (void)dealloc {
-    self.attributedTextContextView.delegate = nil;
+    if (_attributedTextContextView.delegate)
+        _attributedTextContextView.delegate = nil;
     self.delegate = nil;
 }
 
