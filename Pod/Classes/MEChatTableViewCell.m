@@ -58,7 +58,7 @@ static CGFloat sideIndent = 50.0f;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.caretView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.caretView.contentMode = UIViewContentModeScaleAspectFill;
-    [self.caretView setImage:[UIImage imageNamed:@"MEChatBotLeft"]];
+    [self.caretView setImage:[UIImage imageNamed:@"Makemoji.bundle/MEChatBotLeft" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
     [self.caretView setFrame:CGRectMake(0, 40, 22, 22)];
     
     self.bubbleView = backingImage;
@@ -193,7 +193,7 @@ static CGFloat sideIndent = 50.0f;
     self.messageView.frame = CGRectMake(self.bubbleView.frame.origin.x+(insidePadding*2)+offset, self.bubbleView.frame.origin.y+insidePadding+1, textWidth, sizeForHTML.height);
     self.attributedTextContextView.frame = CGRectMake(0, 0, textWidth, sizeForHTML.height);
     
-    [self.caretView setImage:[UIImage imageNamed:@"MEChatBotLeft"]];
+    [self.caretView setImage:[UIImage imageNamed:@"Makemoji.bundle/MEChatBotLeft" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
     self.caretView.frame = CGRectMake(4.5, self.bubbleView.frame.size.height-13, 22, 23);
 
     if (self.imageUrl.length > 0) {
@@ -219,7 +219,7 @@ static CGFloat sideIndent = 50.0f;
         self.bubbleView.frame = CGRectMake(self.bubbleView.frame.origin.x+offset, self.bubbleView.frame.origin.y, self.bubbleView.frame.size.width, self.bubbleView.frame.size.height);
         self.bubbleView.backgroundColor = [UIColor colorWithRed:0.050 green:0.525 blue:0.996 alpha:1];
 
-        [self.caretView setImage:[UIImage imageNamed:@"MEChatBotRight"]];
+        [self.caretView setImage:[UIImage imageNamed:@"Makemoji.bundle/MEChatBotRight" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         self.caretView.frame = CGRectMake((self.bubbleView.frame.size.width+self.bubbleView.frame.origin.x-horizontalPadding)-6.5, self.bubbleView.frame.size.height-13, 22, 23);
         self.attachmentView.frame = CGRectMake(self.bubbleView.frame.origin.x+(insidePadding*2), self.bubbleView.frame.origin.y+insidePadding+1, self.bubbleView.frame.size.width-(insidePadding*4), self.bubbleView.frame.size.height-(insidePadding*2));
         

@@ -85,7 +85,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         [self.sendButton setEnabled:NO];
         
         self.cameraButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.cameraButton setImage:[UIImage imageNamed:@"MECameraIcon"] forState:UIControlStateNormal];
+        [self.cameraButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MECameraIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.cameraButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self.cameraButton setFrame:CGRectMake(11, 0, 30, 44)];
         [self.cameraButton addTarget:self action:@selector(didTapCamera) forControlEvents:UIControlEventTouchUpInside];
@@ -116,7 +116,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         self.textView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         self.textView.delegate = self;
         
-        UIImage *entryBackground = [[UIImage imageNamed:@"MEMessageEntryInputField.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:22];
+        UIImage *entryBackground = [[UIImage imageNamed:@"Makemoji.bundle/MEMessageEntryInputField.png" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] stretchableImageWithLeftCapWidth:13 topCapHeight:22];
         UIImage * tintableImage = [entryBackground imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         self.textOverlayImageView = [[UIImageView alloc] initWithImage:tintableImage];
         self.textOverlayImageView.frame = CGRectMake(self.cameraButton.frame.origin.x+self.cameraButton.frame.size.width+12, 0, self.frame.size.width-self.sendButton.frame.size.width-36-self.cameraButton.frame.size.width, 40);

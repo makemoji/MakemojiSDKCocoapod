@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "Makemoji-SDK"
-  s.version          = "1.1.5"
+  s.version          = "1.1.6"
   s.summary          = "A free emoji keyboard for mobile apps."
   s.description      = <<-DESC
                        By installing our keyboard SDK every user of your app will instantly have access to new and trending emojis.  Our goal is to increase user engagement as well as provide actionable real time data on sentiment (how users feel) and affinity (what users like). With this extensive data collection your per-user & company valuation will increase along with your user-base.
@@ -17,10 +17,13 @@ Pod::Spec.new do |s|
   s.homepage         = "http://makemoji.com/docs/"
   s.author           = { "Makemoji SDK" => "sdk@makemoji.com" }
   s.license      = { :type => 'Commercial' }
-  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.1.5' }
+  s.source       = { :git => 'https://github.com/makemoji/MakemojiSDKCocoapod.git', :tag => '1.1.6' }
   s.platform     = :ios, '8.0'
   s.libraries = 'z', 'sqlite3', 'xml2'
-  s.resources = ['Pod/Assets/*']
+  s.resource_bundles = {
+  	'Makemoji' => ['Pod/Assets/Makemoji/*'],
+  	'DTLoupe' => ['Pod/Assets/DTLoupe/*']
+  }
   s.source_files = 'Pod/Classes/**/*'
   s.frameworks = 'SystemConfiguration', 'UIKit', 'AdSupport'
   s.dependency 'AFNetworking', '>= 2.6.3'

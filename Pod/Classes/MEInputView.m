@@ -137,7 +137,7 @@
         [self.collectionView reloadData];
         
         self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.deleteButton setImage:[[UIImage imageNamed:@"MEDeleteIcon"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [self.deleteButton setImage:[[UIImage imageNamed:@"Makemoji.bundle/MEDeleteIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         //[self.deleteButton setBackgroundColor:[UIColor colorWithRed:0.72 green:0.74 blue:0.76 alpha:1]];
         [self.deleteButton setFrame:CGRectMake(frame.size.width-100, self.collectionView.frame.size.height, 50, 40)];
         [self.deleteButton addTarget:self action:@selector(deleteButtonTapped) forControlEvents:UIControlEventTouchDown];
@@ -555,7 +555,7 @@
         [photoCell setBackgroundColor:[UIColor clearColor]];
         photoCell.imageView.image = nil;
         [photoCell.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.categories objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                            placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         photoCell.titleLabel.font = [UIFont systemFontOfSize:13];
         photoCell.titleLabel.textColor = [UIColor colorWithWhite:0.65 alpha:1];
         photoCell.titleLabel.text = [[[self.categories objectAtIndex:indexPath.row] objectForKey:@"name"] uppercaseString];
@@ -582,7 +582,7 @@
         [[MEAPIManager client] imageViewWithId:emojiId];
         
         [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.recentEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                                        placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                                        placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         
         if ([[self.recentEmoji objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
             [photoCell startLinkAnimation];
@@ -595,7 +595,7 @@
         NSString * emojiId =   [[[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"id"] stringValue];
             [[MEAPIManager client] imageViewWithId:emojiId];
             [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                                            placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
             
             if ([[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
                 [photoCell startLinkAnimation];
@@ -608,7 +608,7 @@
         NSString * emojiId =   [[[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"id"] stringValue];
         [[MEAPIManager client] imageViewWithId:emojiId];
         [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                                        placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                                        placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         
         if ([[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
             [photoCell startLinkAnimation];

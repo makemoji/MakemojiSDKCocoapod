@@ -387,7 +387,7 @@ CGAffineTransform CGAffineTransformAndScaleMake(CGFloat sx, CGFloat sy, CGFloat 
         if (!resourceBundlePath)
         {
             // try to find it in main bundle instead
-            bundle = [NSBundle mainBundle];
+            bundle = [NSBundle bundleForClass:[self class]];
             resourceBundlePath = [bundle pathForResource:@"DTLoupe" ofType:@"bundle"];
         }
         

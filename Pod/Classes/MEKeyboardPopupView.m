@@ -20,7 +20,7 @@
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        [self.backgroundImageView setImage:[UIImage imageNamed:@"MEKeyPop"]];
+        [self.backgroundImageView setImage:[UIImage imageNamed:@"Makemoji.bundle/MEKeyPop" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         self.backgroundImageView.contentMode = UIViewContentModeScaleToFill;
         self.backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [self addSubview:self.backgroundImageView];

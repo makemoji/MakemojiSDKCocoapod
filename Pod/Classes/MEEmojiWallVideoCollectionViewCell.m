@@ -19,7 +19,7 @@
         self.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.previewImage];
         
-        self.playOverlay = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"MEPlayOverlay"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
+        self.playOverlay = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlayOverlay" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
         self.playOverlay.tintColor = [UIColor whiteColor];
         self.playOverlay.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
         [self.playOverlay setContentMode:UIViewContentModeScaleAspectFit];

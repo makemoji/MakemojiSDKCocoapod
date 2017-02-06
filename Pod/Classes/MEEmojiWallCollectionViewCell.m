@@ -99,7 +99,7 @@
     if (self.isVideoCollection == YES) {
         MEEmojiWallVideoCollectionViewCell * emojiCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Video" forIndexPath:indexPath];
         [[MEAPIManager client] imageViewWithId:[dict objectForKey:@"id"]];
-        [emojiCell.previewImage sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+        [emojiCell.previewImage sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         [emojiCell.emojiLabel setText:[dict objectForKey:@"name"]];
         emojiCell.emojiLabel.textColor = self.videoTextColor;
         emojiCell.playOverlay.tintColor = self.playOverlayTint;
@@ -109,7 +109,7 @@
     
     MEEmojiWallEmojiCollectionViewCell * emojiCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Emoji" forIndexPath:indexPath];
    [[MEAPIManager client] imageViewWithId:[dict objectForKey:@"id"]];
-    [emojiCell.imageView sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+    [emojiCell.imageView sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
     return emojiCell;
     
 }

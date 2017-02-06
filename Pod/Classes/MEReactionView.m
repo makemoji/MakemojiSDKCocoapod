@@ -95,7 +95,7 @@ NSString * const MEReactionNotification = @"MEReactionNotification";
     [self addSubview:self.reactionCollectionView];
     
     self.wallTriggerView = [[UIButton alloc] init];
-    [self.wallTriggerView setImage:[[UIImage imageNamed:@"MEReactionAdd"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    [self.wallTriggerView setImage:[[UIImage imageNamed:@"Makemoji.bundle/MEReactionAdd" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
     self.wallTriggerView.imageEdgeInsets = UIEdgeInsetsMake(3, 6, 3, 6);
     self.wallTriggerView.layer.borderWidth = 1;
     self.wallTriggerView.layer.borderColor = [[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] CGColor];

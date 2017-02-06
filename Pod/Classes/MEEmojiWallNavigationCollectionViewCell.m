@@ -18,7 +18,7 @@
         self.contentView.layer.cornerRadius = self.contentView.frame.size.width/2;
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width-10, self.contentView.frame.size.width-10)];
         self.imageView.center = self.contentView.center;
-        [self.imageView setImage:[UIImage imageNamed:@"defaultnavicon"]];
+        [self.imageView setImage:[UIImage imageNamed:@"Makemoji.bundle/defaultnavicon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
         self.imageView.alpha = 0.70;
         [self.contentView addSubview:self.imageView];

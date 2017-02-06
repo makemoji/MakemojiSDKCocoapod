@@ -323,13 +323,13 @@
     if (collectionView == self.navigationCollectionView) {
         MEEmojiWallNavigationCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Category" forIndexPath:indexPath];
         NSDictionary * dict = [self.categories objectAtIndex:indexPath.row];
-        NSString * imageName = [NSString stringWithFormat:@"MENav-%@", [[[dict objectForKey:@"name"] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""]];
-        UIImage * catImage = [UIImage imageNamed:imageName];
+        NSString * imageName = [NSString stringWithFormat:@"Makemoji.bundle/MENav-%@", [[[dict objectForKey:@"name"] lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""]];
+        UIImage * catImage = [UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
         photoCell.imageView.image = nil;
         if (catImage != nil) {
-            [photoCell.imageView setImage:[UIImage imageNamed:imageName]];
+            [photoCell.imageView setImage:[UIImage imageNamed:imageName inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         } else {
-            [photoCell.imageView sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+            [photoCell.imageView sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         }
 
         photoCell.backgroundColor = [UIColor clearColor];

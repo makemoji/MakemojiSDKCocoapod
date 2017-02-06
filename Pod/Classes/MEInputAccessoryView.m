@@ -112,7 +112,7 @@
         
         
         self.flashtagButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.flashtagButton setImage:[UIImage imageNamed:@"MESearchIcon"] forState:UIControlStateNormal];
+        [self.flashtagButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MESearchIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.flashtagButton.accessibilityLabel = @"Search";
         [self.flashtagButton setTintColor:[UIColor darkGrayColor]];
         [self.flashtagButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
@@ -122,7 +122,7 @@
         
         
         self.favoriteButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.favoriteButton setImage:[UIImage imageNamed:@"MERecent"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MERecent" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.favoriteButton.accessibilityLabel = @"Recent";
         [self.favoriteButton setTintColor:[UIColor darkGrayColor]];
         [self.favoriteButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
@@ -133,7 +133,7 @@
         
         
         self.trendingButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.trendingButton setImage:[UIImage imageNamed:@"METrendingIcon"] forState:UIControlStateNormal];
+        [self.trendingButton setImage:[UIImage imageNamed:@"Makemoji.bundle/METrendingIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.trendingButton.accessibilityLabel = @"Trending";
         [self.trendingButton setTintColor:[UIColor darkGrayColor]];
         [self.trendingButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
@@ -143,7 +143,7 @@
         [self.trendingButton addTarget:self action:@selector(trendingTapped) forControlEvents:UIControlEventTouchUpInside];
         
         self.gridButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.gridButton setImage:[UIImage imageNamed:@"MEGridIcon"] forState:UIControlStateNormal];
+        [self.gridButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MEGridIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.gridButton.accessibilityLabel = @"Categories";
         [self.gridButton setTintColor:[UIColor darkGrayColor]];
         //[self.gridButton setBackgroundColor:[UIColor redColor]];
@@ -167,7 +167,7 @@
         [self addSubview:self.leftBackgroundView];
         
         self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.backButton setImage:[UIImage imageNamed:@"MEBackIcon"] forState:UIControlStateNormal];
+        [self.backButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MEBackIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         [self.backButton setFrame:CGRectMake(10, 0, 20, 45)];
         [self.backButton setAlpha:0.0];
         [self.backButton addTarget:self action:@selector(backButtonTapped) forControlEvents:UIControlEventTouchUpInside];
@@ -731,7 +731,7 @@
                 
                 DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
                 DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"MEPlaceholder"] CGImage] scale:2.0 orientation:UIImageOrientationUp];
+                UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
                 imageAttachment.image = tmpImage;
                 imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
                 
@@ -1178,7 +1178,7 @@
                             
                             DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
                             DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                            UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"MEPlaceholder"] CGImage] scale:2.0 orientation:UIImageOrientationUp];
+                            UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
                             
                             
                             imageAttachment.image = tmpImage;
@@ -1276,7 +1276,7 @@
         [photoCell.inputButton.layer removeAllAnimations];
         //NSLog(@"%@", [[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]);
         [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"image_url"]]
-                                        placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                                        placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         
         if ([[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"link_url"] != [NSNull null]) {
             [photoCell startLinkAnimation];
@@ -1311,7 +1311,7 @@
         [[MEAPIManager client] imageViewWithId:[[dict objectForKey:@"id"] stringValue]];
         photoCell.imageView.image = nil;
         [photoCell.imageView sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"image_url"]]
-                            placeholderImage:[UIImage imageNamed:@"MEPlaceholder"]];
+                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         photoCell.currentInput = self.currentFlashtagSearch;
         [photoCell setData:[self.lastFlashTag objectAtIndex:indexPath.item]];
 
@@ -1438,7 +1438,7 @@
                         
                         DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
                         DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                        UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"MEPlaceholder"] CGImage] scale:2.0 orientation:UIImageOrientationUp];
+                        UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
                         imageAttachment.image = tmpImage;
                         imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
                         
@@ -1474,7 +1474,7 @@
                     
                     DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
                     DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                    UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"MEPlaceholder"] CGImage] scale:2.0 orientation:UIImageOrientationUp];
+                    UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
                     imageAttachment.image = tmpImage;
                     imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
                     [self.currentView replaceRange:replaceRange withAttachment:imageAttachment inParagraph:NO];
