@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MEInputAccessoryView.h"
+#import "DTTextRange.h"
 
 typedef NS_ENUM(NSInteger, MECellStyle)
 {
@@ -119,6 +120,8 @@ extern NSString * const MESubstituteOptionShouldScanForLinks; // default to NO
 
 // set the current default style using a CSS string
 - (void)setDefaultParagraphStyle:(NSString *)style;
+- (void)replaceRange:(UITextRange *)range withText:(id)text;
+- (void)setSelectedTextRange:(DTTextRange *)newTextRange animated:(BOOL)animated;
 
 // returns current scroll view content size
 - (CGSize)contentSize;
