@@ -205,8 +205,9 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     [self.textView replaceRange:range withText:text];
 }
 
-- (void)setSelectedTextRange:(DTTextRange *)newTextRange animated:(BOOL)animated {
-    [self.textView setSelectedTextRange:newTextRange animated:animated];
+- (void)setSelectedTextRange:(UITextRange *)newTextRange animated:(BOOL)animated {
+    DTTextRange * newRange = [DTTextRange textRangeFromStart:newTextRange.start toEnd:newTextRange.end];
+    [self.textView setSelectedTextRange:newRange animated:animated];
 }
 
 -(void)setTextInputView:(UIView *)textInputView {
