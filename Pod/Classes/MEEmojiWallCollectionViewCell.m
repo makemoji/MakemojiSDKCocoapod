@@ -131,6 +131,8 @@
             [outputDict setObject:[[self urlForPath:[emojiDict objectForKey:@"image_url"]] absoluteString] forKey:@"image_url"];
             NSString * path = [[SDImageCache sharedImageCache] defaultCachePathForKey:[[self urlForPath:[emojiDict objectForKey:@"image_url"]] absoluteString]];
             NSData * data = [NSData dataWithContentsOfFile:path];
+            if (!data)
+                return;
             [outputDict setObject:[UIImage imageWithData:data] forKey:@"image_object"];
         }
     
