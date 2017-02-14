@@ -110,6 +110,8 @@ extern NSString * const MESubstituteOptionShouldScanForLinks; // default to NO
 + (NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color emojiRatio:(CGFloat)ratio;
 + (NSString *)convertSubstituedToHTML:(NSString *)substitute withFont:(UIFont *)font textColor:(UIColor *)color linkStyle:(NSString *)linkStyle;
 + (NSString *)convertSubstituteToHTML:(NSString *)substitute options:(NSDictionary *)options;
+
++(NSString *)transformHTML:(NSString * )html withFont:(UIFont *)font textColor:(UIColor *)color;
 + (NSUInteger)numberOfCharactersInSubstitute:(NSString *)string;
 
 // scan a plaintext message and detect makemoji substituted strings

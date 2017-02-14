@@ -1142,6 +1142,56 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     return charCount;
 }
 
++(NSString *)transformHTML:(NSString * )html withFont:(UIFont *)font textColor:(UIColor *)color {
+    
+    NSString * fontSize = [NSString stringWithFormat:@"font-size:%dpx;",(int)floorf([font pointSize])];
+    NSString * fontName = [font familyName];
+    NSString * fontColor = [NSString stringWithFormat:@"color:%@;", [self hexStringFromColor:color]];
+
+    NSError *error = NULL;
+    NSRange range = NSMakeRange(0, html.length);
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"color:(.+?);" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSArray *totalMatches = [regex matchesInString:html options:NSMatchingReportProgress range:range];
+    NSString * replaceColor = @"color:#000000;";
+    if (totalMatches.count > 0) {
+        NSTextCheckingResult * firstMatch = [totalMatches objectAtIndex:0];
+        replaceColor = [html substringWithRange:firstMatch.range];
+    }
+    html = [html stringByReplacingOccurrencesOfString:replaceColor withString:fontColor];
+    
+    NSString * replaceFontSize = @"font-size:16px;";
+    range = NSMakeRange(0, html.length);
+    regex = [NSRegularExpression regularExpressionWithPattern:@"font-size:(.+?);" options:NSRegularExpressionCaseInsensitive error:&error];
+    totalMatches = [regex matchesInString:html options:NSMatchingReportProgress range:range];
+    
+    if (totalMatches.count > 0) {
+        NSTextCheckingResult * firstMatch = [totalMatches objectAtIndex:0];
+        replaceFontSize = [html substringWithRange:firstMatch.range];
+    }
+    
+    html = [html stringByReplacingOccurrencesOfString:replaceFontSize withString:fontSize];
+
+    CGSize imageSize = CGSizeMake(20+([font pointSize]-16), 20+([font pointSize]-16));
+    NSString * imageString = [NSString stringWithFormat:@"width:%dpx;height:%dpx;", (int)imageSize.width, (int)imageSize.height];
+    html = [html stringByReplacingOccurrencesOfString:@"width:20px;height:20px;" withString:imageString];
+
+    
+    NSString * replaceFontFace = @"font-family:'.SF UI Text';";
+    range = NSMakeRange(0, html.length);
+    regex = [NSRegularExpression regularExpressionWithPattern:@"font-family:'(.+?)';" options:NSRegularExpressionCaseInsensitive error:&error];
+    totalMatches = [regex matchesInString:html options:NSMatchingReportProgress range:range];
+    
+    if (totalMatches.count > 0) {
+        NSTextCheckingResult * firstMatch = [totalMatches objectAtIndex:0];
+        replaceFontFace = [html substringWithRange:firstMatch.range];
+    }
+    
+    NSString * fontFamilyString = [NSString stringWithFormat:@"font-family:'%@';", fontName];
+    html = [html stringByReplacingOccurrencesOfString:replaceFontFace withString:fontFamilyString];
+    
+    return html;
+}
+
 +(NSString *)convertSubstituedToHTML:(NSString *)substitute {
     substitute = [substitute stringByReplacingOccurrencesOfString:@"\n" withString:@"<br />"];
     substitute = [substitute stringByReplacingOccurrencesOfString:@" " withString:@" "];
