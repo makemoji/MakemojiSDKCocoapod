@@ -1327,7 +1327,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     
     if ([options objectForKey:MESubstituteOptionEmojiSizeRatio] && [[options objectForKey:MESubstituteOptionEmojiSizeRatio] isKindOfClass:[NSNumber class]]) {
         emojiRatio = [(NSNumber *)[options objectForKey:MESubstituteOptionEmojiSizeRatio] floatValue];
-        NSLog(@"got ratio of %f", emojiRatio);
+        //NSLog(@"got ratio of %f", emojiRatio);
     }
     
     //first lets make a copy and then determine if we should scan for links
@@ -1386,10 +1386,12 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     // figure out if we need to increase the ratio size
     
     if (emojiRatio > 1.0f) {
+        CGSize defaultImageSize = CGSizeMake(20+([textFont pointSize]-16), 20+([textFont pointSize]-16));
+        NSString * defaultImageString = [NSString stringWithFormat:@"width:%dpx;height:%dpx;", (int)defaultImageSize.width, (int)defaultImageSize.height];
         CGFloat baseSize = (20 + ([textFont pointSize]-16));
         CGSize imageSize = CGSizeMake(baseSize*emojiRatio ,baseSize*emojiRatio);
         NSString * imageString = [NSString stringWithFormat:@"width:%dpx;height:%dpx;", (int)imageSize.width, (int)imageSize.height];
-        firstConvert = [firstConvert stringByReplacingOccurrencesOfString:@"width:20px;height:20px;" withString:imageString];
+        firstConvert = [firstConvert stringByReplacingOccurrencesOfString:defaultImageString withString:imageString];
     }
     
     return firstConvert;
