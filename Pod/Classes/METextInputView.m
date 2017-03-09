@@ -220,7 +220,8 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
 
 -(void)setEmojiRatio:(CGFloat)emojiRatio {
     _emojiRatio = emojiRatio;
-    self.textView.maxImageDisplaySize = CGSizeMake((20+(self.textView.defaultFontSize-16) * emojiRatio), (20+(self.textView.defaultFontSize-16) * emojiRatio));
+    CGFloat baseSize = 20+(self.textView.defaultFontSize-16);
+    self.textView.maxImageDisplaySize = CGSizeMake(baseSize * emojiRatio, baseSize * emojiRatio);
 }
 
 -(CGFloat)emojiRatio {
