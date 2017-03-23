@@ -31,6 +31,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        ___useiOS6Attributes = YES;
         self.clipsToBounds = YES;
         self.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         self.translatesAutoresizingMaskIntoConstraints = YES;
@@ -219,7 +220,7 @@
 
     CGSize sizeForHTML = CGSizeZero;
     NSUInteger hash = [self.htmlString hash];
-    NSString * cacheKey = [NSString stringWithFormat:@"%lu", (unsigned long)hash];
+    NSString * cacheKey = [NSString stringWithFormat:@"%lu-%@", (unsigned long)hash, NSStringFromCGSize(size)];
 
     if ([self.cachedSizes objectForKey:cacheKey]) {
         NSString * size  = [self.cachedSizes objectForKey:cacheKey];

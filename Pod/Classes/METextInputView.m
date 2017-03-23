@@ -56,6 +56,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        ___useiOS6Attributes = YES;
         self.detachedTextInput = NO;
         self.shouldClearOnSend = YES;
         self.shouldHideNavigation = NO;
