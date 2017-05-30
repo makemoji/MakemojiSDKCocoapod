@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63E2E2611ED64B43007597E2 /* MEApiManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E2E25F1ED64B42007597E2 /* MEApiManagerTests.m */; };
-		63E2E2621ED64B43007597E2 /* NSString+MEUtilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E2E2601ED64B42007597E2 /* NSString+MEUtilitiesTests.m */; };
+		63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */; };
 		679AC70353F30271912C5D08 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE699FF5843019AE6D40A90 /* libPods-Tests.a */; };
 		C6111E231C89144B0074981F /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C6111E221C89144B0074981F /* CustomTableViewCell.m */; };
 		C64A76731B449D350087F243 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C64A76721B449D350087F243 /* main.m */; };
@@ -38,10 +37,9 @@
 		1CE2D296E656462BE36B693D /* Pods-MakemojiSDKDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemoTests/Pods-MakemojiSDKDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		4DB6CF5609B82472394B2A1E /* Pods-MakemojiSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemo/Pods-MakemojiSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4F67F3D29771A2C4C9552426 /* libPods-MakemojiSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakemojiSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ApiManagerSpec.m; sourceTree = "<group>"; };
 		63E2E2551ED64A22007597E2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E2E2591ED64A22007597E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		63E2E25F1ED64B42007597E2 /* MEApiManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEApiManagerTests.m; sourceTree = "<group>"; };
-		63E2E2601ED64B42007597E2 /* NSString+MEUtilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MEUtilitiesTests.m"; sourceTree = "<group>"; };
 		6A2F6B377041E2AFAF542ADD /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		712FE6E88CDEE016C91C7394 /* libPods-MakemojiSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakemojiSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B195B8948F9448480D53CA61 /* Pods-MakemojiSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemo/Pods-MakemojiSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,8 +101,7 @@
 		63E2E2561ED64A22007597E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				63E2E25F1ED64B42007597E2 /* MEApiManagerTests.m */,
-				63E2E2601ED64B42007597E2 /* NSString+MEUtilitiesTests.m */,
+				63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */,
 				63E2E2591ED64A22007597E2 /* Info.plist */,
 			);
 			path = Tests;
@@ -416,8 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63E2E2611ED64B43007597E2 /* MEApiManagerTests.m in Sources */,
-				63E2E2621ED64B43007597E2 /* NSString+MEUtilitiesTests.m in Sources */,
+				63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

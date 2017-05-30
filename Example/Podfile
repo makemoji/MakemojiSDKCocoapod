@@ -12,4 +12,6 @@ end
 target 'Tests' do
     shared_pods
     pod 'OCMock', '~> 3.4'
+    pod 'Specta', '~> 1.0'
+    pod 'Expecta', '~> 1.0'
 end
