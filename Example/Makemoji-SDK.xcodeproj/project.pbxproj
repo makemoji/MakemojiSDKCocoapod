@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */; };
+		63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */; };
+		63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */; };
+		63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097E1EDF540D005A318A /* METextInputViewSpec.m */; };
 		679AC70353F30271912C5D08 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE699FF5843019AE6D40A90 /* libPods-Tests.a */; };
 		C6111E231C89144B0074981F /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C6111E221C89144B0074981F /* CustomTableViewCell.m */; };
 		C64A76731B449D350087F243 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C64A76721B449D350087F243 /* main.m */; };
@@ -38,6 +41,9 @@
 		4DB6CF5609B82472394B2A1E /* Pods-MakemojiSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemo/Pods-MakemojiSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4F67F3D29771A2C4C9552426 /* libPods-MakemojiSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakemojiSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ApiManagerSpec.m; sourceTree = "<group>"; };
+		63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_MEUtilitiesSpec.m; sourceTree = "<group>"; };
+		63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEmojiWallSpec.m; sourceTree = "<group>"; };
+		63E1097E1EDF540D005A318A /* METextInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METextInputViewSpec.m; sourceTree = "<group>"; };
 		63E2E2551ED64A22007597E2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E2E2591ED64A22007597E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6A2F6B377041E2AFAF542ADD /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -101,6 +107,9 @@
 		63E2E2561ED64A22007597E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63E1097E1EDF540D005A318A /* METextInputViewSpec.m */,
+				63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */,
+				63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */,
 				63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */,
 				63E2E2591ED64A22007597E2 /* Info.plist */,
 			);
@@ -413,7 +422,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */,
+				63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */,
 				63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */,
+				63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

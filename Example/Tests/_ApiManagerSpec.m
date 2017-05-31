@@ -6,8 +6,8 @@
 //  Copyright © 2017 Makemoji. All rights reserved.
 //
 
-#import <Specta/Specta.h> 
-#import <Expecta/Expecta.h> 
+#import <Specta/Specta.h>
+#import <Expecta/Expecta.h>
 #import "MEApiManager.h"
 #import "OCMock.h"
 
@@ -20,7 +20,7 @@ describe(@"MEApiManager", ^{
     __block  MEAPIManager *apiManagerUnderTest;
     
     beforeAll(^{
-
+        
     });
     
     beforeEach(^{
@@ -29,6 +29,16 @@ describe(@"MEApiManager", ^{
         [apiManagerClassMock stopMocking];
     });
     
+    it(@"create client", ^{
+        //Given
+        expect(apiManagerUnderTest).to.beNil();
+        
+        //When
+        apiManagerUnderTest = [MEAPIManager client];
+        
+        //Then
+        expect(apiManagerUnderTest).toNot.beNil();
+    });
     
     it(@"cache name with channel", ^{
         //given
@@ -43,7 +53,7 @@ describe(@"MEApiManager", ^{
         
         expect(resultTestChannel).to.equal(@"testChannel-testCacheName.json");
     });
-
+    
     
     it(@"cacheNameWithChannel empty channel string", ^{
         //Given
@@ -79,6 +89,28 @@ describe(@"MEApiManager", ^{
         
     });
     
+    it(@"image view with id multiple calls same emoji id", ^{
+        //given
+        apiManagerUnderTest = [MEAPIManager client];
+        apiManagerUnderTest.imageViewSessionStart = nil;
+        apiManagerUnderTest.imageViews = nil;
+        
+        //when
+        [apiManagerUnderTest imageViewWithId:@"1001"];
+        [apiManagerUnderTest imageViewWithId:@"1001"];
+        [apiManagerUnderTest imageViewWithId:@"1001"];
+        [apiManagerUnderTest imageViewWithId:@"1001"];
+        
+        //then
+        expect(apiManagerUnderTest.imageViews.count).to.equal(1);
+        
+        NSString *emojiId = [[apiManagerUnderTest.imageViews objectForKey:@"1001"]objectForKey:@"emoji_id"];
+        expect(emojiId).to.equal(@"1001");
+        
+        NSString *emojiViewCount = [[apiManagerUnderTest.imageViews objectForKey:@"1001"] objectForKey:@"views"];
+        expect(emojiViewCount).to.equal(@"4");
+    });
+    
     it(@"test image view with id mulple calls multiples emoji id", ^{
         //given
         apiManagerUnderTest = [MEAPIManager client];
@@ -108,13 +140,13 @@ describe(@"MEApiManager", ^{
         
         emojiViewCount = [[apiManagerUnderTest.imageViews objectForKey:@"1002"] objectForKey:@"views"];
         expect(emojiViewCount).to.equal(@"1");
-
+        
         emojiViewCount = [[apiManagerUnderTest.imageViews objectForKey:@"1003"] objectForKey:@"views"];
         expect(emojiViewCount).to.equal(@"1");
-
+        
     });
     it(@"image view with id after thirty seconds should end session", ^{
-    
+        
         //given
         apiManagerUnderTest = [MEAPIManager client];
         apiManagerClassMock = OCMClassMock([MEAPIManager class]);
@@ -164,8 +196,8 @@ describe(@"MEApiManager", ^{
         [apiManagerUnderTest imageViewWithId:@"1001"];
         
         [[[apiManagerPartialMock expect] andDo:^(NSInvocation *invocation) {
-           __unsafe_unretained NSString *url = nil;
-           __unsafe_unretained NSDictionary *dictionary = nil;
+            __unsafe_unretained NSString *url = nil;
+            __unsafe_unretained NSDictionary *dictionary = nil;
             
             [invocation getArgument:&url atIndex:2];
             [invocation getArgument:&dictionary atIndex:3];
@@ -182,10 +214,10 @@ describe(@"MEApiManager", ^{
         //then
         OCMVerify([apiManagerPartialMock POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]]);
     });
-
     
-   it(@"click with emoji single emoji", ^{
-       
+    
+    it(@"click with emoji single emoji", ^{
+        
         //given
         apiManagerUnderTest = [MEAPIManager client];
         apiManagerUnderTest.emojiClicks = nil;
@@ -259,7 +291,7 @@ describe(@"MEApiManager", ^{
     });
     
     it(@"click with emoji count more than 25", ^{
-       //given
+        //given
         apiManagerUnderTest = [MEAPIManager client];
         apiManagerClassMock = OCMClassMock([MEAPIManager class]);
         apiManagerPartialMock = OCMPartialMock(apiManagerUnderTest);
@@ -286,7 +318,7 @@ describe(@"MEApiManager", ^{
                                       @"Radio Tower",@"name",
                                       @"0",@"category_image",
                                       nil];
-    
+        
         [[[apiManagerPartialMock expect]andDo:^(NSInvocation *invocation) {
             __unsafe_unretained NSString* url;
             __unsafe_unretained NSMutableDictionary* emojiDict;
@@ -320,6 +352,30 @@ describe(@"MEApiManager", ^{
         expect([apiManagerPartialMock emojiClicks]).to.beNil();
     });
     
+    it(@"begin image view session with tag", ^{
+        //begin
+        apiManagerUnderTest = [MEAPIManager client];
+        apiManagerUnderTest.imageViewSessionStart = nil;
+        
+        //when
+        [apiManagerUnderTest beginImageViewSessionWithTag:@"testTag"];
+        
+        //then
+        expect(apiManagerUnderTest.imageViewSessionStart).toNot.beNil();
+    });
+    
+    it(@"begin image view session with tag not null date case", ^{
+        //given
+        apiManagerUnderTest = [MEAPIManager client];
+        NSDate *currentDate = [NSDate date];
+        apiManagerUnderTest.imageViewSessionStart = currentDate;
+        
+        //when
+        [apiManagerUnderTest beginImageViewSessionWithTag:@"testTag"];
+        
+        //then
+        expect(apiManagerUnderTest.imageViewSessionStart).to.equal(currentDate);
+    });
     
     afterEach(^{
     });
