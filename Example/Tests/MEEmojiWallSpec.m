@@ -29,7 +29,6 @@ describe(@"MEEmojiWall", ^{
     it(@"set up layout with size", ^{
         //given
         classUndertest.navigationHeight = 50;
-        [classUndertest viewDidAppear:YES];
         
         UICollectionViewFlowLayout * navigationLayout = [[UICollectionViewFlowLayout alloc] init];
         navigationLayout.itemSize = CGSizeMake(0,0);
@@ -51,7 +50,7 @@ describe(@"MEEmojiWall", ^{
         expect(classUndertest.emojiCollectionView.frame).to.equal(CGRectMake(0, 0, 100,50));
     });
     
-    
+
     it(@"load emoji succesfully case", ^{
        //given
         
@@ -86,8 +85,8 @@ describe(@"MEEmojiWall", ^{
 
         
         [[[partialMock expect] andDo:^(NSInvocation *invocation) {
-            __unsafe_unretained void (^successBlock)(NSURLSessionDataTask *task, id responseObject) = nil;
-            __unsafe_unretained NSArray *url;
+            void (^successBlock)(NSURLSessionDataTask *task, id responseObject) = nil;
+            NSArray *url;
             [invocation getArgument:&successBlock atIndex:5];
             [invocation getArgument:&url atIndex:2];
             NSURLSessionDataTask *datataskfortest =[[NSURLSessionDataTask alloc]init];
@@ -103,13 +102,17 @@ describe(@"MEEmojiWall", ^{
         //THEN
         expect([[wallPartialMock categoryDictionary]count]).to.equal(1);
         expect([[wallPartialMock categoryDictionary]objectForKey:@"Dating"]).to.equal([dictionaryToSend objectForKey:@"Dating"]);
+        
+        [wallPartialMock stopMocking];
+        [partialMock stopMocking];
+        [mock stopMocking];
     });
-    
+
     it(@"load emoji failure case", ^{
         
         MEAPIManager *apiManager = [MEAPIManager client];
-        id mock = OCMClassMock([MEAPIManager class]);
-        id partialMock = OCMPartialMock(apiManager);
+        id mock = [OCMockObject mockForClass:[MEAPIManager class]]; //OCMClassMock([MEAPIManager class]);
+        id partialMock =[OCMockObject partialMockForObject:apiManager]; //[OCMPartialMock(apiManager);
         classUndertest = [[MEEmojiWall alloc]init];
         
         id protocolMock = OCMProtocolMock(@protocol(MEEmojiWallDelegate));
@@ -117,12 +120,12 @@ describe(@"MEEmojiWall", ^{
         
         id wallPartialMock = OCMPartialMock(classUndertest);
         
-        OCMStub([mock client]).andReturn(partialMock);
-        
+        //OCMStub([mock client]).andReturn(partialMock);
+        [[[mock expect]andReturn:partialMock] client];
         
         [[[partialMock expect] andDo:^(NSInvocation *invocation) {
-            __unsafe_unretained void (^failureBlock)(NSURLSessionDataTask *task, NSError *error) = nil;
-           __unsafe_unretained NSArray *url;
+            void (^failureBlock)(NSURLSessionDataTask *task, NSError *error) = nil;
+            NSArray *url;
             [invocation getArgument:&failureBlock atIndex:6];
             [invocation getArgument:&url atIndex:2];
             NSURLSessionDataTask *datataskfortest =[[NSURLSessionDataTask alloc]init];
@@ -141,8 +144,12 @@ describe(@"MEEmojiWall", ^{
         
         OCMVerify([protocolMock meEmojiWall:[OCMArg any] failedLoadingEmoji:[OCMArg any]]);
 
+        [wallPartialMock stopMocking];
+        [partialMock stopMocking];
+        [mock stopMocking];
+        [protocolMock stopMocking];
     });
-    
+
     it(@"load category no emojies", ^{
         //Given
         classUndertest.categories = nil;
@@ -151,11 +158,17 @@ describe(@"MEEmojiWall", ^{
         classUndertest.shouldDisplayUsedEmoji = NO;
         classUndertest.shouldDisplayUnicodeEmoji = NO;
         classUndertest.shouldDisplayTrendingEmoji = NO;
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        
+        [[[partialMock stub] andDo:nil] loadEmoji];
+        
         //when
         [classUndertest loadedCategoryData];
         
         //then
         expect(classUndertest.categories).to.equal(categoriesArray);
+        
+        [partialMock stopMocking];
     });
     
     it(@"load cateogory with one emoji", ^{
@@ -170,6 +183,9 @@ describe(@"MEEmojiWall", ^{
         classUndertest.shouldDisplayUsedEmoji = YES;
         classUndertest.shouldDisplayUnicodeEmoji = NO;
         classUndertest.shouldDisplayTrendingEmoji = NO;
+        
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        [[[partialMock stub]andDo:nil] loadEmoji];
         //when
         [classUndertest loadedCategoryData];
         
@@ -180,6 +196,7 @@ describe(@"MEEmojiWall", ^{
         expect(classUndertest.categories).toNot.contain(trendingEmojiDict);
     });
     
+
     it(@"load category with all emojies", ^{
         //Given
         classUndertest.categories = nil;
@@ -192,6 +209,11 @@ describe(@"MEEmojiWall", ^{
         classUndertest.shouldDisplayUsedEmoji = YES;
         classUndertest.shouldDisplayUnicodeEmoji = YES;
         classUndertest.shouldDisplayTrendingEmoji = YES;
+        
+        
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        [[[partialMock stub]andDo:nil] loadEmoji];
+        
         //when
         [classUndertest loadedCategoryData];
         
