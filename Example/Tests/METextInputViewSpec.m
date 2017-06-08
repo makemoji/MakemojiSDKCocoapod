@@ -24,19 +24,32 @@ SpecBegin(METextInputView)
 describe(@"METextInputView", ^{
     
     __block METextInputView *classUndertest ;
+    __block id nsDataMock;
+    __block id accesoryMock;
+    __block MEInputAccessoryView *accesoryView;
 
     beforeAll(^{
-  
+        nsDataMock = [OCMockObject mockForClass:[NSData class]];
+        accesoryView = [[MEInputAccessoryView alloc] init];
+    
+        id meapimanagerclassmock =[OCMockObject mockForClass:[MEAPIManager class]];
+        id meapiPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapimanagerclassmock stub]andReturn:meapiPartialMock]client];
+        
+        [[[meapiPartialMock stub]andDo:nil] GET:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
+        
+        accesoryMock = [OCMockObject partialMockForObject:accesoryView];
+        OCMStub([accesoryMock loadData]).andDo(nil);
+        [[[nsDataMock stub]andReturn:nil] dataWithContentsOfFile:[OCMArg any]];
+        classUndertest = [[METextInputView alloc]init];
+        classUndertest.meAccessory = accesoryMock;
+
+
     });
     
     beforeEach(^{
-        id nsdataMock = [OCMockObject mockForClass:[NSData class]];
         
-        [[[nsdataMock stub]andReturn:nil] dataWithContentsOfFile:[OCMArg any]];
-        id accesoryMock = [OCMockObject partialMockForObject:[[MEInputAccessoryView alloc] init]];
-        [[[accesoryMock stub]andDo:nil]loadData];
-         classUndertest = [[METextInputView alloc]init];
-        classUndertest.meAccessory = accesoryMock;
 
     });
     
@@ -353,7 +366,7 @@ describe(@"METextInputView", ^{
  */
     it(@"set font heavy light font", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
+
         id partialMock = OCMPartialMock(classUndertest);
         
         UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightHeavy];
@@ -378,7 +391,6 @@ describe(@"METextInputView", ^{
     
     it(@"detach text input view negative case", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
         UIView *view = [[UIView alloc]init];
         id partialMock = OCMPartialMock(view);
         classUndertest.textInputContainerView = partialMock;
@@ -393,16 +405,11 @@ describe(@"METextInputView", ^{
     it(@"detach text input view positive case", ^{
         
         //given
-        //METextInputView *textInputView = [[METextInputView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
         
         UIView *view = [[UIView alloc]init];
         id partialMock = OCMPartialMock(view);
         classUndertest.textInputContainerView = partialMock;
         [classUndertest.textInputContainerView addObserver:classUndertest forKeyPath:@"frame" options:0 context:nil];
-        
-        MEInputAccessoryView *accesoryView = [[MEInputAccessoryView alloc]init];
-        id partialAccesoryMock = OCMPartialMock(accesoryView);
-        classUndertest.meAccessory = partialAccesoryMock;
         
         UIView *solidBackgroundView = [[UIView alloc]init];
         id partialSolidBackground = OCMPartialMock(solidBackgroundView);
@@ -414,41 +421,37 @@ describe(@"METextInputView", ^{
         //then
         OCMVerify([partialMock bringSubviewToFront:[OCMArg any]]);
         OCMVerify([partialMock setBackgroundColor:[OCMArg any]]);
-        OCMVerify([partialAccesoryMock setTextView:[OCMArg any]]);
+      //  OCMVerify([accesoryMock setTextView:[OCMArg any]]);
         OCMVerify([partialSolidBackground setBackgroundColor:[OCMArg any]]);
 
         expect(classUndertest.frame).to.equal(CGRectMake(0, 577, 375, 46));
 
         
         [partialMock stopMocking];
-        [partialAccesoryMock stopMocking];
         [partialSolidBackground stopMocking];
     });
  
    it(@"send message negative case", ^{
         //given
-        //METextInputView *textInputView = [[METextInputView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
         id partialSUTMock = OCMPartialMock(classUndertest);
        
         OCMStub([partialSUTMock setAttributedString:[OCMArg any]]).andDo(nil);
 
         id meApiManagerClassMock = OCMClassMock([MEAPIManager class]);
-        
-
+       
         OCMReject([meApiManagerClassMock client]);
 
         //when
         [classUndertest sendMessage];
         
-        
-        [partialSUTMock stopMocking];
         [partialSUTMock stopMocking];
         [meApiManagerClassMock stopMocking];
         
     });
 
 
-  /*  it(@"send message positive case", ^{
+
+it(@"send message positive case", ^{
         //given
         id accesoryClassMock = [OCMockObject mockForClass:[MEInputAccessoryView class]];
         [[[accesoryClassMock stub] andDo:nil] willMoveToSuperview:[OCMArg any]];
@@ -475,7 +478,7 @@ describe(@"METextInputView", ^{
         NSAttributedString *atributedString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
         
         currentView.attributedString = atributedString;
-        textInputView.attributedString = currentView.attributedString;
+        classUndertest.attributedString = currentView.attributedString;
         id meApiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
         id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
         
@@ -495,7 +498,7 @@ describe(@"METextInputView", ^{
         }]POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
         
         //when
-        [textInputView sendMessage];
+        [classUndertest sendMessage];
 
         //then
         OCMVerify([meApiManagerPartialMock POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]]);
@@ -503,19 +506,13 @@ describe(@"METextInputView", ^{
         [meApiManagerPartialMock stopMocking];
         [meApiManagerClassMock stopMocking];
     });
-   
-    it(@"send message positive empty string case", ^{
+
+   it(@"send message positive empty string case", ^{
         //given
-        MEInputAccessoryView *accesoryView = [[MEInputAccessoryView alloc]init];
-        id accesoryPartialMock = [OCMockObject partialMockForObject:accesoryView];
-        
-        [[[accesoryPartialMock stub]andDo:nil]willMoveToSuperview:[OCMArg any]];
-        
-        //METextInputView *textInputView = [[METextInputView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
-        
+
         DTRichTextEditorView *currentView = [[DTRichTextEditorView alloc]init];
         currentView.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-        textInputView.attributedString = currentView.attributedString;
+        classUndertest.attributedString = currentView.attributedString;
         id meApiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
         id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
         
@@ -535,7 +532,7 @@ describe(@"METextInputView", ^{
         }]POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
         
         //when
-        [textInputView sendMessage];
+        [classUndertest sendMessage];
         
         //then
         OCMVerify([meApiManagerPartialMock POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]]);
@@ -551,12 +548,10 @@ describe(@"METextInputView", ^{
         
         [[[accesoryPartialMock stub]andDo:nil]willMoveToSuperview:[OCMArg any]];
         
-        //METextInputView *textInputView = [[METextInputView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
-        textInputView.meAccessory = accesoryPartialMock;
-        
+       
         DTRichTextEditorView *currentView = [[DTRichTextEditorView alloc]init];
         currentView.attributedText = [[NSAttributedString alloc] initWithString:@"testString"];
-        textInputView.attributedString = currentView.attributedString;
+        classUndertest.attributedString = currentView.attributedString;
         id meApiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
         id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
         
@@ -576,7 +571,7 @@ describe(@"METextInputView", ^{
         }]POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
         
         //when
-        [textInputView sendMessage];
+        [classUndertest sendMessage];
         
         //then
         OCMVerify([meApiManagerPartialMock POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]]);
@@ -584,11 +579,11 @@ describe(@"METextInputView", ^{
         [meApiManagerPartialMock stopMocking];
         [meApiManagerClassMock stopMocking];
     });
-*/
+
+    
     it(@"cell height for html  MESimpleTableViewCell", ^{
         
         //given
-        //METextInputView *SUT =//// [[METextInputView alloc]init];
         NSMutableArray *cachedHeights= [[NSMutableArray alloc]init];
         id cachedHeightsPartialMock = [OCMockObject partialMockForObject:cachedHeights];
         classUndertest.cachedHeights = cachedHeightsPartialMock;
@@ -610,7 +605,6 @@ describe(@"METextInputView", ^{
     it(@"cell height for html  MESimpleTableViewCell with cached heights", ^{
         
         //given
-        //METextInputView *SUT =//// [[METextInputView alloc]init];
         NSMutableArray *cachedHeights= [[NSMutableArray alloc]init];
         id cachedHeightsPartialMock = [OCMockObject partialMockForObject:cachedHeights];
         classUndertest.cachedHeights = cachedHeightsPartialMock;
@@ -628,7 +622,6 @@ describe(@"METextInputView", ^{
     
     it(@"cell heigth for html MECellStyleChat", ^{
         //given
-        //METextInputView *SUT =//// [[METextInputView alloc]init];
         NSMutableArray *cachedHeights= [[NSMutableArray alloc]init];
         id cachedHeightsPartialMock = [OCMockObject partialMockForObject:cachedHeights];
         classUndertest.cachedHeights = cachedHeightsPartialMock;
@@ -650,7 +643,6 @@ describe(@"METextInputView", ^{
     
     it(@"cell heigth for html MECellStyleChat with cached heights", ^{
         //given
-        //METextInputView *SUT =//// [[METextInputView alloc]init];
         NSMutableArray *cachedHeights= [[NSMutableArray alloc]init];
         id cachedHeightsPartialMock = [OCMockObject partialMockForObject:cachedHeights];
         classUndertest.cachedHeights = cachedHeightsPartialMock;
@@ -985,19 +977,309 @@ describe(@"METextInputView", ^{
                                       color, MESubstituteOptionTextColor,
                                       nil];
         
-        NSString *resultString = [METextInputView convertSubstituteToHTML:testString options:optionsDict];
-        
+        [METextInputView convertSubstituteToHTML:testString options:optionsDict];
         
         //then
         OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
         
     });
+    
+    it(@"convert substitute to HTML options without options with textfont, color, and link", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com test";
+        UIColor *color  = [UIColor redColor];
+        
+        [[[inputTextviewClassMock expect] andDo:^(NSInvocation *invocation) {
+            __unsafe_unretained UIFont *receivedFont;
+            __unsafe_unretained UIColor *receivedColor;
+            __unsafe_unretained NSString *receivedString;
+            
+            [invocation getArgument:&receivedString atIndex:2];
+            [invocation getArgument:&receivedFont atIndex:3];
+            [invocation getArgument:&receivedColor atIndex:4];
+
+            expect(receivedString).to.equal(@"http:\\<a href='http://emojilinktest.com' style=''>http://emojilinktest.com</a> test");
+            expect(receivedFont).to.equal([UIFont systemFontOfSize:10]);
+            expect(receivedColor).to.equal([UIColor redColor]);
+        }] convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]];
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                       [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      nil];
+        
+        [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        
+    });
+    
+    it(@"convert substitute to HTML options without options with textfont, color, and link", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com";
+        UIColor *color  = [UIColor redColor];
+        
+        [[[inputTextviewClassMock expect] andDo:^(NSInvocation *invocation) {
+            __unsafe_unretained UIFont *receivedFont;
+            __unsafe_unretained UIColor *receivedColor;
+            __unsafe_unretained NSString *receivedString;
+            
+            [invocation getArgument:&receivedString atIndex:2];
+            [invocation getArgument:&receivedFont atIndex:3];
+            [invocation getArgument:&receivedColor atIndex:4];
+            
+            expect(receivedString).to.equal(@"http:\\emojilinktest.com");
+            expect(receivedFont).to.equal([UIFont systemFontOfSize:10]);
+            expect(receivedColor).to.equal([UIColor redColor]);
+        }] convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]];
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      nil];
+        
+        [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        
+    });
+    
+    it(@"convert substitute to HTML options without options with textfont, color,link and emoji ratio", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com";
+        UIColor *color  = [UIColor redColor];
+        CGFloat emojiRatio = 2.43;
+        
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      [NSNumber numberWithFloat:emojiRatio],MESubstituteOptionEmojiSizeRatio,
+                                      nil];
+        
+      NSString *string =  [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        expect(string).to.equal(@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:10px;\"><span style=\"color:#FF0000;\">http:\\emojilinktest.com</span></p>");
+    });
+    
+    it(@"convert substitute to HTML options without options with textfont, color,offset link and emoji ratio", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com test";
+        UIColor *color  = [UIColor redColor];
+        CGFloat emojiRatio = 2.43;
+        
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      [NSNumber numberWithFloat:emojiRatio],MESubstituteOptionEmojiSizeRatio,
+                                      nil];
+        
+        NSString *string =  [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        expect(string).to.equal(@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:10px;\"><span style=\"color:#FF0000;\">http:\\<a href='http://emojilinktest.com' style=''>http://emojilinktest.com</a> test</span></p>");
+    });
+    
+    it(@"convert substitute to HTML options without options with textfont, color,offset link, emoji ratio and emoji", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com test [e.FM]";
+        NSString *linkStyle = @"linkStyle";
+        UIColor *color  = [UIColor redColor];
+        CGFloat emojiRatio = 2.43;
+        
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      [NSNumber numberWithFloat:emojiRatio],MESubstituteOptionEmojiSizeRatio,
+                                      linkStyle,MESubstituteOptionLinkStyle,
+                                      nil];
+        
+        NSString *string =  [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        expect(string).to.equal(@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:10px;\"><span style=\"color:#FF0000;\">http:\\<a href='http://emojilinktest.com' style='linkStyle'>http://emojilinktest.com</a> test <img style=\"vertical-align:middle;width:34px;height:34px;\" src=\"https://d1tvcfe0bfyi6u.cloudfront.net/emoji/952-large@2x.png\" id=\"952\" link=\"\" name=\"e\" /></span></p>");
+    });
+    
+    it(@"convert substitute to HTML options without options with textfont, color,offset link, emoji ratio, emoji and paragraph block", ^{
+        //given
+        id inputTextviewClassMock = [OCMockObject mockForClass:[METextInputView class]];
+        UIFont *testFont = [UIFont systemFontOfSize:10];
+        NSString *testString = @"http:\\emojilinktest.com test [e.FM]";
+        NSString *linkStyle = @"linkStyle";
+        UIColor *color  = [UIColor redColor];
+        CGFloat emojiRatio = 2.43;
+        
+        //when
+        NSDictionary * optionsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      testFont, MESubstituteOptionFont,
+                                      color, MESubstituteOptionTextColor,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionShouldScanForLinks,
+                                      [NSNumber numberWithBool:YES], MESubstituteOptionUseParagraphBlocks,
+                                      [NSNumber numberWithFloat:emojiRatio],MESubstituteOptionEmojiSizeRatio,
+                                      linkStyle,MESubstituteOptionLinkStyle,
+                                      nil];
+        
+        NSString *string =  [METextInputView convertSubstituteToHTML:testString options:optionsDict];
+        //then
+        OCMVerify([inputTextviewClassMock convertSubstituedToHTML:[OCMArg any] withFont:[OCMArg any] textColor:[OCMArg any]]);
+        expect(string).to.equal(@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:10px;\"><span style=\"color:#FF0000;\">http:\\<a href='http://emojilinktest.com' style='linkStyle'>http://emojilinktest.com</a> test <img style=\"vertical-align:middle;width:34px;height:34px;\" src=\"https://d1tvcfe0bfyi6u.cloudfront.net/emoji/952-large@2x.png\" id=\"952\" link=\"\" name=\"e\" /></span></p>");
+    });
+
+    
+    it(@"transform HTML with font and text color", ^{
+       //given
+        NSString *testString =@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:10px;\"><span style=\"color:#FF0000;\">http:\\<a href='http://emojilinktest.com' style='linkStyle'>http://emojilinktest.com</a> test <img style=\"vertical-align:middle;width:34px;height:34px;\" src=\"https://d1tvcfe0bfyi6u.cloudfront.net/emoji/952-large@2x.png\" id=\"952\" link=\"\" name=\"e\" /></span></p>";
+        UIFont *font = [UIFont boldSystemFontOfSize:25];
+        UIColor *color = [UIColor yellowColor];
+        
+        //when
+        NSString *string = [METextInputView transformHTML:testString withFont:font textColor:color];
+
+        //then
+        expect(string).to.equal(@"<p dir=\"auto\" style=\"font-family:'.SF UI Display';font-size:25px;\"><span style=\"color:#FFFF00;\">http:\\<a href='http://emojilinktest.com' style='linkStyle'>http://emojilinktest.com</a> test <img style=\"vertical-align:middle;width:34px;height:34px;\" src=\"https://d1tvcfe0bfyi6u.cloudfront.net/emoji/952-large@2x.png\" id=\"952\" link=\"\" name=\"e\" /></span></p>");
+    });
+    
+    it(@"transform HTML with font and text color", ^{
+        //given
+        NSString *testString =@"testString";
+        UIFont *font = [UIFont boldSystemFontOfSize:25];
+        UIColor *color = [UIColor yellowColor];
+        
+        //when
+        NSString *string = [METextInputView transformHTML:testString withFont:font textColor:color];
+        
+        //then
+        expect(string).to.equal(@"testString");
+    });
+    
+
+    it(@"set selected text range", ^{
+        
+        //given
+        UITextPosition *start =0;
+        UITextPosition *end = 0;
+        UITextRange *textRange = [DTTextRange textRangeFromStart:start toEnd:end];
+        id classMock = [OCMockObject mockForClass:[DTTextRange class]];
+        
+        [[[classMock expect]andDo:^(NSInvocation *invocation) {
+            UITextPosition *positionStart;
+            UITextPosition *positionEnd;
+            
+            
+            [invocation getArgument:&positionStart atIndex:2];
+            [invocation getArgument:&positionEnd atIndex:3];
+            
+            expect(positionStart).to.equal(textRange.start);
+            expect(positionEnd).to.equal(textRange.end);
+        }] textRangeFromStart:[OCMArg any] toEnd:[OCMArg any]];
+
+        //when
+        [classUndertest setSelectedTextRange:textRange animated:YES];
+        
+    });
+    
+    it(@"content size", ^{
+        
+        //when
+        CGSize size = [classUndertest contentSize];
+        
+        //then
+        expect(size).toNot.beNil();
+    });
+    
+    it(@"substitute character count no attachment", ^{
+        
+        
+        //when
+        NSUInteger result = [classUndertest substituteCharacterCount];
+        
+        //then
+        expect((int)result).to.equal(0);
+    });
+    
+    it(@"substitute character count with emoji id", ^{
+        
+        //given
+        
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        NSMutableArray *arrayToReturn = [[NSMutableArray alloc]init];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"1001",@"id", nil];
+        DTImageTextAttachment *attachment = [[DTImageTextAttachment alloc]init];
+        attachment.attributes = dict;
+        [arrayToReturn addObject:attachment];
+        [[[partialMock stub] andReturn:arrayToReturn] textAttachments];
+        
+        //when
+        NSUInteger result = [partialMock substituteCharacterCount];
+        
+        //then
+        expect((int)result).to.equal(5);
+    });
+    
+    it(@"substitute character count with link", ^{
+        
+        //given
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        NSMutableArray *arrayToReturn = [[NSMutableArray alloc]init];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"http:\\linkemojitest.com" ,@"link", nil];
+        DTImageTextAttachment *attachment = [[DTImageTextAttachment alloc]init];
+        attachment.attributes = dict;
+        [arrayToReturn addObject:attachment];
+        [[[partialMock stub] andReturn:arrayToReturn] textAttachments];
+        
+        //when
+        NSUInteger result = [partialMock substituteCharacterCount];
+        
+        //then
+        expect((int)result).to.equal(24);
+    });
+    
+    
+    it(@"substitute character count with emoji id and link", ^{
+        
+        //given
+        id partialMock = [OCMockObject partialMockForObject:classUndertest];
+        NSMutableArray *arrayToReturn = [[NSMutableArray alloc]init];
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"1001",@"id", @"http:\\linkemojitest.com" ,@"link", nil];
+        DTImageTextAttachment *attachment = [[DTImageTextAttachment alloc]init];
+        attachment.attributes = dict;
+        [arrayToReturn addObject:attachment];
+        [[[partialMock stub] andReturn:arrayToReturn] textAttachments];
+        
+        //when
+        NSUInteger result = [partialMock substituteCharacterCount];
+        
+        //then
+        expect((int)result).to.equal(29);
+    });
+    
     afterEach(^{
         
     });
     
     afterAll(^{
-        
     });
 });
 
