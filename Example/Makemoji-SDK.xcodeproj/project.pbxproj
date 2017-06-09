@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */; };
+		6372C02D1EEB1536004C4868 /* MeInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */; };
+		6372C02F1EEB326A004C4868 /* MakemojiSDKSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */; };
 		63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */; };
 		63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */; };
 		63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097E1EDF540D005A318A /* METextInputViewSpec.m */; };
@@ -41,6 +43,8 @@
 		4DB6CF5609B82472394B2A1E /* Pods-MakemojiSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemo/Pods-MakemojiSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4F67F3D29771A2C4C9552426 /* libPods-MakemojiSDKDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakemojiSDKDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63375BE11ED8CBBE00F108D3 /* _ApiManagerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ApiManagerSpec.m; sourceTree = "<group>"; };
+		6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeInputViewSpec.m; sourceTree = "<group>"; };
+		6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakemojiSDKSpec.m; sourceTree = "<group>"; };
 		63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_MEUtilitiesSpec.m; sourceTree = "<group>"; };
 		63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEmojiWallSpec.m; sourceTree = "<group>"; };
 		63E1097E1EDF540D005A318A /* METextInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METextInputViewSpec.m; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 		63E2E2561ED64A22007597E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */,
+				6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */,
 				63E1097E1EDF540D005A318A /* METextInputViewSpec.m */,
 				63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */,
 				63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */,
@@ -422,7 +428,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6372C02D1EEB1536004C4868 /* MeInputViewSpec.m in Sources */,
 				63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */,
+				6372C02F1EEB326A004C4868 /* MakemojiSDKSpec.m in Sources */,
 				63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */,
 				63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */,
 				63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */,
