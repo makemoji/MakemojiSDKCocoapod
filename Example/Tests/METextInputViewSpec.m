@@ -29,22 +29,24 @@ describe(@"METextInputView", ^{
     __block MEInputAccessoryView *accesoryView;
 
     beforeAll(^{
+        
+        //This nsdata mock us to avoid the loadFromDisk method, that will be crashing everytime because the app is not running while the test are
         nsDataMock = [OCMockObject mockForClass:[NSData class]];
         accesoryView = [[MEInputAccessoryView alloc] init];
     
-        id meapimanagerclassmock =[OCMockObject mockForClass:[MEAPIManager class]];
-        id meapiPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        //this MEApi manager mock is to avoid the GET method that is called on the MEInputAccessoryView init
+        id meApiManagerClassMock =[OCMockObject mockForClass:[MEAPIManager class]];
+        id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+    
+        [[[meApiManagerClassMock stub]andReturn:meApiManagerPartialMock]client];
+        [[[meApiManagerPartialMock stub]andDo:nil] GET:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
         
-        [[[meapimanagerclassmock stub]andReturn:meapiPartialMock]client];
-        
-        [[[meapiPartialMock stub]andDo:nil] GET:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
-        
+        //This partial mock of the accesoryView is to avoid the loadData from executing, because it randomly crashes, and in this class we're not testing that class.
         accesoryMock = [OCMockObject partialMockForObject:accesoryView];
-        OCMStub([accesoryMock loadData]).andDo(nil);
+        OCMStub([accesoryMock loadData]).andDo(nil); 
         [[[nsDataMock stub]andReturn:nil] dataWithContentsOfFile:[OCMArg any]];
         classUndertest = [[METextInputView alloc]init];
         classUndertest.meAccessory = accesoryMock;
-
 
     });
     
@@ -102,11 +104,11 @@ describe(@"METextInputView", ^{
     });
     
     it(@"set channel different channel case", ^{
+        
         //given
         MEAPIManager *apiManager = [MEAPIManager client];
         apiManager.channel = @"apichannel";
         id classMock = OCMClassMock([MakemojiSDK class]);
-    //    METextInputView *textInputView =// [[METextInputView alloc]init];
 
         [[[classMock expect]andDo:^(NSInvocation *invocation) {
             __unsafe_unretained NSString *channelReceived;
@@ -129,8 +131,6 @@ describe(@"METextInputView", ^{
         MEAPIManager *apiManager = [MEAPIManager client];
         apiManager.channel = @"samechannel";
         id classMock = OCMClassMock([MakemojiSDK class]);
-        //METextInputView *textInputView =// [[METextInputView alloc]init];
-        
         
         //when
         [classUndertest setChannel:@"samechannel"];
@@ -145,7 +145,6 @@ describe(@"METextInputView", ^{
         MEAPIManager *apiManager = [MEAPIManager client];
         apiManager.channel = @"channel";
         id classMock = OCMClassMock([MakemojiSDK class]);
-        //METextInputView *textInputView =// [[METextInputView alloc]init];
         
         [[[classMock expect]andDo:^(NSInvocation *invocation) {
             __unsafe_unretained NSString *channelReceived;
@@ -165,9 +164,6 @@ describe(@"METextInputView", ^{
     });
     
     it(@"set default font size less than 16 ", ^{
-        //given
-      //  METextInputView *inputTextview =// [[METextInputView alloc]init];
-        
         
         //when
         [classUndertest setDefaultFontSize:10];
@@ -179,10 +175,6 @@ describe(@"METextInputView", ^{
     });
     
     it(@"set default font size greater than 16 ", ^{
-        //given
-      //  METextInputView *classUndertest =//// [[METextInputView alloc]init];
-        
-        
         //when
         [classUndertest setDefaultFontSize:20];
         
@@ -195,7 +187,6 @@ describe(@"METextInputView", ^{
     
     it(@"set font regular font", ^{
         //given
-       // METextInputView *textInputView =//// [[METextInputView alloc]init];
         id partialMock = OCMPartialMock(classUndertest);
         UIFont *font = [UIFont systemFontOfSize:10];
         
@@ -219,7 +210,6 @@ describe(@"METextInputView", ^{
     
     it(@"set font ultra light font", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
         id partialMock = OCMPartialMock(classUndertest);
         
         UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightUltraLight];
@@ -244,7 +234,6 @@ describe(@"METextInputView", ^{
     
     it(@"set font thin font", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
         id partialMock = OCMPartialMock(classUndertest);
         
         UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightThin];
@@ -268,7 +257,6 @@ describe(@"METextInputView", ^{
     
     it(@"set font light font", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
         id partialMock = OCMPartialMock(classUndertest);
         
         UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightLight];
@@ -292,7 +280,6 @@ describe(@"METextInputView", ^{
     
     it(@"set font medium font", ^{
         //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
         id partialMock = OCMPartialMock(classUndertest);
         
         UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightMedium];
@@ -314,56 +301,6 @@ describe(@"METextInputView", ^{
         [partialMock stopMocking];
     });
     
-    //THIS 2 TESTS NEED TO BE FIXED
-  /*    it(@"set font semi bold font", ^{
-        //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
-        id partialMock = OCMPartialMock(textInputView);
-        
-        UIFont *font = [UIFont systemFontOfSize:10 weight:UIFontWeightSemibold];
-        
-        [[[partialMock expect] andDo:^(NSInvocation *invocation) {
-            __unsafe_unretained NSString *fontWeight;
-            
-            [invocation getArgument:&fontWeight atIndex:2];
-            
-            expect(fontWeight).to.equal(@"p {font-weight: 600;}");
-        }]setDefaultParagraphStyle:[OCMArg any]];
-        
-        //when
-        [partialMock setFont:font];
-        
-        //then
-        OCMVerify([partialMock setDefaultParagraphStyle:[OCMArg any]]);
-        
-        [partialMock stopMocking];
-    });
-    
-    
-    it(@"set font ultra light font", ^{
-        //given
-        //METextInputView *textInputView =//// [[METextInputView alloc]init];
-        id partialMock = OCMPartialMock(textInputView);
-        
-        UIFont *font = [UIFont systemFontOfSize:10 weight:kCTFontUIFontEmphasizedSystemDetail];
-        
-        [[[partialMock expect] andDo:^(NSInvocation *invocation) {
-            __unsafe_unretained NSString *fontWeight;
-            
-            [invocation getArgument:&fontWeight atIndex:2];
-            
-            expect(fontWeight).to.equal(@"p {font-weight: 700;}");
-        }]setDefaultParagraphStyle:[OCMArg any]];
-        
-        //when
-        [partialMock setFont:font];
-        
-        //then
-        OCMVerify([partialMock setDefaultParagraphStyle:[OCMArg any]]);
-        
-        [partialMock stopMocking];
-    });
- */
     it(@"set font heavy light font", ^{
         //given
 
@@ -421,7 +358,6 @@ describe(@"METextInputView", ^{
         //then
         OCMVerify([partialMock bringSubviewToFront:[OCMArg any]]);
         OCMVerify([partialMock setBackgroundColor:[OCMArg any]]);
-      //  OCMVerify([accesoryMock setTextView:[OCMArg any]]);
         OCMVerify([partialSolidBackground setBackgroundColor:[OCMArg any]]);
 
         expect(classUndertest.frame).to.equal(CGRectMake(0, 577, 375, 46));
@@ -446,7 +382,6 @@ describe(@"METextInputView", ^{
         
         [partialSUTMock stopMocking];
         [meApiManagerClassMock stopMocking];
-        
     });
 
 
@@ -455,9 +390,7 @@ it(@"send message positive case", ^{
         //given
         id accesoryClassMock = [OCMockObject mockForClass:[MEInputAccessoryView class]];
         [[[accesoryClassMock stub] andDo:nil] willMoveToSuperview:[OCMArg any]];
-        
-        //METextInputView *textInputView = [[METextInputView alloc]initWithFrame:CGRectMake(0, 0, 10, 10)];
-
+    
         DTRichTextEditorView *currentView = [[DTRichTextEditorView alloc]init];
         DTTextAttachment *text = [[DTTextAttachment alloc]init];
         text.attributes =  @{@"id" : @"952",
@@ -517,8 +450,7 @@ it(@"send message positive case", ^{
         id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
         
         [[[meApiManagerClassMock stub] andReturn:meApiManagerPartialMock] client];
-        
-        
+       
         [[[meApiManagerPartialMock expect] andDo:^(NSInvocation *invocation) {
             __unsafe_unretained NSMutableDictionary *dict;
             NSString *url;
@@ -547,7 +479,6 @@ it(@"send message positive case", ^{
         id accesoryPartialMock = [OCMockObject partialMockForObject:accesoryView];
         
         [[[accesoryPartialMock stub]andDo:nil]willMoveToSuperview:[OCMArg any]];
-        
        
         DTRichTextEditorView *currentView = [[DTRichTextEditorView alloc]init];
         currentView.attributedText = [[NSAttributedString alloc] initWithString:@"testString"];
@@ -556,7 +487,6 @@ it(@"send message positive case", ^{
         id meApiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
         
         [[[meApiManagerClassMock stub] andReturn:meApiManagerPartialMock] client];
-        
         
         [[[meApiManagerPartialMock expect] andDo:^(NSInvocation *invocation) {
             __unsafe_unretained NSMutableDictionary *dict;
@@ -902,7 +832,6 @@ it(@"send message positive case", ^{
         
         //then
         OCMVerify([inputTextviewClassMock convertSubstituteToHTML:[OCMArg any] options:[OCMArg any]]);
-        
     });
     
     it(@"convert substitued to HTML with font text color link style", ^{
@@ -933,7 +862,6 @@ it(@"send message positive case", ^{
         
         //then
         OCMVerify([inputTextviewClassMock convertSubstituteToHTML:[OCMArg any] options:[OCMArg any]]);
-
     });
     
     it(@"convert substitute to HTML options without options", ^{
@@ -948,7 +876,6 @@ it(@"send message positive case", ^{
         //then
 
         expect(resultString).to.equal([NSString stringWithFormat:@"%@%@%@" ,@"<p dir=\"auto\" style=\"font-family:'.SF UI Text';font-size:16px;\"><span style=\"color:#000000;\">",testString,@"</span></p>"]);
-
     });
     
     it(@"convert substitute to HTML options without options with textfont and color", ^{
