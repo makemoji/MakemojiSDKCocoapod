@@ -179,6 +179,33 @@ describe(@"MakemojiSDK.h", ^{
         [userInfo synchronize];
     });
     
+    it(@"unlock category new category", ^{
+        //given
+        id meapimanagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapimanagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        [[[meapimanagerClassMock stub]andReturn:meapimanagerPartialMock]client];
+        [[[meapimanagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            
+            __unsafe_unretained NSDictionary *dict;
+            
+            [invocation getArgument:&dict atIndex:3];
+            
+            expect(dict).equal(@{@"category_name": @"testgroup"});
+        }]POST:[OCMArg any] parameters:[OCMArg any] progress:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]];
+        
+        NSUserDefaults *userInfo = [[NSUserDefaults alloc] initWithSuiteName:@"MakemojiSDK"];
+        
+        //when
+        [MakemojiSDK unlockCategory:@"testgroup"];
+        NSArray *array = [MakemojiSDK unlockedGroups];
+        
+        //then
+        expect([array count]).to.equal(0);
+        
+        [userInfo setObject:[NSArray array] forKey:@"MEUnlockedGroups"];
+        [userInfo synchronize];
+    });
+    
     
     it(@"unlocked groups", ^{
        

@@ -224,6 +224,20 @@ describe(@"MEEmojiWall", ^{
         expect(classUndertest.categories).to.contain(trendingEmojiDict);
     });
     
+    it(@"view did load", ^{
+        //given
+        classUndertest.navigationCellClass = nil;
+        classUndertest.emojiSize = CGSizeMake(0, 0);
+        
+        //when
+        [classUndertest viewDidLoad];
+        
+        //then
+        expect(classUndertest.navigationCellClass).toNot.beNil();
+        expect(classUndertest.navigationCellClass).to.equal(@"MEEmojiWallNavigationCollectionViewCell");
+        expect(classUndertest.emojiSize).toNot.equal(CGSizeMake(0, 0));
+    });
+    
     afterEach(^{
         classUndertest = nil;
 
