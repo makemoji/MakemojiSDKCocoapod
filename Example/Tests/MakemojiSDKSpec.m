@@ -87,6 +87,106 @@ describe(@"MakemojiSDK.h", ^{
         [meapimanagerClassMock stopMocking];
     });
     
+    it(@"set channel", ^{
+        
+        //given
+        NSString *testChannel = @"testChannel";
+        
+        id meapiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapiManagerClassMock stub] andReturn:meapiManagerPartialMock]client];
+        
+        [[[meapiManagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *channelName;
+            
+            [invocation getArgument:&channelName atIndex:2];
+            
+            expect(channelName).to.equal(@"testChannel");
+            
+        }]setChannel:[OCMArg any]];
+        
+        //when
+        [MakemojiSDK setChannel:testChannel];
+        
+    });
+    
+    it(@"set channel empty string case", ^{
+        
+        //given
+        NSString *testChannel = @"";
+        
+        id meapiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapiManagerClassMock stub] andReturn:meapiManagerPartialMock]client];
+        
+        [[[meapiManagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *channelName;
+            
+            [invocation getArgument:&channelName atIndex:2];
+            
+            expect(channelName).to.equal(@"");
+            
+        }]setChannel:[OCMArg any]];
+        
+        //when
+        [MakemojiSDK setChannel:testChannel];
+        
+    });
+    
+    it(@"set channel special character case", ^{
+        
+        //given
+        NSString *testChannel = @"!#4%$Ñ~·";
+        
+        id meapiManagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapiManagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapiManagerClassMock stub] andReturn:meapiManagerPartialMock]client];
+        
+        [[[meapiManagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *channelName;
+            
+            [invocation getArgument:&channelName atIndex:2];
+            
+            expect(channelName).to.equal(@"!#4%$Ñ~·");
+            
+        }]setChannel:[OCMArg any]];
+        
+        //when
+        [MakemojiSDK setChannel:testChannel];
+        
+    });
+    
+    it(@"unlock category", ^{
+        //given
+        NSUserDefaults *userInfo = [[NSUserDefaults alloc] initWithSuiteName:@"MakemojiSDK"];
+        NSArray *arrayToSend = [NSArray arrayWithObject:@"testgroup"];
+        [userInfo setObject:arrayToSend forKey:@"MEUnlockedGroups"];
+        
+        [userInfo synchronize];
+        
+        
+        //when
+        [MakemojiSDK unlockCategory:@"testgroup"];
+        NSArray *array = [MakemojiSDK unlockedGroups];
+
+        //then
+        expect([array count]).to.equal(1);
+        
+        [userInfo setObject:[NSArray array] forKey:@"MEUnlockedGroups"];
+        [userInfo synchronize];
+    });
+    
+    
+    it(@"unlocked groups", ^{
+       
+        NSArray *array = [MakemojiSDK unlockedGroups];
+        
+        expect([array count]).to.equal(0);
+    });
+    
     afterEach(^{
         
     });
