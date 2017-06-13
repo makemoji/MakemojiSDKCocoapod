@@ -11,6 +11,8 @@
 		63635B541EEEF74400780EC4 /* MeInputAccessorySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63635B531EEEF74400780EC4 /* MeInputAccessorySpec.m */; };
 		6372C02D1EEB1536004C4868 /* MeInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */; };
 		6372C02F1EEB326A004C4868 /* MakemojiSDKSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */; };
+		63C93F491EF02C1100A8A339 /* MEChatTableViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C93F481EF02C1100A8A339 /* MEChatTableViewCellSpec.m */; };
+		63C93F4B1EF02E5B00A8A339 /* MECollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C93F4A1EF02E5B00A8A339 /* MECollectionViewCellSpec.m */; };
 		63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */; };
 		63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */; };
 		63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097E1EDF540D005A318A /* METextInputViewSpec.m */; };
@@ -47,6 +49,8 @@
 		63635B531EEEF74400780EC4 /* MeInputAccessorySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeInputAccessorySpec.m; sourceTree = "<group>"; };
 		6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeInputViewSpec.m; sourceTree = "<group>"; };
 		6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakemojiSDKSpec.m; sourceTree = "<group>"; };
+		63C93F481EF02C1100A8A339 /* MEChatTableViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEChatTableViewCellSpec.m; sourceTree = "<group>"; };
+		63C93F4A1EF02E5B00A8A339 /* MECollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MECollectionViewCellSpec.m; sourceTree = "<group>"; };
 		63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_MEUtilitiesSpec.m; sourceTree = "<group>"; };
 		63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEmojiWallSpec.m; sourceTree = "<group>"; };
 		63E1097E1EDF540D005A318A /* METextInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METextInputViewSpec.m; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 		63E2E2561ED64A22007597E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63C93F4A1EF02E5B00A8A339 /* MECollectionViewCellSpec.m */,
+				63C93F481EF02C1100A8A339 /* MEChatTableViewCellSpec.m */,
 				63635B531EEEF74400780EC4 /* MeInputAccessorySpec.m */,
 				6372C02E1EEB326A004C4868 /* MakemojiSDKSpec.m */,
 				6372C02C1EEB1536004C4868 /* MeInputViewSpec.m */,
@@ -433,8 +439,10 @@
 			files = (
 				6372C02D1EEB1536004C4868 /* MeInputViewSpec.m in Sources */,
 				63635B541EEEF74400780EC4 /* MeInputAccessorySpec.m in Sources */,
+				63C93F4B1EF02E5B00A8A339 /* MECollectionViewCellSpec.m in Sources */,
 				63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */,
 				6372C02F1EEB326A004C4868 /* MakemojiSDKSpec.m in Sources */,
+				63C93F491EF02C1100A8A339 /* MEChatTableViewCellSpec.m in Sources */,
 				63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */,
 				63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */,
 				63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */,

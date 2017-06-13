@@ -67,6 +67,18 @@ describe(@"METextInputView", ^{
         expect(haveEmoji).to.beFalsy();
         
     });
+    it(@"detect emoji message with no emoji case and special characters", ^{
+        
+        //given
+        NSString *messageWithNoEmoji = @"This is a message $!""·',.¢ ñÑ'";
+        
+        //when
+        BOOL haveEmoji = [METextInputView detectMakemojiMessage:messageWithNoEmoji];
+        
+        //then
+        expect(haveEmoji).to.beFalsy();
+        
+    });
     
     it(@"detect emoji message with emoji case", ^{
         //given
@@ -78,6 +90,30 @@ describe(@"METextInputView", ^{
         //then
         expect(haveEmoji).to.beTruthy();
 
+    });
+    
+    it(@"detect emoji message with emoji and special chars case", ^{
+        //given
+        NSString *messageWithNoEmoji = @"This is a message with $%·!! [~emoji~Ñ]";
+        
+        //when
+        BOOL haveEmoji = [METextInputView detectMakemojiMessage:messageWithNoEmoji];
+        
+        //then
+        expect(haveEmoji).to.beTruthy();
+        
+    });
+    
+    it(@"detect emoji message with empty string case", ^{
+        //given
+        NSString *messageWithNoEmoji = @"";
+        
+        //when
+        BOOL haveEmoji = [METextInputView detectMakemojiMessage:messageWithNoEmoji];
+        
+        //then
+        expect(haveEmoji).to.beFalsy();
+        
     });
     
     it(@"number of characters in substitute with no match", ^{
@@ -162,6 +198,30 @@ describe(@"METextInputView", ^{
         [classMock stopMocking];
         
     });
+    
+    it(@"set channel special string case", ^{
+        //given
+        MEAPIManager *apiManager = [MEAPIManager client];
+        apiManager.channel = @"channel";
+        id classMock = OCMClassMock([MakemojiSDK class]);
+        
+        [[[classMock expect]andDo:^(NSInvocation *invocation) {
+            __unsafe_unretained NSString *channelReceived;
+            [invocation getArgument:&channelReceived atIndex:2];
+            
+            expect(channelReceived).to.equal(@"%$ññ¢~");
+        }]setChannel:[OCMArg any]];
+        
+        //when
+        [classUndertest setChannel:@"%$ññ¢~"];
+        
+        //then
+        OCMVerify([classMock setChannel:[OCMArg any]]);
+        
+        [classMock stopMocking];
+        
+    });
+    
     
     it(@"set default font size less than 16 ", ^{
         

@@ -55,6 +55,66 @@ describe(@"MakemojiSDK.h", ^{
         [meapimanagerClassMock stopMocking];
     });
     
+    it(@"set SDK key empty string case", ^{
+        //given
+        id meapimanagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapimanagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapimanagerClassMock stub]andReturn:meapimanagerPartialMock] client];
+        
+        [[[meapimanagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *sdkKey;
+            
+            [invocation getArgument:&sdkKey atIndex:2];
+            
+            expect(sdkKey).to.equal(@"");
+        }]setSdkKey:[OCMArg any]];
+        
+        [[[meapimanagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *channel;
+            
+            [invocation getArgument:&channel atIndex:2];
+            
+            expect(channel).to.equal(@"wall");
+        }]cacheNameWithChannel:[OCMArg any]];
+        
+        //when
+        [MakemojiSDK setSDKKey:@""];
+        
+        [meapimanagerPartialMock stopMocking];
+        [meapimanagerClassMock stopMocking];
+    });
+    
+    it(@"set SDK key empty special characters case", ^{
+        //given
+        id meapimanagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
+        id meapimanagerPartialMock = [OCMockObject partialMockForObject:[MEAPIManager client]];
+        
+        [[[meapimanagerClassMock stub]andReturn:meapimanagerPartialMock] client];
+        
+        [[[meapimanagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *sdkKey;
+            
+            [invocation getArgument:&sdkKey atIndex:2];
+            
+            expect(sdkKey).to.equal(@"!#¢~l·");
+        }]setSdkKey:[OCMArg any]];
+        
+        [[[meapimanagerPartialMock expect]andDo:^(NSInvocation *invocation) {
+            NSString *channel;
+            
+            [invocation getArgument:&channel atIndex:2];
+            
+            expect(channel).to.equal(@"wall");
+        }]cacheNameWithChannel:[OCMArg any]];
+        
+        //when
+        [MakemojiSDK setSDKKey:@"!#¢~l·"];
+        
+        [meapimanagerPartialMock stopMocking];
+        [meapimanagerClassMock stopMocking];
+    });
+    
     it(@"set SDK key failure case", ^{
         //given
         id meapimanagerClassMock = [OCMockObject mockForClass:[MEAPIManager class]];
