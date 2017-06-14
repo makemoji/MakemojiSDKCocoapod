@@ -13,22 +13,22 @@ SpecBegin(MEChatTableViewCell)
 
 describe(@"MEChatTableViewCell.h", ^{
     
+    __block MEChatTableViewCell *classUnderTest;
     beforeAll(^{
         
     });
     
     beforeEach(^{
-        
+        [classUnderTest = [MEChatTableViewCell alloc]init];
     });
     
     it(@"cell max width", ^{
     
         //given
         CGFloat width = 100;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [chatCell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(6);
@@ -39,10 +39,9 @@ describe(@"MEChatTableViewCell.h", ^{
         
         //given
         CGFloat width = 0 ;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [chatCell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(-94);
@@ -52,10 +51,9 @@ describe(@"MEChatTableViewCell.h", ^{
         
         //given
         CGFloat width = -100 ;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [chatCell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(-194);
@@ -64,10 +62,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"height with initial size", ^{
         //given
         CGSize  size = CGSizeMake(100,100) ;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [chatCell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(132);
@@ -77,10 +74,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"height with initial size negative case", ^{
         //given
         CGSize  size = CGSizeMake(-100,-100) ;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [chatCell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(-68);
@@ -89,10 +85,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"height with initial 0 size case", ^{
         //given
         CGSize  size = CGSizeMake(0,0) ;
-        MEChatTableViewCell *chatCell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [chatCell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(32);
@@ -101,10 +96,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"suggested frame size to fit entire string constrainted to width", ^{
         //given
         CGFloat width = 100;
-        MEChatTableViewCell *cell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
         
         //then
         expect(receivedSize).to.equal(CGSizeMake(0, 0));
@@ -113,10 +107,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"suggested frame size to fit entire string constrainted to width 0 case", ^{
         //given
         CGFloat width = 0;
-        MEChatTableViewCell *cell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
 
         
         //then
@@ -126,10 +119,9 @@ describe(@"MEChatTableViewCell.h", ^{
     it(@"suggested frame size to fit entire string constrainted to width negative case", ^{
         //given
         CGFloat width = -100;
-        MEChatTableViewCell *cell = [[MEChatTableViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
 
         
         //then
@@ -137,7 +129,7 @@ describe(@"MEChatTableViewCell.h", ^{
     });
     
     afterEach(^{
-        
+        classUnderTest = nil;
     });
     
     afterAll(^{

@@ -16,6 +16,19 @@
 		63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097A1EDF2261005A318A /* NSString_MEUtilitiesSpec.m */; };
 		63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097C1EDF2286005A318A /* MEEmojiWallSpec.m */; };
 		63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E1097E1EDF540D005A318A /* METextInputViewSpec.m */; };
+		63E70F4D1EF1814600AEF0F1 /* MEEmojiWallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F4C1EF1814600AEF0F1 /* MEEmojiWallCollectionViewCell.m */; };
+		63E70F4F1EF1870800AEF0F1 /* MEEmojiWallNativeCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F4E1EF1870800AEF0F1 /* MEEmojiWallNativeCollectionViewCellSpec.m */; };
+		63E70F511EF189CE00AEF0F1 /* MEGifCategoryCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F501EF189CE00AEF0F1 /* MEGifCategoryCollectionViewCellSpec.m */; };
+		63E70F531EF18B6600AEF0F1 /* MEKeyboardCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F521EF18B6600AEF0F1 /* MEKeyboardCollectionViewCellSpec.m */; };
+		63E70F551EF18C1F00AEF0F1 /* MEMessageViewSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F541EF18C1F00AEF0F1 /* MEMessageViewSpec.m */; };
+		63E70F571EF18ECC00AEF0F1 /* MESimpleTableViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F561EF18ECC00AEF0F1 /* MESimpleTableViewCellSpec.m */; };
+		63E70F591EF19DDF00AEF0F1 /* MEFlashTagCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F581EF19DDF00AEF0F1 /* MEFlashTagCollectionViewCellSpec.m */; };
+		63E70F5B1EF1A2C200AEF0F1 /* MEFlashTagNativeCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F5A1EF1A2C200AEF0F1 /* MEFlashTagNativeCollectionViewCellSpec.m */; };
+		63E70F5D1EF1A88500AEF0F1 /* MEKeyboardPhraseCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F5C1EF1A88500AEF0F1 /* MEKeyboardPhraseCollectionViewCellSpec.m */; };
+		63E70F5F1EF1AC8C00AEF0F1 /* MELinkedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F5E1EF1AC8C00AEF0F1 /* MELinkedImageView.m */; };
+		63E70F611EF1B04300AEF0F1 /* MEPhraseCollectionViewCellSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F601EF1B04300AEF0F1 /* MEPhraseCollectionViewCellSpec.m */; };
+		63E70F631EF1B6FB00AEF0F1 /* MEReactionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F621EF1B6FB00AEF0F1 /* MEReactionCollectionViewCell.m */; };
+		63E70F651EF1BF4000AEF0F1 /* NSAttributedString_MoreExtensionsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E70F641EF1BF4000AEF0F1 /* NSAttributedString_MoreExtensionsSpec.m */; };
 		679AC70353F30271912C5D08 /* libPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDE699FF5843019AE6D40A90 /* libPods-Tests.a */; };
 		C6111E231C89144B0074981F /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C6111E221C89144B0074981F /* CustomTableViewCell.m */; };
 		C64A76731B449D350087F243 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C64A76721B449D350087F243 /* main.m */; };
@@ -56,6 +69,19 @@
 		63E1097E1EDF540D005A318A /* METextInputViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METextInputViewSpec.m; sourceTree = "<group>"; };
 		63E2E2551ED64A22007597E2 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E2E2591ED64A22007597E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63E70F4C1EF1814600AEF0F1 /* MEEmojiWallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEmojiWallCollectionViewCell.m; sourceTree = "<group>"; };
+		63E70F4E1EF1870800AEF0F1 /* MEEmojiWallNativeCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEmojiWallNativeCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F501EF189CE00AEF0F1 /* MEGifCategoryCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEGifCategoryCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F521EF18B6600AEF0F1 /* MEKeyboardCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEKeyboardCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F541EF18C1F00AEF0F1 /* MEMessageViewSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMessageViewSpec.m; sourceTree = "<group>"; };
+		63E70F561EF18ECC00AEF0F1 /* MESimpleTableViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESimpleTableViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F581EF19DDF00AEF0F1 /* MEFlashTagCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFlashTagCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F5A1EF1A2C200AEF0F1 /* MEFlashTagNativeCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFlashTagNativeCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F5C1EF1A88500AEF0F1 /* MEKeyboardPhraseCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEKeyboardPhraseCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F5E1EF1AC8C00AEF0F1 /* MELinkedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MELinkedImageView.m; sourceTree = "<group>"; };
+		63E70F601EF1B04300AEF0F1 /* MEPhraseCollectionViewCellSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPhraseCollectionViewCellSpec.m; sourceTree = "<group>"; };
+		63E70F621EF1B6FB00AEF0F1 /* MEReactionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEReactionCollectionViewCell.m; sourceTree = "<group>"; };
+		63E70F641EF1BF4000AEF0F1 /* NSAttributedString_MoreExtensionsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_MoreExtensionsSpec.m; sourceTree = "<group>"; };
 		6A2F6B377041E2AFAF542ADD /* Pods-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tests/Pods-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		712FE6E88CDEE016C91C7394 /* libPods-MakemojiSDKDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MakemojiSDKDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B195B8948F9448480D53CA61 /* Pods-MakemojiSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakemojiSDKDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MakemojiSDKDemo/Pods-MakemojiSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +143,19 @@
 		63E2E2561ED64A22007597E2 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63E70F641EF1BF4000AEF0F1 /* NSAttributedString_MoreExtensionsSpec.m */,
+				63E70F621EF1B6FB00AEF0F1 /* MEReactionCollectionViewCell.m */,
+				63E70F601EF1B04300AEF0F1 /* MEPhraseCollectionViewCellSpec.m */,
+				63E70F5E1EF1AC8C00AEF0F1 /* MELinkedImageView.m */,
+				63E70F5C1EF1A88500AEF0F1 /* MEKeyboardPhraseCollectionViewCellSpec.m */,
+				63E70F5A1EF1A2C200AEF0F1 /* MEFlashTagNativeCollectionViewCellSpec.m */,
+				63E70F581EF19DDF00AEF0F1 /* MEFlashTagCollectionViewCellSpec.m */,
+				63E70F561EF18ECC00AEF0F1 /* MESimpleTableViewCellSpec.m */,
+				63E70F541EF18C1F00AEF0F1 /* MEMessageViewSpec.m */,
+				63E70F521EF18B6600AEF0F1 /* MEKeyboardCollectionViewCellSpec.m */,
+				63E70F501EF189CE00AEF0F1 /* MEGifCategoryCollectionViewCellSpec.m */,
+				63E70F4E1EF1870800AEF0F1 /* MEEmojiWallNativeCollectionViewCellSpec.m */,
+				63E70F4C1EF1814600AEF0F1 /* MEEmojiWallCollectionViewCell.m */,
 				63C93F4A1EF02E5B00A8A339 /* MECollectionViewCellSpec.m */,
 				63C93F481EF02C1100A8A339 /* MEChatTableViewCellSpec.m */,
 				63635B531EEEF74400780EC4 /* MeInputAccessorySpec.m */,
@@ -437,15 +476,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E70F631EF1B6FB00AEF0F1 /* MEReactionCollectionViewCell.m in Sources */,
+				63E70F611EF1B04300AEF0F1 /* MEPhraseCollectionViewCellSpec.m in Sources */,
+				63E70F511EF189CE00AEF0F1 /* MEGifCategoryCollectionViewCellSpec.m in Sources */,
 				6372C02D1EEB1536004C4868 /* MeInputViewSpec.m in Sources */,
 				63635B541EEEF74400780EC4 /* MeInputAccessorySpec.m in Sources */,
 				63C93F4B1EF02E5B00A8A339 /* MECollectionViewCellSpec.m in Sources */,
+				63E70F5B1EF1A2C200AEF0F1 /* MEFlashTagNativeCollectionViewCellSpec.m in Sources */,
 				63E1097D1EDF2286005A318A /* MEEmojiWallSpec.m in Sources */,
+				63E70F531EF18B6600AEF0F1 /* MEKeyboardCollectionViewCellSpec.m in Sources */,
 				6372C02F1EEB326A004C4868 /* MakemojiSDKSpec.m in Sources */,
+				63E70F591EF19DDF00AEF0F1 /* MEFlashTagCollectionViewCellSpec.m in Sources */,
+				63E70F5D1EF1A88500AEF0F1 /* MEKeyboardPhraseCollectionViewCellSpec.m in Sources */,
 				63C93F491EF02C1100A8A339 /* MEChatTableViewCellSpec.m in Sources */,
+				63E70F651EF1BF4000AEF0F1 /* NSAttributedString_MoreExtensionsSpec.m in Sources */,
 				63E1097F1EDF540D005A318A /* METextInputViewSpec.m in Sources */,
+				63E70F4F1EF1870800AEF0F1 /* MEEmojiWallNativeCollectionViewCellSpec.m in Sources */,
+				63E70F4D1EF1814600AEF0F1 /* MEEmojiWallCollectionViewCell.m in Sources */,
+				63E70F5F1EF1AC8C00AEF0F1 /* MELinkedImageView.m in Sources */,
+				63E70F571EF18ECC00AEF0F1 /* MESimpleTableViewCellSpec.m in Sources */,
 				63375BE21ED8CBBE00F108D3 /* _ApiManagerSpec.m in Sources */,
 				63E1097B1EDF2261005A318A /* NSString_MEUtilitiesSpec.m in Sources */,
+				63E70F551EF18C1F00AEF0F1 /* MEMessageViewSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

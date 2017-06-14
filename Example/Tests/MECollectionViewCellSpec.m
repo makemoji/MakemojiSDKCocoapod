@@ -14,21 +14,22 @@ SpecBegin(MECollectionViewCell)
 
 describe(@"MECollectionViewCell", ^{
     
+    __block MECollectionViewCell *classUnderTest;
+    
     beforeAll(^{
         
     });
     
     beforeEach(^{
-        
+        classUnderTest = [[MECollectionViewCell alloc]init];
     });
     
     it(@"cell max width", ^{
         //given
         CGFloat width = 100;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [cell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(100);
@@ -37,10 +38,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"cell max width negative case", ^{
         //given
         CGFloat width = -100;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [cell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(-100);
@@ -49,10 +49,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"cell max width 0 case", ^{
         //given
         CGFloat width = 0;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedWidth = [cell cellMaxWidth:width];
+        CGFloat receivedWidth = [classUnderTest cellMaxWidth:width];
         
         //then
         expect(receivedWidth).to.equal(0);
@@ -61,10 +60,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"height with initial size", ^{
         //given
         CGSize  size = CGSizeMake(100,100) ;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [cell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(100);
@@ -73,10 +71,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"height with initial size negative case", ^{
         //given
         CGSize  size = CGSizeMake(-100,-100) ;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [cell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(-100);
@@ -85,10 +82,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"height with initial size negative case", ^{
         //given
         CGSize  size = CGSizeMake(0,0) ;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGFloat receivedSize = [cell heightWithInitialSize:size];
+        CGFloat receivedSize = [classUnderTest heightWithInitialSize:size];
         
         //then
         expect(receivedSize).to.equal(0);
@@ -97,10 +93,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"suggested frame size to fit entire string constrainted to width", ^{
         //given
         CGFloat width = 100;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
         
         //then
         expect(receivedSize).to.equal(CGSizeMake(0, 0));
@@ -109,10 +104,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"suggested frame size to fit entire string constrainted to width 0 case", ^{
         //given
         CGFloat width = 0;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
         
         //then
         expect(receivedSize).to.equal(CGSizeMake(0, 0));
@@ -121,10 +115,9 @@ describe(@"MECollectionViewCell", ^{
     it(@"suggested frame size to fit entire string constrainted to width negative case", ^{
         //given
         CGFloat width = -100;
-        MECollectionViewCell *cell = [[MECollectionViewCell alloc]init];
         
         //when
-        CGSize receivedSize = [cell suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
+        CGSize receivedSize = [classUnderTest suggestedFrameSizeToFitEntireStringConstraintedToWidth:width];
         
         //then
         expect(receivedSize).to.equal(CGSizeMake(0, 0));
