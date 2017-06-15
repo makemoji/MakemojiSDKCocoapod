@@ -40,10 +40,16 @@
 
 -(NSString *)cacheNameWithChannel:(NSString *)cacheName {
     NSString * separator = @"-";
+    NSString * cacheChannelName = @"";
     if ([self.channel length] == 0) {
         separator = @"";
     }
-    return [NSString stringWithFormat:@"%@%@%@.json", self.channel, separator, cacheName];
+
+    if ([self.channel length] > 0) {
+        cacheChannelName = [self.channel stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    }
+    
+    return [NSString stringWithFormat:@"%@%@%@.json", cacheChannelName, separator, cacheName];
 }
 
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request
