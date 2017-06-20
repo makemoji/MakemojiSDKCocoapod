@@ -12,6 +12,7 @@
 
 NSString *const MECategoryUnlockedSuccessNotification = @"MECategoryUnlockedSuccessNotification";
 NSString *const MECategoryUnlockedFailedNotification = @"MECategoryUnlockedFailedNotification";
+NSString *const MECategorySelectedLockedCategory = @"MECategorySelectedLockedCategory";
 NSString *const MEHypermojiLinkClicked = @"MEHypermojiLinkClicked";
 NSString *const MEHyperlinkClicked = @"MEHyperlinkClicked";
 

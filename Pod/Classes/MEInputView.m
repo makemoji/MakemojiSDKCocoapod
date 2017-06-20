@@ -48,6 +48,7 @@
         self.categoryEmoji = [NSMutableDictionary dictionary];
         self.categories = [NSMutableArray array];
         self.gifCategories = [NSMutableArray array];
+        self.lockedImagePath = @"";
         
         CGFloat inputHeight = 216;
         CGFloat collectionHeight = 180;
@@ -386,7 +387,7 @@
         if (locked != nil && [locked isEqualToNumber:[NSNumber numberWithInteger:1]]) {
             if (![self.unlockedGroups containsObject:[[self.categories objectAtIndex:indexPath.row] objectForKey:@"name"]]) {
                 NSDictionary *userInfo = @{@"category": [[self.categories objectAtIndex:indexPath.row] objectForKey:@"name"]};
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"MECategorySelectedLockedCategory" object:nil userInfo:userInfo];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MECategorySelectedLockedCategory object:nil userInfo:userInfo];
                 return;
             }
         }
@@ -552,13 +553,26 @@
     
     if (collectionView == self.collectionView) {
         MECategoryCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Category" forIndexPath:indexPath];
+        NSDictionary * cat = [self.categories objectAtIndex:indexPath.row];
         [photoCell setBackgroundColor:[UIColor clearColor]];
         photoCell.imageView.image = nil;
-        [photoCell.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.categories objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
+        [photoCell.imageView sd_setImageWithURL:[NSURL URLWithString:[cat objectForKey:@"image_url"]]
                             placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         photoCell.titleLabel.font = [UIFont systemFontOfSize:13];
         photoCell.titleLabel.textColor = [UIColor colorWithWhite:0.65 alpha:1];
-        photoCell.titleLabel.text = [[[self.categories objectAtIndex:indexPath.row] objectForKey:@"name"] uppercaseString];
+        photoCell.titleLabel.text = [[cat objectForKey:@"name"] uppercaseString];
+
+        if ([cat objectForKey:@"locked"] &&
+            [[cat objectForKey:@"locked"] boolValue] == YES &&
+            [self.unlockedGroups containsObject:[cat objectForKey:@"name"]] == NO)
+        {
+            photoCell.lockedImageView.hidden = NO;
+            photoCell.lockedImageView.image = [UIImage imageNamed:self.lockedImagePath];
+        } else {
+            photoCell.lockedImageView.hidden = YES;
+            photoCell.lockedImageView.image = nil;
+        }
+        
         return photoCell;
     }
  

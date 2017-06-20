@@ -20,6 +20,7 @@
 @property (nonatomic) UICollectionView *collectionView;
 @property (nonatomic) UICollectionView *emojiView;
 @property (nonatomic) UICollectionView *gifCategoryView;
+@property (nonatomic) NSString * lockedImagePath;
 
 - (void)goBack;
 - (void)selectSection:(NSString *)section;

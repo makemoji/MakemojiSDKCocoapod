@@ -12,6 +12,7 @@
 // unlocking notification names
 extern NSString *const MECategoryUnlockedSuccessNotification;
 extern NSString *const MECategoryUnlockedFailedNotification;
+extern NSString *const MECategorySelectedLockedCategory;
 
 // notification thrown when a hypermoji is tapped
 extern NSString *const MEHypermojiLinkClicked;

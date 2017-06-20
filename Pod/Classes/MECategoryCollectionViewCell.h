@@ -12,5 +12,6 @@
 
 @property (nonatomic) UIImageView *imageView;
 @property (nonatomic) UILabel *titleLabel;
+@property (nonatomic) UIImageView * lockedImageView;
 
 @end
