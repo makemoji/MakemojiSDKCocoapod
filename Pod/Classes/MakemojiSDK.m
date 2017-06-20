@@ -36,7 +36,7 @@ NSString *const MEHyperlinkClicked = @"MEHyperlinkClicked";
 
     }];
 
-    [[SDImageCache sharedImageCache] setMaxCacheAge:INT_MAX];
+    //[[SDImageCache sharedImageCache] setMaxCacheAge:INT_MAX];
     
 }
 

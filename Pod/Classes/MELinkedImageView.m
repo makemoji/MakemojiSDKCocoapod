@@ -37,9 +37,9 @@
     self.imageContentUrl = [NSURL URLWithString:imageUrl];
 
     NSString * path = @"MEPlaceholder";
-    if ([[SDImageCache sharedImageCache]diskImageExistsWithKey:self.imageContentUrl.absoluteString]) {
-        path = [[SDImageCache sharedImageCache] defaultCachePathForKey:self.imageContentUrl.absoluteString];
-    }
+//    if ([[SDImageCache sharedImageCache]diskImageExistsWithKey:self.imageContentUrl.absoluteString]) {
+//        path = [[SDImageCache sharedImageCache] defaultCachePathForKey:self.imageContentUrl.absoluteString];
+//    }
 
     [self.imageView sd_setImageWithURL:self.imageContentUrl
                       placeholderImage:[UIImage imageNamed:path]

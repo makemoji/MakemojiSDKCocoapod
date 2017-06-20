@@ -68,7 +68,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         self.disableIntroAnimation = NO;
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         frame = CGRectMake(0, screenBounds.size.height-90, screenBounds.size.width, 90);
-        [[SDImageCache sharedImageCache] setMaxCacheAge:INT_MAX];
+        //[[SDImageCache sharedImageCache] setMaxCacheAge:INT_MAX];
         
         self.offscreenCells = [NSMutableDictionary dictionary];
         self.cachedHeights = [NSMutableArray array];
