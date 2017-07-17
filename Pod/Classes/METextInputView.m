@@ -739,7 +739,6 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
                 accessoryheight = 0;
                 self.meAccessory.titleLabel.hidden = YES;
                 self.meAccessory.flashtagCollectionView.hidden = YES;
-                [self.meAccessory resetFlashtags];
             } else {
                 if ([self.meAccessory.currentToggle isEqualToString:@""] || [self.meAccessory.currentToggle isEqualToString:@"flashtag"]) {
                     if ([self.meAccessory.currentToggle isEqualToString:@"flashtag"]) {
