@@ -94,7 +94,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         
         self.textInputContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 44)];
         [self.textInputContainerView setClipsToBounds:NO];
-        self.textInputContainerView.backgroundColor = [UIColor colorWithWhite:0.93 alpha:1];
+        self.textInputContainerView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
         
         self.textView = [[DTRichTextEditorView alloc] initWithFrame:CGRectMake(self.cameraButton.frame.origin.x+self.cameraButton.frame.size.width+12, 0, self.frame.size.width-self.sendButton.frame.size.width-self.cameraButton.frame.size.width-36, 44)];
         self.textView.attributedTextContentView.edgeInsets = UIEdgeInsetsMake(12, 10, 12, 10);
@@ -122,7 +122,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         self.textOverlayImageView = [[UIImageView alloc] initWithImage:tintableImage];
         self.textOverlayImageView.frame = CGRectMake(self.cameraButton.frame.origin.x+self.cameraButton.frame.size.width+12, 0, self.frame.size.width-self.sendButton.frame.size.width-36-self.cameraButton.frame.size.width, 40);
         self.textOverlayImageView.translatesAutoresizingMaskIntoConstraints = YES;
-        self.textOverlayImageView.tintColor = [UIColor colorWithWhite:0.93 alpha:1];
+        self.textOverlayImageView.tintColor = [UIColor colorWithWhite:1 alpha:1];
         self.textOverlayImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.textOverlayImageView.opaque = YES;
         self.textOverlayImageView.tintAdjustmentMode = UIViewTintAdjustmentModeNormal;

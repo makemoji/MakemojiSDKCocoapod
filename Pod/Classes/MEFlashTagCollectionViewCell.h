@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MEEmojiButton.h"
 
-@interface MEFlashTagCollectionViewCell : UICollectionViewCell
-@property (nonatomic) UIImageView *imageView;
-@property (nonatomic) UILabel *flashTagLabel;
-@property (nonatomic) NSString *currentInput;
-@property (nonatomic) NSString *flashTag;
-@property (nonatomic) UIView *rightSpacer;
-@property (nonatomic) UIView *leftSpacer;
+@interface MEFlashTagCollectionViewCell : UICollectionViewCell <MEEmojiButtonDelegate>
 
-- (void)setData:(NSDictionary *)data;
+@property MEEmojiButton *inputButton;
+
+- (void)startLinkAnimation;
 @end

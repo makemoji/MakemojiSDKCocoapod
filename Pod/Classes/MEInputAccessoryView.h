@@ -38,7 +38,6 @@
 - (void)didSelectGif:(NSDictionary *)gif;
 - (void)didSelectCategory;
 - (void)deleteButtonTapped;
-- (void)resetFlashtags;
 - (void)setTextView:(id)textView;
 - (void)textViewDidBeginEditing:(id)textView;
 - (void)textViewDidEndEditing:(id)textView;
@@ -49,6 +48,3 @@
 - (void)setNavigationHighlightColor:(UIColor *)color;
 - (void)loadData;
 @end
-
-
-

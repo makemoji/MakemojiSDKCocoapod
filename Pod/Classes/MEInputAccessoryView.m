@@ -20,11 +20,7 @@
 @property (nonatomic, weak) DTRichTextEditorView *currentView;
 @property (nonatomic) NSMutableArray *flashTags;
 @property (nonatomic) NSMutableString *plainText;
-@property (nonatomic) NSMutableArray *usedFlashtags;
 @property (nonatomic) NSMutableArray *lastFlashTag;
-@property (nonatomic) BOOL hasShuffled;
-@property NSString *currentFlashtagSearch;
-@property BOOL flashtagDetected;
 @property UITextRange *flashStartRange;
 @property (nonatomic) UIView *containerView;
 @property UIView *leftBackgroundView;
@@ -58,13 +54,12 @@
         self.expanded = NO;
         self.flashtagOnly = NO;
         self.currentToggle = @"";
-        self.flashtagDetected = NO;
         self.disableNavigation = NO;
         self.disableSearch = NO;
         self.flashTags = [NSMutableArray array];
         self.highlightColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1];
         self.clipsToBounds = YES;
-
+        
         CGFloat inputHeight = 216;
         CGFloat collectionHeight = 180;
         if ([[UIScreen mainScreen] bounds].size.height >= 736.0) {
@@ -75,9 +70,9 @@
         
         self.meInputView = [[MEInputView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, inputHeight)];
         self.meInputView.delegate = self;
- 
         
-        [self setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1]];
+        
+        [self setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
         self.translatesAutoresizingMaskIntoConstraints = YES;
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         
@@ -87,11 +82,11 @@
         [self.containerView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth];
         
         
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        [gradient setName:@"grad"];
-        gradient.frame = self.containerView.bounds;
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1] CGColor], (id)[[UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1.0] CGColor], nil];
-        [self.containerView.layer insertSublayer:gradient atIndex:0];
+        //        CAGradientLayer *gradient = [CAGradientLayer layer];
+        //        [gradient setName:@"grad"];
+        //        gradient.frame = self.containerView.bounds;
+        //        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1] CGColor], (id)[[UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1.0] CGColor], nil];
+        //        [self.containerView.layer insertSublayer:gradient atIndex:0];
         
         CALayer * lineLayer = [CALayer layer];
         [lineLayer setName:@"line"];
@@ -102,22 +97,24 @@
         
         self.leftBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight)];
         self.leftBackgroundView.backgroundColor = [UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1.0];
-        CAGradientLayer * gradient2 = [CAGradientLayer layer];
-        [gradient2 setName:@"grad2"];
-        gradient2.frame = self.leftBackgroundView.bounds;
-        gradient2.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1] CGColor], (id)[[UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1.0] CGColor], nil];
-        [self.leftBackgroundView.layer insertSublayer:gradient2 atIndex:0];
+        //        CAGradientLayer * gradient2 = [CAGradientLayer layer];
+        //        [gradient2 setName:@"grad2"];
+        //        gradient2.frame = self.leftBackgroundView.bounds;
+        //        gradient2.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1] CGColor], (id)[[UIColor colorWithRed:0.86 green:0.86 blue:0.86 alpha:1.0] CGColor], nil];
+        //        [self.leftBackgroundView.layer insertSublayer:gradient2 atIndex:0];
         
         [self.leftBackgroundView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth];
         
         
         self.flashtagButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.flashtagButton setImage:[UIImage imageNamed:@"Makemoji.bundle/MESearchIcon" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
+        [self.flashtagButton setImage:[UIImage imageNamed:@"Makemoji.bundle/METoggleButton" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] forState:UIControlStateNormal];
         self.flashtagButton.accessibilityLabel = @"Search";
         [self.flashtagButton setTintColor:[UIColor darkGrayColor]];
         [self.flashtagButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
         [self.flashtagButton setFrame:CGRectMake(120, 0, 39, self.collapsedHeight)];
         [self.flashtagButton addTarget:self action:@selector(flashtagTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.flashtagButton setBackgroundColor:[UIColor whiteColor]];
+        
         self.flashtagButton.contentEdgeInsets = UIEdgeInsetsMake(12.5, 7.5, 12.5, 7.5);
         
         
@@ -154,13 +151,13 @@
         self.gridButton.contentEdgeInsets = UIEdgeInsetsMake(12.5, 7.5, 12.5, 7.5);
         
         self.plainText = [[NSMutableString alloc] initWithString:@""];
-        self.usedFlashtags = [NSMutableArray array];
+        
         
         [self.containerView addSubview:self.flashtagButton];
         [self.containerView addSubview:self.favoriteButton];
         [self.containerView addSubview:self.trendingButton];
         [self.containerView addSubview:self.gridButton];
-
+        
         UIPanGestureRecognizer * swipeGestureRight = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeNav:)];
         [self.containerView addGestureRecognizer:swipeGestureRight];
         
@@ -190,32 +187,6 @@
         [self addSubview:self.titleLabel];
         
         
-        UICollectionViewFlowLayout * newLayout3 = [[UICollectionViewFlowLayout alloc] init];
-        newLayout3.itemSize = CGSizeMake((frame.size.width/3),34);
-        
-        [newLayout3 setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        newLayout3.minimumInteritemSpacing = 2;
-        newLayout3.minimumLineSpacing = 2;
-        self.flashtagCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.leftSideWidth, frame.size.width-self.leftSideWidth, self.collapsedHeight) collectionViewLayout:newLayout3];
-        [self.flashtagCollectionView setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1]];
-        self.flashtagCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        [self.flashtagCollectionView setShowsHorizontalScrollIndicator:NO];
-        [self.flashtagCollectionView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-        [self.flashtagCollectionView registerClass:[MEFlashTagCollectionViewCell class] forCellWithReuseIdentifier:@"Flashtag"];
-        [self.flashtagCollectionView registerClass:[MEFlashTagNativeCollectionViewCell class] forCellWithReuseIdentifier:@"Native"];
-        //[self.flashtagCollectionView registerClass:[MEPhraseCollectionViewCell class] forCellWithReuseIdentifier:@"Phrase"];
-        
-        [self.flashtagCollectionView setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
-        self.flashtagCollectionView.allowsMultipleSelection = NO;
-        self.flashtagCollectionView.pagingEnabled = YES;
-        [self.flashtagCollectionView setDelegate:self];
-        
-        self.flashtagCollectionView.dataSource = self;
-        [self addSubview:self.flashtagCollectionView];
-        [self bringSubviewToFront:self.flashtagCollectionView];
-        self.flashtagCollectionView.hidden = YES;
-        
-        
         UICollectionViewFlowLayout * newLayout2 = [[UICollectionViewFlowLayout alloc] init];
         CGFloat modifier = 8;
         if (self.frame.size.width <= 320) {
@@ -227,7 +198,7 @@
         newLayout2.minimumInteritemSpacing = 0;
         newLayout2.minimumLineSpacing = 0;
         self.emojiView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, self.leftSideWidth, frame.size.width-self.leftSideWidth, self.collapsedHeight) collectionViewLayout:newLayout2];
-        [self.emojiView setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1]];
+        [self.emojiView setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1]];
         
         
         self.emojiView.contentInset = UIEdgeInsetsMake(4, 0, 0, 0);
@@ -235,7 +206,9 @@
         self.emojiView.allowsMultipleSelection = NO;
         [self.emojiView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.emojiView registerClass:[MEKeyboardCollectionViewCell class] forCellWithReuseIdentifier:@"Emoji"];
-        [self.emojiView setBackgroundColor:[UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1.0]];
+        [self.emojiView registerClass:[MEKeyboardCollectionViewCell class] forCellWithReuseIdentifier:@"Flashtag"];
+        [self.emojiView registerClass:[MEFlashTagNativeCollectionViewCell class] forCellWithReuseIdentifier:@"Native"];
+        [self.emojiView setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:1.0]];
         self.emojiView.pagingEnabled = NO;
         [self.emojiView setDelegate:self];
         
@@ -253,7 +226,6 @@
         }
         
         self.emojiView.frame = CGRectMake(68, 0, self.frame.size.width-self.leftSideWidth, self.containerView.frame.size.height);
-        self.flashtagCollectionView.frame = CGRectMake(68, 0, self.frame.size.width-self.leftSideWidth, self.containerView.frame.size.height);
         self.containerView.frame = CGRectMake(-96, 0, 159, self.containerView.frame.size.height);
         
     }
@@ -283,7 +255,7 @@
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     
     self.emojiWallTask = [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-
+        
         NSError * error;
         NSData * jsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:kNilOptions error:&error];
         NSString *path = [[self applicationDocumentsDirectory].path
@@ -293,7 +265,7 @@
                                               attributes:nil];
         
         if ([responseObject objectForKey:@"Trending"] && [[responseObject objectForKey:@"Trending"] count] > 0) {
-
+            
             self.trendingEmoji = [responseObject objectForKey:@"Trending"];
             __weak MEInputAccessoryView * weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -303,6 +275,7 @@
         }
         
         NSArray * allKeys = [responseObject allKeys];
+        
         for (NSString * cat in allKeys) {
             if (![cat isEqualToString:@"Trending"] && ![cat isEqualToString:@"Used"]) {
                 NSArray * catArr = [responseObject objectForKey:cat];
@@ -311,14 +284,14 @@
                 }
             }
         }
-        
+        //NSLog(@"%@", self.flashTags);
         [self.meInputView loadData];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         //NSLog(@"Error: %@", error);
     }];
     
-
+    
     
 }
 
@@ -355,6 +328,11 @@
 
 -(void)setDisableNavigation:(BOOL)disableNavigation {
     _disableNavigation = disableNavigation;
+    if (disableNavigation == YES) {
+        self.leftSideWidth = 0;
+    } else {
+        self.leftSideWidth = 44;
+    }
 }
 
 -(BOOL)disableNavigation {
@@ -405,6 +383,7 @@
     if (self.flashtagOnly == YES || self.disableNavigation == YES) {
         return;
     }
+    self.expanded = NO;
     self.emojiView.scrollEnabled = YES;
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^ {
         self.containerView.frame = CGRectMake(-118, 0, 159, self.containerView.frame.size.height);
@@ -416,10 +395,10 @@
             }
         }
         self.currentToggle = @"";
-        
+        self.flashtagButton.transform = CGAffineTransformMakeRotation(0);
         [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
         [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
+        [self.flashtagButton setBackgroundColor:[UIColor whiteColor]];
         [self.gridButton setBackgroundColor:[UIColor clearColor]];
         self.backButton.alpha = 0;
         [CATransaction begin];
@@ -429,7 +408,6 @@
         [self.currentView reloadInputViews];
         self.leftBackgroundView.frame = CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight);
         self.emojiView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
-        self.flashtagCollectionView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
     } completion:^(BOOL finished) {
         
     }];
@@ -438,27 +416,30 @@
 -(void)expandAnimation {
     if (self.flashtagOnly == YES || self.disableNavigation == YES) { return; }
     if (self.containerView.frame.origin.x != (self.frame.size.width/2)-(159/2)) {
-        
+        self.expanded = YES;
         self.leftBackgroundView.frame = CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight);
         self.emojiView.bounces = NO;
-        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^ {
-            
-            self.containerView.frame = CGRectMake((self.frame.size.width/2)-(159/2), 0, 219, self.containerView.frame.size.height);
-            for (CALayer * layer in [self.containerView.layer sublayers]) {
-                if ([layer.name isEqualToString:@"grad"]) {
-                    layer.frame = self.containerView.bounds;
-                } else if ([layer.name isEqualToString:@"line"]) {
-                    layer.frame = CGRectMake(218, 0, 1, self.collapsedHeight);
-                }
-            }
-            
-            self.leftBackgroundView.frame = CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight);
-            //self.containerView.center = self.center;
-            self.emojiView.frame = CGRectMake(self.containerView.frame.size.width+self.containerView.frame.origin.x, 0, self.frame.size.width, self.collapsedHeight);
-            self.flashtagCollectionView.frame = CGRectMake(self.containerView.frame.size.width+self.containerView.frame.origin.x, 0, self.frame.size.width, self.collapsedHeight);
-        } completion:^(BOOL finished) {
-            self.emojiView.bounces = YES;
-        }];
+        self.flashtagButton.backgroundColor = [UIColor clearColor];
+        [UIView animateWithDuration:0.5 delay:0
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:5
+                            options:UIViewAnimationOptionCurveEaseInOut animations:^ {
+                                self.flashtagButton.transform = CGAffineTransformMakeRotation(M_PI * 0.999);
+                                self.containerView.frame = CGRectMake((self.frame.size.width/2)-(159/2), 0, 219, self.containerView.frame.size.height);
+                                for (CALayer * layer in [self.containerView.layer sublayers]) {
+                                    if ([layer.name isEqualToString:@"grad"]) {
+                                        layer.frame = self.containerView.bounds;
+                                    } else if ([layer.name isEqualToString:@"line"]) {
+                                        layer.frame = CGRectMake(218, 0, 1, self.collapsedHeight);
+                                    }
+                                }
+                                
+                                self.leftBackgroundView.frame = CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight);
+                                //self.containerView.center = self.center;
+                                self.emojiView.frame = CGRectMake(self.containerView.frame.size.width+self.containerView.frame.origin.x, 0, self.frame.size.width, self.collapsedHeight);
+                            } completion:^(BOOL finished) {
+                                self.emojiView.bounces = YES;
+                            }];
     }
     
 }
@@ -548,7 +529,6 @@
     
     self.leftBackgroundView.frame = CGRectMake(self.containerView.frame.origin.x-200, 0, 200, self.collapsedHeight);
     self.emojiView.frame = CGRectMake(self.containerView.frame.size.width+self.containerView.frame.origin.x, 0, self.frame.size.width, self.collapsedHeight);
-    self.flashtagCollectionView.frame = CGRectMake(self.containerView.frame.size.width+self.containerView.frame.origin.x, 0, self.frame.size.width, self.collapsedHeight);
     
 }
 
@@ -595,22 +575,14 @@
     self.emojiWallTask = nil;
     self.meInputView = nil;
     self.emojiView.delegate = nil;
-    self.flashtagCollectionView.delegate = nil;
 }
 
--(void)resetFlashtags {
-    self.currentToggle = @"";
-    self.flashtagDetected = NO;
-    self.flashStartRange = nil;
-    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-    self.lastFlashTag = [NSMutableArray array];
-}
 
 -(void)globeButtonTapped {
     self.currentToggle = @"";
     [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
     [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
+    //[self.flashtagButton setBackgroundColor:[UIColor clearColor]];
     [self.gridButton setBackgroundColor:[UIColor clearColor]];
     self.backButton.alpha = 0;
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.expandedHeight);
@@ -648,7 +620,7 @@
 }
 
 -(void)didSelectGif:(NSDictionary *)gif {
-   
+    
     NSString * link = @"";
     link = @"";
     if ([gif objectForKey:@"link_url"] != [NSNull null]) {
@@ -661,13 +633,13 @@
                                   @"id" : [[gif objectForKey:@"id"] stringValue],
                                   @"name" : @"gif", @"link" : link
                                   };
-
+    
     
     DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
     DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
     imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
     [self.currentView replaceRange:self.currentView.selectedTextRange withAttachment:imageAttachment inParagraph:NO];
-
+    
     if ([self.currentView.editorViewDelegate respondsToSelector:@selector(editorViewDidChange:)]) {
         [self.currentView.editorViewDelegate  editorViewDidChange:self.currentView];
     }
@@ -680,7 +652,7 @@
     
     MEAPIManager *manager = [MEAPIManager client];
     [manager clickWithEmoji:gif];
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *userInfo = @{@"url": [gif objectForKey:@"image_url"]};
         [[NSNotificationCenter defaultCenter] postNotificationName:@"METextInputGIFInserted" object:self userInfo:userInfo];
@@ -689,7 +661,6 @@
 }
 
 -(void)didSelectEmoji:(NSDictionary *)emoji image:(UIImage *)image {
-    self.flashtagDetected = NO;
     self.flashStartRange = nil;
     
     if ([emoji objectForKey:@"gif"] != nil && [[emoji objectForKey:@"gif"] integerValue] == 1) {
@@ -708,49 +679,6 @@
     NSString * flashtag = @"";
     if ([emoji objectForKey:@"flashtag"] != [NSNull null]) {
         flashtag = [emoji objectForKey:@"flashtag"];
-    }
-    
-    NSString * imageUrl = [emoji objectForKey:@"image_url"];
-    NSNumber * isPhrase = [emoji objectForKey:@"phrase"];
-    
-    if (isPhrase != nil) {
-        NSString * link;
-        NSUInteger sint = 0;
-        for (NSDictionary * emdict in [emoji objectForKey:@"emoji"]) {
-            
-            NSNumber * native = [emdict objectForKey:@"native"];
-            
-            if (native == nil) {
-                
-                link = @"";
-                if ([emdict objectForKey:@"link_url"] != [NSNull null]) {
-                    link = [emdict objectForKey:@"link_url"];
-                }
-                
-                NSDictionary * attributes = @{@"src" : [emdict objectForKey:@"image_url"], @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width], @"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height], @"link" : link, @"id" : [[emdict objectForKey:@"id"] stringValue]};
-                
-                DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
-                DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
-                imageAttachment.image = tmpImage;
-                imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
-                
-                if (sint == 0) {
-                    [self.currentView replaceRange:self.currentView.selectedTextRange withAttachment:imageAttachment inParagraph:NO];
-                } else {
-                    [self.currentView replaceRange:self.currentView.selectedTextRange withAttachment:imageAttachment inParagraph:NO];
-                }
-            } else {
-                if (sint == 0) {
-                    [self.currentView replaceRange:self.currentView.selectedTextRange withText:[emdict objectForKey:@"character"]];
-                } else {
-                    [self.currentView replaceRange:self.currentView.selectedTextRange withText:[emdict objectForKey:@"character"]];
-                }
-            }
-            sint++;
-            
-        }
-        return;
     }
     
     NSDictionary * attributes = @{@"src" : [emoji objectForKey:@"image_url"],
@@ -789,7 +717,6 @@
         //self.currentView.inputView = nil;
         self.currentToggle = @"category";
         self.titleLabel.hidden = YES;
-        self.flashtagCollectionView.hidden = YES;
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
         [self.meInputView selectSection:self.currentToggle];
         [CATransaction begin];
@@ -829,7 +756,6 @@
         self.currentToggle = @"trending";
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
         self.titleLabel.hidden = YES;
-        self.flashtagCollectionView.hidden = YES;
         [self.meInputView selectSection:self.currentToggle];
         [CATransaction begin];
         [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
@@ -862,9 +788,12 @@
         self.currentToggle = @"favorite";
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
         self.titleLabel.hidden = YES;
-        self.flashtagCollectionView.hidden = YES;
         [self.meInputView selectSection:self.currentToggle];
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
         [self.currentView setInputView:self.meInputView animated:NO];
+        [CATransaction commit];
+        
         [self.currentView reloadInputViews];
         [self.favoriteButton setBackgroundColor:self.highlightColor];
         [self.gridButton setBackgroundColor:[UIColor clearColor]];
@@ -875,7 +804,7 @@
         }];
     } else {
         self.currentToggle = @"";
-        self.titleLabel.hidden = NO;        
+        self.titleLabel.hidden = NO;
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
         [CATransaction begin];
         [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
@@ -887,57 +816,11 @@
 }
 
 -(void)flashtagTapped {
-    if (!self.currentView.isFirstResponder) { [self.currentView becomeFirstResponder]; }
-    if (![self.currentToggle isEqualToString:@"flashtag"]) {
-        [self fastCollapseAnimation];
-        self.currentToggle = @"flashtag";
-        self.flashtagCollectionView.hidden = NO;
-        [self bringSubviewToFront:self.flashtagCollectionView];
-        [self getTrendingFlashtags];
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-        if (![self.currentView isFirstResponder]) {
-            [self.currentView becomeFirstResponder];
-        }
-        
-        [CATransaction begin];
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-        [self.currentView setInputView:nil animated:NO];
-        [CATransaction commit];
-        [self.currentView reloadInputViews];
-        
-        if (self.flashtagDetected == NO) {
-            [self.currentView replaceRange:self.currentView.selectedTextRange withText:@"!"];
-        }
-
-        [self.flashtagButton setBackgroundColor:self.highlightColor];
-        [self.gridButton setBackgroundColor:[UIColor clearColor]];
-        [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-        [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
-        [UIView animateWithDuration:0.20 animations:^{
-            self.backButton.alpha = 0;
-        }];
-        
-        self.titleLabel.hidden = YES;
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-        [self textViewDidChange:self.currentView];
-        
+    if (self.expanded == NO) {
+        [self expandAnimation];
     } else {
-        self.flashtagDetected = NO;
-        self.flashStartRange = nil;
-        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-        self.flashtagCollectionView.hidden = YES;
-        self.currentToggle = @"";
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-        self.titleLabel.hidden = NO;
-        [CATransaction begin];
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-        [self.currentView setInputView:nil animated:NO];
-        [CATransaction commit];
-        [self.currentView reloadInputViews];
-        [self.currentView becomeFirstResponder];
-        
+        [self fastCollapseAnimation];
     }
-    
 }
 
 
@@ -947,10 +830,8 @@
         self.favoriteButton.alpha = 1.0;
         self.trendingButton.alpha = 1.0;
         self.gridButton.alpha = 1.0;
-        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
+        //[self.flashtagButton setBackgroundColor:[UIColor clearColor]];
     }
-    
-    CGFloat collectionOffset = 0;
     
     self.containerView.frame = CGRectMake(self.containerView.frame.origin.x, 0, self.containerView.frame.size.width, self.containerView.frame.size.height);
 }
@@ -964,20 +845,17 @@
     
     self.titleLabel.alpha = 0;
     self.emojiView.frame = CGRectMake(68, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
-    self.flashtagCollectionView.frame = CGRectMake(68, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
     self.containerView.frame = CGRectMake(-96, 0, 159, self.containerView.frame.size.height);
     if (animate == YES) {
         [UIView animateWithDuration:1.8 delay:0 usingSpringWithDamping:0.4 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAllowUserInteraction animations:^ {
             self.containerView.frame = CGRectMake(-118, 0, 159, self.containerView.frame.size.height);
             self.emojiView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
-            self.flashtagCollectionView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
         } completion:^(BOOL finished) {
             
         }];
     } else {
         self.containerView.frame = CGRectMake(-118, 0, 159, self.containerView.frame.size.height);
         self.emojiView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
-        self.flashtagCollectionView.frame = CGRectMake(self.leftSideWidth, 0, self.frame.size.width-self.leftSideWidth, self.collapsedHeight);
     }
     
 }
@@ -996,278 +874,89 @@
 }
 
 - (void)textViewDidChangeSelection:(DTRichTextEditorView *)textView {
-    if (self.flashtagDetected == YES) {
-        NSInteger currentCusorPosition = [textView offsetFromPosition:[textView beginningOfDocument] toPosition:textView.selectedTextRange.start];
-        if (currentCusorPosition < 0) { currentCusorPosition = 0; }
-        NSInteger lastFlashtagPosition = [textView offsetFromPosition:[textView beginningOfDocument] toPosition:self.flashStartRange.start];
-        if (currentCusorPosition < lastFlashtagPosition && [self.currentToggle isEqualToString:@"flashtag"]) {
-            self.flashtagCollectionView.hidden = YES;
-            self.flashtagDetected = NO;
-            self.flashStartRange = nil;
-            [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-            self.currentToggle = @"";
-            return;
-        }
-    }
-}
-
-
--(void)getTrendingFlashtags {
-    if (self.hasShuffled == NO) {
-        self.usedFlashtags = [NSMutableArray arrayWithArray:[self shuffledArray:self.trendingEmoji]];
-        self.hasShuffled = YES;
-    }
     
-    self.lastFlashTag = self.usedFlashtags;
-    [self.flashtagCollectionView reloadData];
 }
-
-- (NSArray *)shuffledArray:(NSArray *)array
-{
-    return [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        if (arc4random() % 2) {
-            return NSOrderedAscending;
-        } else {
-            return NSOrderedDescending;
-        }
-    }];
-}
-
 
 - (void)textViewDidChange:(DTRichTextEditorView *)textView {
     if (self.disableSearch == YES) { return; }
-
-    NSAttributedString * text = textView.attributedText;
-    NSString * plainText = [[text string] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     
-    NSInteger currentCusorPosition = [textView offsetFromPosition:[textView beginningOfDocument] toPosition:textView.selectedTextRange.start];
-    if (currentCusorPosition < 0) { currentCusorPosition = 0; }
+    UITextRange * newRange = [textView textRangeOfWordAtPosition:textView.selectedTextRange.end];
+    NSString * searchString = [textView plainTextForRange:newRange];
     
-    NSInteger previousCharacter = currentCusorPosition - 1;
-    if (previousCharacter < 0) { previousCharacter = 0; }
-    
-    UITextRange * lastTypedCharRange = [DTTextRange rangeWithNSRange:NSMakeRange(previousCharacter, 1)];
-    NSString * lastCharTyped = [textView plainTextForRange:lastTypedCharRange];
-    
-    if (![self.currentToggle isEqualToString:@"flashtag"]) {
-        if (![self.currentToggle isEqualToString:@""]) {
-            //NSLog(@"-- skip flashtag mode --");
-            return;
-        }
+    if (searchString && [searchString hasSuffix:@" "]) {
+        searchString = NULL;
+        
     }
     
-    if (plainText.length > 0) {
-        //NSLog(@"-- start detection --");
+    NSString * searchStringTrim = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (searchString != NULL && searchString.length >= 2) {
+        __weak MEInputAccessoryView *weakSelf = self;
         
-        NSString * lastCharacter = lastCharTyped;
-        BOOL hasBang = [lastCharacter isEqualToString:@"!"];
-        
-        if (hasBang == YES) {
-            //NSLog(@"-- has bang --");
-            if (self.flashtagDetected == NO) {
-                //NSLog(@" -- start flashtag --");
-                self.flashtagDetected = YES;
-                self.currentToggle = @"flashtag";
-                self.flashStartRange = textView.selectedTextRange;
-            } else {
-                self.currentToggle = @"flashtag";
-                [self getTrendingFlashtags];
-            }
-        } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tags contains[c] %@", searchStringTrim];
             
-            if (self.flashtagDetected == YES) {
-
-                self.flashtagCollectionView.hidden = NO;
-                self.currentToggle = @"flashtag";
-                self.emojiView.hidden = YES;
-                NSString * whiteSpace = [lastCharacter  stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                NSInteger flashEndPosition = [textView offsetFromPosition:self.flashStartRange.start toPosition:textView.selectedTextRange.start];
-                //NSLog(@"%i", whiteSpace.length);
-                //NSLog(@" -- flashend -- %li", flashEndPosition);
-                
-                NSInteger bangPosition = [textView offsetFromPosition:[textView beginningOfDocument] toPosition:self.flashStartRange.start];
-                
-                if (lastCharacter != nil) {
-                    //NSLog(@"%hu", [lastCharacter characterAtIndex:[lastCharacter length]-1]);
-                }
-                
-                unichar lineSeparator = 0x2028;
-                
-                if (lastCharacter != nil && lastCharacter.length > 0 && ([lastCharacter characterAtIndex:[lastCharacter length]-1] == '\n' || [lastCharacter characterAtIndex:[lastCharacter length]-1] == lineSeparator)) {
-                    self.flashtagCollectionView.hidden = YES;
-                    self.emojiView.hidden = NO;
-                    self.flashtagDetected = NO;
-                    self.flashStartRange = nil;
-                    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-                    self.currentToggle = @"";
-                    return;
-                }
-                
-                if (flashEndPosition < 0) {
-                    self.flashtagCollectionView.hidden = YES;
-                    self.emojiView.hidden = NO;
-                    self.flashtagDetected = NO;
-                    self.flashStartRange = nil;
-                    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-                    self.currentToggle = @"";
-                    return;
-                }
-                //trendingflashtags
-                
-                
-                NSString * flashtag = [plainText substringWithRange:NSMakeRange(bangPosition, flashEndPosition)];
-                self.currentFlashtagSearch = flashtag;
-                //NSLog(@" -- flashtag -- %@", flashtag);
-                
-                if (whiteSpace.length == 0 && flashEndPosition == 1) {
-                    self.flashtagCollectionView.hidden = YES;
-                    self.emojiView.hidden = NO;
-                    self.flashtagDetected = NO;
-                    self.flashStartRange = nil;
-                    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-                    self.currentToggle = @"";
-                    self.lastFlashTag = [NSMutableArray array];
-                    return;
-                }
-                
-                self.currentToggle = @"flashtag";
-                self.expanded = NO;
-                [self fastCollapseAnimation];
-                [self.gridButton setBackgroundColor:[UIColor clearColor]];
-                [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
-                [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-                [self.flashtagButton setBackgroundColor:self.highlightColor];
-                
-                //NSLog(@"-- possible whitespace -- %@", whiteSpace);
-                
-                if (whiteSpace.length == 0 && self.lastFlashTag.count > 0) {
-                    //NSLog(@"-- selected flashtag --");
-                    NSDictionary * flashTagDict = [self.lastFlashTag objectAtIndex:0];
-                    self.flashtagDetected = NO;
-                    self.flashStartRange = nil;
-                    self.currentToggle = @"";
-                    [self.gridButton setBackgroundColor:[UIColor clearColor]];
-                    [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
-                    [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-                    [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-                    
-                    if (flashTagDict != nil) {
-                        
-                        NSString * imageUrl = [flashTagDict objectForKey:@"image_url"];
-                        UITextRange * replaceRange = [DTTextRange rangeWithNSRange:NSMakeRange(bangPosition-1, flashEndPosition+1)];
-                        
-                        if (imageUrl.length == 0) {
-                            
-                            [textView replaceRange:replaceRange withText:[flashTagDict objectForKey:@"character"]];
-                            
-                        } else {
-                            
-                            NSString * link = @"";
-                            if ([flashTagDict objectForKey:@"link_url"] != [NSNull null]) {
-                                link = [flashTagDict objectForKey:@"link_url"];
-                            }
-                            
-                            
-                            NSDictionary * attributes = @{@"src" : [flashTagDict objectForKey:@"image_url"],
-                                                          @"name" : [flashTagDict objectForKey:@"flashtag"],
-                                                          @"link" : link,
-                                                          @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],
-                                                          @"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],
-                                                          @"id" : [[flashTagDict objectForKey:@"id"] stringValue]
-                                                          };
-                            
-                            DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
-                            DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                            UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
-                            
-                            
-                            imageAttachment.image = tmpImage;
-                            
-                            imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
-                            
-                            
-                            [textView replaceRange:replaceRange withAttachment:imageAttachment inParagraph:NO];
-                        }
-                    }
-
-                    self.flashtagCollectionView.hidden = YES;
-                    self.emojiView.hidden = NO;
-                    self.lastFlashTag = [NSMutableArray array];
-                    return;
-                    
-                } else {
-                    if (self.currentFlashtagSearch.length > 0 && whiteSpace.length != 0 ) {
-                        NSString * searchStringTrim = [flashtag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                        
-                        __weak MEInputAccessoryView *weakSelf = self;
-                        
-                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"flashtag contains[c] %@", searchStringTrim];
-                                weakSelf.lastFlashTag = [NSMutableArray array];
-
-                                NSMutableArray * newResults = [NSMutableArray arrayWithArray:[weakSelf.flashTags filteredArrayUsingPredicate:predicate]];
-                                
-                                if (newResults.count > 0) {
-                                    NSMutableArray * newArray = [NSMutableArray array];
-                                    [newResults enumerateObjectsUsingBlock:^(id x, NSUInteger index, BOOL *stop){
-                                        NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:x];
-                                        [dict setObject:searchStringTrim forKey:@"searched"];
-                                        if ([[[dict objectForKey:@"flashtag"] lowercaseString] hasPrefix:[searchStringTrim lowercaseString]]) {
-                                            [weakSelf.lastFlashTag insertObject:dict atIndex:0];
-                                        } else {
-                                            [weakSelf.lastFlashTag addObject:dict];
-                                        }
-                                    }];
-                                }
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [weakSelf bringSubviewToFront:weakSelf.flashtagCollectionView];
-                                    [weakSelf.flashtagCollectionView reloadData];
-                                });
-                            });
-                        
-                        
-                    } else {
-
-                        self.flashtagDetected = NO;
-                        self.flashStartRange = nil;
-                        self.flashtagCollectionView.hidden = YES;
-                        self.emojiView.hidden = NO;
-                        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-                        self.currentToggle = @"";
-                        self.lastFlashTag = [NSMutableArray array];
-                    }
+            NSMutableArray * newResults = [NSMutableArray arrayWithArray:[weakSelf.flashTags filteredArrayUsingPredicate:predicate]];
+            
+            NSMutableArray* distinctSet = [[NSMutableArray alloc] init];
+            for (id item in newResults) {
+                if (![distinctSet containsObject:item]) {
+                    [distinctSet addObject:item];
                 }
             }
-        }
+            
+            newResults = distinctSet;
+            
+            if (newResults.count > 0) {
+                weakSelf.lastFlashTag = [NSMutableArray array];
+                [newResults enumerateObjectsUsingBlock:^(id x, NSUInteger index, BOOL *stop){
+                    NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:x];
+                    [dict setObject:searchStringTrim forKey:@"searched"];
+                    if ([[[dict objectForKey:@"flashtag"] lowercaseString] hasPrefix:[searchStringTrim lowercaseString]]) {
+                        [weakSelf.lastFlashTag insertObject:dict atIndex:0];
+                    } else {
+                        [weakSelf.lastFlashTag addObject:dict];
+                    }
+                }];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf.emojiView reloadData];
+                });
+                
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.lastFlashTag = [NSMutableArray array];
+                    [weakSelf.emojiView reloadData];
+                });
+            }
+            
+        });
         
     } else {
-
-        self.flashtagDetected = NO;
-        self.flashStartRange = nil;
-        self.flashtagCollectionView.hidden = YES;
-        self.emojiView.hidden = NO;
-        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
-        self.currentToggle = @"";
-        self.lastFlashTag = [NSMutableArray array];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.lastFlashTag = [NSMutableArray array];
+            [self.emojiView reloadData];
+        });
     }
-    
+    return;
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (collectionView == self.emojiView) {
-        return [self.trendingEmoji count];
+    if (section == 0) {
+        return [self.lastFlashTag count];
     }
-    return [self.lastFlashTag count];
+    
+    return [self.trendingEmoji count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (collectionView == self.emojiView) {
+    if (collectionView == self.emojiView && indexPath.section == 1) {
         
         MEKeyboardCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Emoji" forIndexPath:indexPath];
         [photoCell setBackgroundColor:[UIColor clearColor]];
@@ -1276,7 +965,7 @@
         [photoCell.inputButton.layer removeAllAnimations];
         //NSLog(@"%@", [[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]);
         [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"image_url"]]
-                                        placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+                                           placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         
         if ([[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"link_url"] != [NSNull null]) {
             [photoCell startLinkAnimation];
@@ -1285,36 +974,26 @@
         return photoCell;
     }
     
-    if (self.lastFlashTag.count > 0) {
+    if (collectionView == self.emojiView && indexPath.section == 0) {
         NSDictionary * dict = [self.lastFlashTag objectAtIndex:indexPath.item];
         NSString * imageUrl = [dict objectForKey:@"image_url"];
-        NSNumber * isPhrase = [dict objectForKey:@"phrase"];
-        
-    //    if (isPhrase != nil) {
-    //        MEPhraseCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Phrase" forIndexPath:indexPath];
-    //        [photoCell setBackgroundColor:[UIColor clearColor]];
-    //        [photoCell setData:dict];
-    //        photoCell.currentInput = self.currentFlashtagSearch;
-    //        return photoCell;
-    //    }
         
         if (imageUrl.length == 0) {
             MEFlashTagNativeCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Native" forIndexPath:indexPath];
             [photoCell setBackgroundColor:[UIColor clearColor]];
             [photoCell setData:dict];
-            photoCell.currentInput = self.currentFlashtagSearch;
             return photoCell;
         }
         
-        MEFlashTagCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Flashtag" forIndexPath:indexPath];
+        MEKeyboardCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Flashtag" forIndexPath:indexPath];
         [photoCell setBackgroundColor:[UIColor clearColor]];
         [[MEAPIManager client] imageViewWithId:[[dict objectForKey:@"id"] stringValue]];
-        photoCell.imageView.image = nil;
-        [photoCell.imageView sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"image_url"]]
-                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
-        photoCell.currentInput = self.currentFlashtagSearch;
-        [photoCell setData:[self.lastFlashTag objectAtIndex:indexPath.item]];
-
+        photoCell.inputButton.imageView.image = nil;
+        [photoCell.inputButton.layer removeAllAnimations];
+        photoCell.inputButton.imageView.image = nil;
+        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"image_url"]]
+                                           placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+        
         return photoCell;
     }
     
@@ -1323,7 +1002,7 @@
 }
 
 -(void)loadFromDisk:(NSString *)filename {
-        
+    
     NSString *path = [[self applicationDocumentsDirectory].path
                       stringByAppendingPathComponent:filename];
     NSError * error;
@@ -1341,49 +1020,16 @@
                 self.trendingEmoji = [jsonResponse objectForKey:@"Trending"];
                 dispatch_async(dispatch_get_main_queue(), ^(void){
                     [self.emojiView reloadData];
-                     //NSLog(@"from disk :: %@ :: loaded trending", filename);
+                    //NSLog(@"from disk :: %@ :: loaded trending", filename);
                 });
             }
             
-            if ([filename containsString:@"flashtags"]) {
-                self.flashTags = [NSMutableArray arrayWithArray:jsonResponse];
-            }
         }
     }
-
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.flashtagCollectionView) {
-        NSDictionary * dict = [self.lastFlashTag objectAtIndex:indexPath.item];
-        NSString * imageUrl = [dict objectForKey:@"image_url"];
-        NSNumber * isPhrase = [dict objectForKey:@"phrase"];
-        CGFloat width = 2+34+2+20;
-        NSString * flash;
-        if ([[dict objectForKey:@"flashtag"] isKindOfClass:[NSNumber class]]) {
-            flash =[ [dict objectForKey:@"flashtag"] stringValue];
-        } else {
-            flash = [dict objectForKey:@"flashtag"];
-        }
-        
-        if (isPhrase == nil) {
-            
-            CGSize newsize = [flash sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:14], NSFontAttributeName, nil]];
-            newsize.width = newsize.width + 2 + 2;
-            if (newsize.width > (self.frame.size.width/3)) {
-                newsize.width = (self.frame.size.width/3);
-            }
-            return CGSizeMake(newsize.width+width,34);
-        } else {
-            CGSize newsize = [flash sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont boldSystemFontOfSize:14], NSFontAttributeName, nil]];
-            if (newsize.width > 100) {
-                newsize.width = 100;
-            }
-            width = ([[dict objectForKey:@"emoji"] count] * 32) + (newsize.width + 4);
-            return CGSizeMake(width, 34);
-        }
-        
-    }
     
     CGFloat modifier = 8;
     if (self.frame.size.width <= 320) {
@@ -1394,10 +1040,10 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.emojiView) {
-
+    if (collectionView == self.emojiView && indexPath.section == 1) {
+        
         if ([self.currentView.delegate respondsToSelector:@selector(editorViewShouldBeginEditing:)]) {
-           BOOL should = [self.currentView.delegate performSelector:@selector(editorViewShouldBeginEditing:) withObject:self];
+            BOOL should = [self.currentView.delegate performSelector:@selector(editorViewShouldBeginEditing:) withObject:self];
             if (should == NO) { return; }
         }
         if (!self.currentView.isFirstResponder) {
@@ -1408,91 +1054,36 @@
         [self didSelectEmoji:dict image:nil];
     } else {
         
-        NSInteger flashEndPosition = [self.currentView offsetFromPosition:self.flashStartRange.start toPosition:self.currentView.selectedTextRange.start];
-        NSInteger bangPosition = [self.currentView offsetFromPosition:[self.currentView beginningOfDocument] toPosition:self.flashStartRange.start];
-        UITextRange * replaceRange = [DTTextRange rangeWithNSRange:NSMakeRange(bangPosition-1, flashEndPosition+1)];
+        UITextRange * newRange = [self.currentView textRangeOfWordAtPosition:self.currentView.selectedTextRange.end];
         
-        if (flashEndPosition >= 0) {
+        //if (!newRange.empty) {
+        
+        NSDictionary * dict = [self.lastFlashTag objectAtIndex:indexPath.item];
+        NSString * imageUrl = [dict objectForKey:@"image_url"];
+        
+        if (imageUrl.length == 0) {
+            [self.currentView replaceRange:newRange withText:[dict objectForKey:@"character"]];
+        } else {
             
-            NSDictionary * dict = [self.lastFlashTag objectAtIndex:indexPath.item];
-            NSString * imageUrl = [dict objectForKey:@"image_url"];
-            NSNumber * isPhrase = [dict objectForKey:@"phrase"];
-            
-            if (isPhrase != nil) {
-                NSString * link;
-                NSUInteger sint = 0;
-                for (NSDictionary * emdict in [dict objectForKey:@"emoji"]) {
-                    
-                    NSNumber * native = [emdict objectForKey:@"native"];
-                    
-                    if (native == nil) {
-                        
-                        link = @"";
-                        if ([emdict objectForKey:@"link_url"] != [NSNull null]) {
-                            link = [emdict objectForKey:@"link_url"];
-                        }
-                        
-                        NSDictionary * attributes = @{@"src" : [emdict objectForKey:@"image_url"],
-                                                      @"name" : [emdict objectForKey:@"flashtag"],
-                                                      @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width], @"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height], @"link" : link,@"id" : [[emdict objectForKey:@"id"] stringValue]};
-                        
-                        DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
-                        DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                        UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
-                        imageAttachment.image = tmpImage;
-                        imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
-                        
-                        if (sint == 0) {
-                            [self.currentView replaceRange:replaceRange withAttachment:imageAttachment inParagraph:NO];
-                        } else {
-                            [self.currentView replaceRange:self.currentView.selectedTextRange withAttachment:imageAttachment inParagraph:NO];
-                        }
-                    } else {
-                        if (sint == 0) {
-                            [self.currentView replaceRange:replaceRange withText:[emdict objectForKey:@"character"]];
-                        } else {
-                            [self.currentView replaceRange:self.currentView.selectedTextRange withText:[emdict objectForKey:@"character"]];
-                        }
-                    }
-                    sint++;
-                    
-                }
-            } else {
-                
-                if (imageUrl.length == 0) {
-                    [self.currentView replaceRange:replaceRange withText:[dict objectForKey:@"character"]];
-                } else {
-                    
-                    NSString * link = @"";
-                    if ([dict objectForKey:@"link_url"] != [NSNull null]) {
-                        link = [dict objectForKey:@"link_url"];
-                    }
-                    
-                    NSDictionary * attributes = @{@"src" : [dict objectForKey:@"image_url"],
-                                                  @"name" : [dict objectForKey:@"flashtag"],
-                                                  @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],@"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],@"link" : link,@"id" : [[dict objectForKey:@"id"] stringValue]};
-                    
-                    DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
-                    DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
-                    UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
-                    imageAttachment.image = tmpImage;
-                    imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
-                    [self.currentView replaceRange:replaceRange withAttachment:imageAttachment inParagraph:NO];
-                    
-                }
+            NSString * link = @"";
+            if ([dict objectForKey:@"link_url"] != [NSNull null]) {
+                link = [dict objectForKey:@"link_url"];
             }
+            
+            NSDictionary * attributes = @{@"src" : [dict objectForKey:@"image_url"],
+                                          @"name" : [dict objectForKey:@"flashtag"],
+                                          @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],@"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],@"link" : link,@"id" : [[dict objectForKey:@"id"] stringValue]};
+            
+            DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
+            DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
+            UIImage * tmpImage = [UIImage imageWithCGImage:[[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil] CGImage] scale:2.0 orientation:UIImageOrientationUp];
+            imageAttachment.image = tmpImage;
+            imageAttachment.verticalAlignment = DTTextAttachmentVerticalAlignmentCenter;
+            [self.currentView replaceRange:newRange withAttachment:imageAttachment inParagraph:NO];
         }
-        
-        self.flashtagDetected = NO;
-        self.flashStartRange = nil;
-        self.currentToggle = @"";
-        self.flashtagCollectionView.hidden = YES;
-        self.emojiView.hidden = NO;
-        [self.gridButton setBackgroundColor:[UIColor clearColor]];
-        [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
-        [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
         self.lastFlashTag = [NSMutableArray array];
+        [self.emojiView reloadData];
+        //}
     }
     
 }
