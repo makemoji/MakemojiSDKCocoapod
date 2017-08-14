@@ -55,6 +55,7 @@
         self.flashtagOnly = NO;
         self.currentToggle = @"";
         self.disableNavigation = NO;
+        self.disableUnicodeSearch = NO;
         self.disableSearch = NO;
         self.flashTags = [NSMutableArray array];
         self.highlightColor = [UIColor colorWithRed:0.93 green:0.93 blue:0.93 alpha:1];
@@ -217,7 +218,6 @@
         [self bringSubviewToFront:self.emojiView];
         
         UIPanGestureRecognizer * swipeGestureRight2 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipeNav:)];
-        //swipeGestureRight.direction = UISwipeGestureRecognizerDirectionRight;
         swipeGestureRight2.delegate = self;
         [self.emojiView addGestureRecognizer:swipeGestureRight2];
         
@@ -275,7 +275,7 @@
         }
         
         NSArray * allKeys = [responseObject allKeys];
-        
+
         for (NSString * cat in allKeys) {
             if (![cat isEqualToString:@"Trending"] && ![cat isEqualToString:@"Used"]) {
                 NSArray * catArr = [responseObject objectForKey:cat];
@@ -288,7 +288,8 @@
         [self.meInputView loadData];
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        //NSLog(@"Error: %@", error);
+        
+        NSLog(@"Error: %@", error);
     }];
     
     
@@ -895,7 +896,6 @@
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"tags contains[c] %@", searchStringTrim];
-            
             NSMutableArray * newResults = [NSMutableArray arrayWithArray:[weakSelf.flashTags filteredArrayUsingPredicate:predicate]];
             
             NSMutableArray* distinctSet = [[NSMutableArray alloc] init];
@@ -912,6 +912,17 @@
                 [newResults enumerateObjectsUsingBlock:^(id x, NSUInteger index, BOOL *stop){
                     NSMutableDictionary * dict = [NSMutableDictionary dictionaryWithDictionary:x];
                     [dict setObject:searchStringTrim forKey:@"searched"];
+                    
+                    if ([[[MEAPIManager client] lockedCategories] count] > 0 && [dict objectForKey:@"category_id"]) {
+                        if ([[[MEAPIManager client] lockedCategories] containsObject:[dict objectForKey:@"category_id"]]) {
+                            return;
+                        }
+                    }
+                    
+                    if (self.disableUnicodeSearch == YES && [dict objectForKey:@"character"]) {
+                        return;
+                    }
+                    
                     if ([[[dict objectForKey:@"flashtag"] lowercaseString] hasPrefix:[searchStringTrim lowercaseString]]) {
                         [weakSelf.lastFlashTag insertObject:dict atIndex:0];
                     } else {

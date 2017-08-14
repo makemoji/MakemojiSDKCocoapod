@@ -20,6 +20,8 @@
         [requests setSdkKey:@"unknown"];
         [requests.reachabilityManager startMonitoring];
         requests.channel = @"";
+        requests.categories = [NSArray array];
+        requests.lockedCategories = [NSArray array];
         NSString * deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
         
         if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled] == YES) {

@@ -16,6 +16,8 @@
 @property (nonatomic) NSDate *imageViewSessionStart;
 @property (nonatomic) NSString *sdkKey;
 @property (nonatomic) NSString *channel;
+@property (nonatomic) NSArray * categories;
+@property (nonatomic) NSArray * lockedCategories;
 @property (nonatomic) NSString *externalUserId;
 @property (nonatomic) NSMutableDictionary *imageViews;
 @property (nonatomic) NSMutableArray *emojiClicks;

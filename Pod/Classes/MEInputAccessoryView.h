@@ -33,6 +33,7 @@
 @property BOOL flashtagOnly;
 @property BOOL disableNavigation;
 @property BOOL disableSearch;
+@property BOOL disableUnicodeSearch;
 
 - (void)didSelectEmoji:(NSDictionary *)emoji image:(UIImage *)image;
 - (void)didSelectGif:(NSDictionary *)gif;

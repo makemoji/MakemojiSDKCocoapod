@@ -208,6 +208,15 @@
         [[NSFileManager defaultManager] createFileAtPath:path
                                                 contents:jsonData
                                               attributes:nil];
+        [[MEAPIManager client] setCategories:[NSArray arrayWithArray:responseObject]];
+        NSMutableArray * lockedCat = [NSMutableArray array];
+        for (NSDictionary * catDict in responseObject) {
+            if ([catDict objectForKey:@"locked"] && [[catDict objectForKey:@"locked"] boolValue] == YES){
+                [lockedCat addObject:[catDict objectForKey:@"id"]];
+            }
+        }
+        [[MEAPIManager client] setLockedCategories:[NSArray arrayWithArray:lockedCat]];
+        
         self.categories = responseObject;
         self.unlockedGroups = [MakemojiSDK unlockedGroups];
         dispatch_async(dispatch_get_main_queue(), ^(void){
