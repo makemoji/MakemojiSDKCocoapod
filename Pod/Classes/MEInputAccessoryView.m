@@ -114,7 +114,7 @@
         [self.flashtagButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
         [self.flashtagButton setFrame:CGRectMake(120, 0, 39, self.collapsedHeight)];
         [self.flashtagButton addTarget:self action:@selector(flashtagTapped) forControlEvents:UIControlEventTouchUpInside];
-        [self.flashtagButton setBackgroundColor:[UIColor whiteColor]];
+        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
         
         self.flashtagButton.contentEdgeInsets = UIEdgeInsetsMake(12.5, 7.5, 12.5, 7.5);
         
@@ -399,7 +399,7 @@
         self.flashtagButton.transform = CGAffineTransformMakeRotation(0);
         [self.favoriteButton setBackgroundColor:[UIColor clearColor]];
         [self.trendingButton setBackgroundColor:[UIColor clearColor]];
-        [self.flashtagButton setBackgroundColor:[UIColor whiteColor]];
+        [self.flashtagButton setBackgroundColor:[UIColor clearColor]];
         [self.gridButton setBackgroundColor:[UIColor clearColor]];
         self.backButton.alpha = 0;
         [CATransaction begin];
