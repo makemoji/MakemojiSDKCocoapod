@@ -10,6 +10,7 @@
 #import "MEEmojiWallEmojiCollectionViewCell.h"
 #import "MEEmojiWallNativeCollectionViewCell.h"
 #import "MEEmojiWallVideoCollectionViewCell.h"
+#import "MEGifCollectionViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "MEAPIManager.h"
 
@@ -56,6 +57,7 @@
     [self.emojiCollectionView registerClass:[MEEmojiWallEmojiCollectionViewCell class] forCellWithReuseIdentifier:@"Emoji"];
     [self.emojiCollectionView registerClass:[MEEmojiWallNativeCollectionViewCell class] forCellWithReuseIdentifier:@"Native"];
     [self.emojiCollectionView registerClass:[MEEmojiWallVideoCollectionViewCell class] forCellWithReuseIdentifier:@"Video"];
+    [self.emojiCollectionView registerClass:[MEGifCollectionViewCell class] forCellWithReuseIdentifier:@"GIF"];
     [self.emojiCollectionView setBackgroundColor:[UIColor clearColor]];
     [self.emojiCollectionView setDelegate:self];
     self.emojiCollectionView.dataSource = self;
@@ -103,6 +105,13 @@
         [emojiCell.emojiLabel setText:[dict objectForKey:@"name"]];
         emojiCell.emojiLabel.textColor = self.videoTextColor;
         emojiCell.playOverlay.tintColor = self.playOverlayTint;
+        return emojiCell;
+    }
+    
+    if ([[dict objectForKey:@"gif"] boolValue] == YES) {
+        MEGifCollectionViewCell * emojiCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GIF" forIndexPath:indexPath];
+        [[MEAPIManager client] imageViewWithId:[dict objectForKey:@"id"]];
+        [emojiCell.imageView sd_setImageWithURL:[self urlForPath:[dict objectForKey:@"image_url"]] placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         return emojiCell;
     }
     

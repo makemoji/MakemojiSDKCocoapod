@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FLAnimatedImage/FLAnimatedImageView.h>
 
 @interface MEGifCollectionViewCell : UICollectionViewCell
-@property (nonatomic) UIImageView *imageView;
+@property (nonatomic) FLAnimatedImageView *imageView;
 @end
