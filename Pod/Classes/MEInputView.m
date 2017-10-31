@@ -16,6 +16,7 @@
 #import "MEKeyboardPhraseCollectionViewCell.h"
 #import "MEGifCategoryCollectionViewCell.h"
 #import "MEGifCollectionViewCell.h"
+#import "MEInputAccessoryView.h"
 
 @interface MEInputView () <UICollectionViewDataSource, UICollectionViewDelegate>
     @property NSMutableArray * emoji;

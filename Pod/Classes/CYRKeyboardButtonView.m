@@ -210,7 +210,7 @@
     // Overlay path & shadow
     {
         CGFloat shadowAlpha = 0;
-        CGSize shadowOffset;
+        CGSize shadowOffset = CGSizeMake(0, 0.5);
         
         switch ([UIDevice currentDevice].userInterfaceIdiom) {
             case UIUserInterfaceIdiomPhone:

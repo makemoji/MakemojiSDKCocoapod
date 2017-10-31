@@ -41,7 +41,6 @@
 }
 
 -(NSURL*)urlForPath:(NSString *)path {
-    NSString * imageUrl;
     NSURL * url;
     if (![path hasPrefix:@"https://"]) {
         url = [NSURL fileURLWithPath:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:path]];

@@ -110,7 +110,7 @@
             self.unicodeEmoji.alpha = 0.5f;
             self.imageView.alpha = 0.5f;
         } else {
-            self.totalLabel.text = [self abbreviateNumber:[total integerValue]];
+            self.totalLabel.text = [self abbreviateNumber:(int)[total integerValue]];
             self.totalLabel.hidden = NO;
             self.unicodeEmoji.alpha = 1.0f;
             self.imageView.alpha = 1;
@@ -138,7 +138,7 @@
     if (num >= 1000) {
         NSArray *abbrev = @[@"K", @"M", @"B"];
         
-        for (int i = abbrev.count - 1; i >= 0; i--) {
+        for (int i = (int)abbrev.count - 1; i >= 0; i--) {
             
             // Convert array index to "1000", "1000000", etc
             int size = pow(10,(i+1)*3);

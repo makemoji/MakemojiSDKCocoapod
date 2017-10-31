@@ -992,10 +992,10 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     int num = 0;
     NSString * alphabet = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     
-    for (int i = 0, len = [string length]; i < len; i++)
+    for (int i = 0, len = (int)[string length]; i < len; i++)
     {
         NSRange range = [alphabet rangeOfString:[string substringWithRange:NSMakeRange(i,1)]];
-        num = num * 62 + range.location;
+        num = num * 62 + (int)range.location;
     }
     
     return num;
@@ -1350,8 +1350,8 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         
         for (NSTextCheckingResult * match1 in totalMatches) {
             NSString * matchString = [substitute substringWithRange:match1.range];
-            [replacementDict setObject:matchString forKey:[NSString stringWithFormat:@"%u", [matchString hash]]];
-            replaceSubstitute = [replaceSubstitute stringByReplacingOccurrencesOfString:matchString withString:[NSString stringWithFormat:@"%u", [matchString hash]]];
+            [replacementDict setObject:matchString forKey:[NSString stringWithFormat:@"%lu", (unsigned long)[matchString hash]]];
+            replaceSubstitute = [replaceSubstitute stringByReplacingOccurrencesOfString:matchString withString:[NSString stringWithFormat:@"%lu", (unsigned long)[matchString hash]]];
         }
         
         NSDataDetector *linkDetector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:nil];
@@ -1532,7 +1532,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     CGColorSpaceModel colorSpace = CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor));
     const CGFloat *components = CGColorGetComponents(color.CGColor);
     
-    CGFloat r, g, b, a;
+    CGFloat r = 0.0, g = 0.0, b = 0.0, a;
     
     if (colorSpace == kCGColorSpaceModelMonochrome) {
         r = components[0];
@@ -1623,7 +1623,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
         weight = 800;
     }
     
-    [self setDefaultParagraphStyle:[NSString stringWithFormat:@"p {font-weight: %i;}", weight]];
+    [self setDefaultParagraphStyle:[NSString stringWithFormat:@"p {font-weight: %lu;}", (unsigned long)weight]];
 }
 
 

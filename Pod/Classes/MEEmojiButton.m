@@ -63,7 +63,7 @@
 {
     [UIView animateWithDuration:0.1
                           delay:0
-                        options: UIViewAnimationCurveEaseOut
+                        options: UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          if (self.buttonView != nil) {
                              self.buttonView.alpha = 0;

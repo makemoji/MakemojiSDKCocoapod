@@ -93,6 +93,7 @@ extern NSString * const MESubstituteOptionShouldScanForLinks; // default to NO
 - (void)showKeyboard;
 - (void)hideKeyboard;
 
+
 // you can attach a custom button to this method as a action to trigger a send delegate call
 - (void)sendMessage;
 

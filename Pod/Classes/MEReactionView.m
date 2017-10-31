@@ -306,7 +306,7 @@ NSString * const MEReactionNotification = @"MEReactionNotification";
     __weak MEReactionView * weakself = self;
     self.currentTask =
     [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSError * error;
+
         NSDictionary * responseDictionary = [NSDictionary dictionaryWithDictionary:responseObject];
         if ([responseDictionary objectForKey:@"reactions"]) {
             weakself.reactions = [NSMutableArray arrayWithArray:[responseDictionary objectForKey:@"reactions"]];

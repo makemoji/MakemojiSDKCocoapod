@@ -23,7 +23,7 @@
             NSTextAttachment *theAttachment = [theAttributes objectForKey:NSAttachmentAttributeName];
             if (theAttachment != NULL)
                 [theAttachments addObject:theAttachment];
-            N = theEffectiveRange.location + theEffectiveRange.length;
+            N = (int)theEffectiveRange.location + (int)theEffectiveRange.length;
         }
         while (N < theStringRange.length);
     }
