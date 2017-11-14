@@ -36,11 +36,20 @@
     self.accessibilityLabel = @"emoji button";
     // Input label
     self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+    self.gifImageView = [[FLAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
+    
+    self.gifImageView.accessibilityLabel = @"gif";
     self.imageView.accessibilityLabel = @"emoji";
+
+    self.gifImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+
+    self.gifImageView.contentMode = UIViewContentModeScaleAspectFit;
+    
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.imageView];
+    [self addSubview:self.gifImageView];
     self.buttonView = [[MEKeyboardPopupView alloc] initWithFrame:CGRectMake(0, 0, 58+14, 104+3)];
     self.buttonView.alpha = 0;
 

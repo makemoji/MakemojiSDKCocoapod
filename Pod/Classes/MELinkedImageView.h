@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <FLAnimatedImage/FLAnimatedImageView.h>
 
 @protocol MELinkedImageViewDelegate;
 
 @interface MELinkedImageView : UIView
 
 @property (nonatomic) UIImageView *imageView;
+@property (nonatomic) FLAnimatedImageView * gifImageView;
 @property (nonatomic) NSURL *imageContentUrl;
 @property (nonatomic) NSURL *linkedUrl;
 @property (nonatomic, weak) id <MELinkedImageViewDelegate> delegate;

@@ -375,8 +375,10 @@
     CGFloat contentSizePages = (self.emojiView.contentSize.width / self.frame.size.width);
     CGFloat ceilPages = ceilf(contentSizePages);
     [self setupContentOffset];
+    
     self.pageControl.numberOfPages = ceilPages;
-    if (self.pageControl.numberOfPages == 1) {
+    
+    if (self.pageControl.numberOfPages <= 1 || self.selectedCategory == nil || self.pageControl.numberOfPages > 10) {
         self.pageControl.hidden = YES;
     } else {
         self.pageControl.hidden = NO;
@@ -600,46 +602,40 @@
     MEKeyboardCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Emoji" forIndexPath:indexPath];
     [photoCell setBackgroundColor:[UIColor clearColor]];
     photoCell.inputButton.imageView.image = nil;
+    photoCell.inputButton.gifImageView.image = nil;
+    photoCell.inputButton.gifImageView.animatedImage = nil;
+    
     [photoCell.inputButton.layer removeAllAnimations];
+    NSDictionary * emojiDict;
+    NSString * emojiId;
+    
     if ([self.selected isEqualToString:@"favorite"]) {
-        NSString * emojiId =   [[[self.recentEmoji objectAtIndex:indexPath.row] objectForKey:@"id"] stringValue];
-        [[MEAPIManager client] imageViewWithId:emojiId];
-        
-        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.recentEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                                        placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
-        
-        if ([[self.recentEmoji objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
-            [photoCell startLinkAnimation];
-        }
-        
-    }
-    
-    if ([self.selected isEqualToString:@"category"]) {
+        emojiDict = [self.recentEmoji objectAtIndex:indexPath.item];
+    } else if ([self.selected isEqualToString:@"category"]) {
         selectedCategory = [[self.categories objectAtIndex:self.selectedCategory.row] objectForKey:@"name"];
-        NSString * emojiId =   [[[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"id"] stringValue];
-            [[MEAPIManager client] imageViewWithId:emojiId];
-            [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
-                                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
-            
-            if ([[[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
-                [photoCell startLinkAnimation];
-            }
-        
-        
+        emojiDict = [[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.item];
+    } else if ([self.selected isEqualToString:@"trending"]) {
+         emojiDict = [self.trendingEmoji objectAtIndex:indexPath.item];
     }
+        
+    emojiId = [[emojiDict objectForKey:@"id"] stringValue];
+    [[MEAPIManager client] imageViewWithId:emojiId];
     
-    if ([self.selected isEqualToString:@"trending"]) {
-        NSString * emojiId =   [[[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"id"] stringValue];
-        [[MEAPIManager client] imageViewWithId:emojiId];
-        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]]
+    if ([[emojiDict objectForKey:@"gif"] boolValue] == YES) {
+        
+        [photoCell.inputButton.gifImageView sd_setImageWithURL:[NSURL URLWithString:[emojiDict objectForKey:@"image_url"]]
+                                           placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
+    } else {
+        
+        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[emojiDict objectForKey:@"image_url"]]
                                         placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
-        
-        if ([[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"link_url"] != [NSNull null]) {
-            [photoCell startLinkAnimation];
-        }
-        
+    
     }
     
+    if ([emojiDict objectForKey:@"link_url"] != [NSNull null] && [[emojiDict objectForKey:@"link_url"] length] > 7) {
+        [photoCell startLinkAnimation];
+    }
+
     return photoCell;
     
 }
@@ -667,15 +663,14 @@
     }
     
     if ([self.selected isEqualToString:@"category"]) {
-        NSDictionary * category = [self.categories objectAtIndex:self.selectedCategory.row];
-        if ([[category objectForKey:@"gif"] boolValue] == YES) {
+        NSDictionary * catDict = [self.categories objectAtIndex:self.selectedCategory.row];
+        NSString * selectedCategory = [catDict objectForKey:@"name"];
+        NSDictionary * dict = [[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row];
+        
+        if ([[catDict objectForKey:@"gif"] boolValue] == YES) {
             return CGSizeMake((self.emojiView.frame.size.width/2),self.emojiView.frame.size.height);
         }
-    }
-    
-    if ([self.selected isEqualToString:@"category"]) {
-        NSString * selectedCategory = [[self.categories objectAtIndex:self.selectedCategory.row] objectForKey:@"name"];
-        NSDictionary * dict = [[self.categoryEmoji objectForKey:selectedCategory] objectAtIndex:indexPath.row];
+        
         NSNumber * isPhrase = [dict objectForKey:@"phrase"];
         if (isPhrase == nil) {
 

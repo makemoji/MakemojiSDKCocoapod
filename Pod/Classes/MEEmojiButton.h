@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CYRKeyboardButton.h"
+#import <FLAnimatedImage/FLAnimatedImageView.h>
 
 @protocol MEEmojiButtonDelegate;
 
 @interface MEEmojiButton : CYRKeyboardButton
 @property (nonatomic) UIImageView *imageView;
+@property (nonatomic) FLAnimatedImageView *gifImageView;
 @property (nonatomic, weak) id <MEEmojiButtonDelegate> delegate;
 @end
 

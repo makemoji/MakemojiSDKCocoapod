@@ -42,6 +42,18 @@
     [self.inputButton.layer addAnimation:imageSwitchAnimation forKey:@"animateContents"];
 }
 
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    self.inputButton.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+}
+
+-(void)prepareForReuse {
+    [super prepareForReuse];
+    self.inputButton.imageView.image = nil;
+    self.inputButton.gifImageView.animatedImage = nil;
+    self.inputButton.gifImageView.image = nil;
+}
+
 -(void)dealloc {
     self.inputButton.delegate = nil;
 }

@@ -968,17 +968,19 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (collectionView == self.emojiView && indexPath.section == 1) {
+        NSDictionary * emojiDict = [self.trendingEmoji objectAtIndex:indexPath.item];
         
         MEKeyboardCollectionViewCell *photoCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Emoji" forIndexPath:indexPath];
         [photoCell setBackgroundColor:[UIColor clearColor]];
-        [[MEAPIManager client] imageViewWithId:[[[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"id"] stringValue]];
+        [[MEAPIManager client] imageViewWithId:[[emojiDict objectForKey:@"id"] stringValue]];
         photoCell.inputButton.imageView.image = nil;
+        photoCell.inputButton.gifImageView.image = nil;
+        photoCell.inputButton.gifImageView.animatedImage = nil;
         [photoCell.inputButton.layer removeAllAnimations];
-        //NSLog(@"%@", [[self.trendingEmoji objectAtIndex:indexPath.row] objectForKey:@"image_url"]);
-        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"image_url"]]
+        [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[emojiDict objectForKey:@"image_url"]]
                                            placeholderImage:[UIImage imageNamed:@"Makemoji.bundle/MEPlaceholder" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil]];
         
-        if ([[self.trendingEmoji objectAtIndex:indexPath.item] objectForKey:@"link_url"] != [NSNull null]) {
+        if ([emojiDict objectForKey:@"link_url"] != [NSNull null] && [[emojiDict objectForKey:@"link_url"] length] > 7) {
             [photoCell startLinkAnimation];
         }
         
@@ -1000,6 +1002,9 @@
         [photoCell setBackgroundColor:[UIColor clearColor]];
         [[MEAPIManager client] imageViewWithId:[[dict objectForKey:@"id"] stringValue]];
         photoCell.inputButton.imageView.image = nil;
+        photoCell.inputButton.gifImageView.image = nil;
+        photoCell.inputButton.gifImageView.animatedImage = nil;
+        
         [photoCell.inputButton.layer removeAllAnimations];
         photoCell.inputButton.imageView.image = nil;
         [photoCell.inputButton.imageView sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"image_url"]]

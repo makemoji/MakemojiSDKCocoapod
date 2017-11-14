@@ -25,8 +25,13 @@
         self.backgroundColor = [UIColor clearColor];
         [self setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView.backgroundColor = [UIColor clearColor];
+        self.gifImageView = [[FLAnimatedImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        self.gifImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.imageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+        self.gifImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.imageView setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
+        [self addSubview:self.gifImageView];
         [self addSubview:self.imageView];
     }
     return self;
@@ -41,12 +46,21 @@
 //        path = [[SDImageCache sharedImageCache] defaultCachePathForKey:self.imageContentUrl.absoluteString];
 //    }
 
-    [self.imageView sd_setImageWithURL:self.imageContentUrl
-                      placeholderImage:[UIImage imageNamed:path]
-                               options:SDWebImageLowPriority
-                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-
-    }];
+    if ([imageUrl containsString:@"gif"]) {
+        [self.gifImageView sd_setImageWithURL:self.imageContentUrl
+                          placeholderImage:[UIImage imageNamed:path]
+                                   options:SDWebImageLowPriority
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                     
+                                 }];
+    } else {
+        [self.imageView sd_setImageWithURL:self.imageContentUrl
+                          placeholderImage:[UIImage imageNamed:path]
+                                   options:SDWebImageLowPriority
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                     
+                                 }];
+    }
 
     if (link.length > 0 && self.linkedUrl == nil) {
 
@@ -96,6 +110,7 @@
 
 -(void)dealloc {
     self.imageView.image = nil;
+    self.gifImageView.image = nil;
     self.delegate = nil;
     if ([self.imageView.layer animationKeys] > 0) {
         [self.imageView.layer removeAllAnimations];
