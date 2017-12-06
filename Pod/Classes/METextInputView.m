@@ -844,7 +844,7 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
     });
 }
 
--(BOOL)editorViewShouldBeginEditing:(DTRichTextEditorView *)editorView {
+-(BOOL)editorViewShouldBeginEditing:(DTRichTextEditorView *)editorView {  
     BOOL shouldBegin = YES;
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(shouldBeginEditing:)]) {
         shouldBegin = [self.delegate shouldBeginEditing:self];
@@ -868,6 +868,40 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
 - (BOOL)editorView:(DTRichTextEditorView *)editorView shouldChangeTextInRange:(NSRange)range replacementText:(NSAttributedString *)text {
     BOOL shouldChange = YES;
 
+    CGSize attachmentSize = CGSizeMake(editorView.maxImageDisplaySize.width, editorView.maxImageDisplaySize.height);
+    NSString * currentString = [text plainTextString];
+    if ([currentString isEqualToString:@"\n"]) { currentString = @""; }
+    
+    BOOL shrink = NO;
+    
+    if ([currentString length] > 0) {
+        shrink = YES;
+    }
+    
+    if ([[text allAttachments] count] > 3) {
+        shrink = YES;
+    }
+
+    if (shrink != YES) {
+        attachmentSize.width = attachmentSize.width*2;
+        attachmentSize.height = attachmentSize.height*2;
+    }
+        
+    [editorView.attributedTextContentView.attributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, editorView.attributedTextContentView.attributedString.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+        
+        if (![value isKindOfClass:[DTImageTextAttachment class]]) {
+            return;
+        }
+        
+        DTImageTextAttachment *attachment = (DTImageTextAttachment*)value;
+        if (attachmentSize.width != attachment.displaySize.width) {
+            [attachment setAttributes:@{@"width" : [NSString stringWithFormat:@"%f", attachmentSize.width],
+                                        @"height" : [NSString stringWithFormat:@"%f", attachmentSize.height]}];
+            [attachment setDisplaySize:attachmentSize];
+            [attachment setOriginalSize:attachmentSize];
+        }
+    }];
+    
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(meTextInputView:shouldChangeTextInRange:replacementText:)]) {
         shouldChange = [self.delegate meTextInputView:self shouldChangeTextInRange:range replacementText:text];
     }
@@ -913,7 +947,6 @@ NSString *const MESubstituteOptionShouldScanForLinks = @"MESubstituteOptionShoul
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    //NSLog(@"editorViewDidEndEditing");
     return YES;
 }
 

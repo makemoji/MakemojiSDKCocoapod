@@ -14,6 +14,7 @@
 #import "MEFlashTagCollectionViewCell.h"
 #import "MEAPIManager.h"
 #import "MEFlashTagNativeCollectionViewCell.h"
+#import "NSAttributedString_MoreExtensions.h"
 
 
 @interface MEInputAccessoryView () <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -682,16 +683,46 @@
         flashtag = [emoji objectForKey:@"flashtag"];
     }
     
+    CGSize attachmentSize = CGSizeMake(self.currentView.maxImageDisplaySize.width, self.currentView.maxImageDisplaySize.height);
+    NSString * currentString = [self.currentView.attributedTextContentView.attributedString plainTextString];
+    if ([currentString isEqualToString:@"\n"]) { currentString = @""; }
+    
+    
+    if ([[self.currentView.attributedTextContentView.attributedString allAttachments] count] < 3 && [currentString length] == 0) {
+    
+        attachmentSize.width = attachmentSize.width*2;
+        attachmentSize.height = attachmentSize.height*2;
+
+    } else {
+
+        [self.currentView.attributedTextContentView.attributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.currentView.attributedTextContentView.attributedString.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+            
+            if (![value isKindOfClass:[DTImageTextAttachment class]]) {
+                return;
+            }
+            
+            DTImageTextAttachment *attachment = (DTImageTextAttachment*)value;
+            if (attachmentSize.width != attachment.displaySize.width) {
+                [attachment setAttributes:@{@"width" : [NSString stringWithFormat:@"%f", attachmentSize.width],
+                                            @"height" : [NSString stringWithFormat:@"%f", attachmentSize.height]}];
+                [attachment setDisplaySize:attachmentSize];
+                [attachment setOriginalSize:attachmentSize];
+            }
+        }];
+    }
+    
     NSDictionary * attributes = @{@"src" : [emoji objectForKey:@"image_url"],
                                   @"link" : link,
                                   @"name" : flashtag,
-                                  @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],
-                                  @"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],
+                                  @"width" : [NSString stringWithFormat:@"%f", attachmentSize.width],
+                                  @"height" : [NSString stringWithFormat:@"%f", attachmentSize.height],
                                   @"id" : [[emoji objectForKey:@"id"] stringValue]
                                   };
     
     DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
     DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
+    [imageAttachment setDisplaySize:attachmentSize];
+    [imageAttachment setOriginalSize:attachmentSize];
     UIImage * tmpImage = [UIImage imageWithCGImage:[image CGImage] scale:2.0 orientation:UIImageOrientationUp];
     
     
