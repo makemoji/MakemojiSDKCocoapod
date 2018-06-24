@@ -688,28 +688,30 @@
     if ([currentString isEqualToString:@"\n"]) { currentString = @""; }
     
     
-    if ([[self.currentView.attributedTextContentView.attributedString allAttachments] count] < 3 && [currentString length] == 0) {
-    
-        attachmentSize.width = attachmentSize.width*2;
-        attachmentSize.height = attachmentSize.height*2;
+//    if ([[self.currentView.attributedTextContentView.attributedString allAttachments] count] < 3 && [currentString length] == 0) {
+//
+//        attachmentSize.width = attachmentSize.width*2;
+//        attachmentSize.height = attachmentSize.height*2;
+//
+//    } else {
 
-    } else {
-
-        [self.currentView.attributedTextContentView.attributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.currentView.attributedTextContentView.attributedString.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
-            
-            if (![value isKindOfClass:[DTImageTextAttachment class]]) {
-                return;
-            }
-            
-            DTImageTextAttachment *attachment = (DTImageTextAttachment*)value;
-            if (attachmentSize.width != attachment.displaySize.width) {
-                [attachment setAttributes:@{@"width" : [NSString stringWithFormat:@"%f", attachmentSize.width],
-                                            @"height" : [NSString stringWithFormat:@"%f", attachmentSize.height]}];
-                [attachment setDisplaySize:attachmentSize];
-                [attachment setOriginalSize:attachmentSize];
-            }
-        }];
-    }
+//        [self.currentView.attributedTextContentView.attributedString enumerateAttribute:NSAttachmentAttributeName inRange:NSMakeRange(0, self.currentView.attributedTextContentView.attributedString.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+//
+//            if (![value isKindOfClass:[DTImageTextAttachment class]]) {
+//                return;
+//            }
+//
+//            DTImageTextAttachment *attachment = (DTImageTextAttachment*)value;
+//            if (attachmentSize.width != attachment.displaySize.width) {
+//                NSMutableDictionary * updateAttributes = [NSMutableDictionary dictionaryWithDictionary:attachment.attributes];
+//                [updateAttributes setObject:[NSString stringWithFormat:@"%f", attachmentSize.width] forKey:@"width"];
+//                [updateAttributes setObject:[NSString stringWithFormat:@"%f", attachmentSize.height] forKey:@"height"];
+//                [attachment setAttributes:[NSDictionary dictionaryWithDictionary:updateAttributes]];
+//                [attachment setDisplaySize:attachmentSize];
+//                [attachment setOriginalSize:attachmentSize];
+//            }
+//        }];
+//    }
     
     NSDictionary * attributes = @{@"src" : [emoji objectForKey:@"image_url"],
                                   @"link" : link,
@@ -1119,7 +1121,10 @@
             
             NSDictionary * attributes = @{@"src" : [dict objectForKey:@"image_url"],
                                           @"name" : [dict objectForKey:@"flashtag"],
-                                          @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],@"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],@"link" : link,@"id" : [[dict objectForKey:@"id"] stringValue]};
+                                          @"width" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.width],
+                                          @"height" : [NSString stringWithFormat:@"%f", self.currentView.maxImageDisplaySize.height],
+                                          @"link" : link,
+                                          @"id" : [[dict objectForKey:@"id"] stringValue]};
             
             DTHTMLElement * newElement = [[DTHTMLElement alloc] initWithName:@"img" attributes:attributes];
             DTImageTextAttachment * imageAttachment = [[DTImageTextAttachment alloc] initWithElement:newElement options:nil];
