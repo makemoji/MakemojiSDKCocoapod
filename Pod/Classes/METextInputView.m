@@ -19,6 +19,12 @@
 #import "MESimpleTableViewCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "DTLoupeView.h"
+#import "DTHTMLWriter.h"
+#import "DTLinkButton.h"
+#import "DTTextAttachment.h"
+#import "DTImageTextAttachment.h"
+#import "NSAttributedString+DTCoreText.h"
+#import "DTCSSStylesheet.h"
 
 static void * MEContainerFrameContext = &MEContainerFrameContext;
 static void * MEPlaceholderTextContext = &MEPlaceholderTextContext;

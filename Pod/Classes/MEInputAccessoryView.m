@@ -15,7 +15,9 @@
 #import "MEAPIManager.h"
 #import "MEFlashTagNativeCollectionViewCell.h"
 #import "NSAttributedString_MoreExtensions.h"
-
+#import "DTHTMLElement.h"
+#import "DTImageTextAttachment.h"
+#import "NSAttributedString+DTCoreText.h"
 
 @interface MEInputAccessoryView () <UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, weak) DTRichTextEditorView *currentView;
