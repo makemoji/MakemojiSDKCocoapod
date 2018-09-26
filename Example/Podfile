@@ -1,7 +1,17 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '8.0'
 
-target 'MakemojiSDKDemo' do
-pod "Makemoji-SDK", :path => '../.'
+def shared_pods
+    pod "Makemoji-SDK", :path => '../.'
 end
 
+target 'MakemojiSDKDemo' do
+    shared_pods
+end
+
+target 'Tests' do
+    shared_pods
+    pod 'OCMock', '~> 3.4'
+    pod 'Specta', '~> 1.0'
+    pod 'Expecta', '~> 1.0'
+end
